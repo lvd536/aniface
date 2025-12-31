@@ -5,8 +5,8 @@ import Image from "next/image";
 export default async function Home() {
     const animeCatalog = await getCatalog();
     return (
-        <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-            <div className="grid grid-cols-[repeat(5,1fr)] gap-5">
+        <div className="flex min-h-screen items-center justify-center font-sans">
+            <div className="grid grid-cols-1 xs:grid-cols-[repeat(2,200px)] sm:grid-cols-[repeat(5,1fr)] gap-5">
                 {animeCatalog.data.map((anime) => (
                     <div key={anime.id} className="group relative">
                         <Image
