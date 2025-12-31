@@ -1,48 +1,5 @@
 export interface CatalogResponse {
-    data: {
-        id: number;
-        type: {
-            value: string;
-            description: string;
-        };
-        year: number;
-        name: {
-            main: string;
-            english: string;
-            alternative: string | null;
-        };
-        alias: string;
-        season: {
-            value: string;
-            description: string;
-        };
-        poster: {
-            src: string;
-            preview: string;
-            thumbnail: string;
-            optimized: {
-                src: string;
-                preview: string;
-                thumbnail: string;
-            };
-        };
-        fresh_at: string;
-        created_at: string;
-        updated_at: string;
-        is_ongoing: boolean;
-        age_rating: {
-            value: string;
-            label: string;
-            is_adult: boolean;
-            description: string;
-        };
-        publish_day: {
-            value: number;
-            description: string;
-        };
-        description: string;
-        episodes_total: number;
-    };
+    data: CatalogAnime[];
     meta: {
         pagination: {
             total: number;
@@ -155,4 +112,48 @@ interface User {
             thumbnail: string;
         };
     };
+}
+interface CatalogAnime {
+    id: number;
+    type: {
+        value: string;
+        description: string;
+    };
+    year: number;
+    name: {
+        main: string;
+        english: string;
+        alternative: string | null;
+    };
+    alias: string;
+    season: {
+        value: string;
+        description: string;
+    };
+    poster: {
+        src: string;
+        preview: string;
+        thumbnail: string;
+        optimized: {
+            src: string;
+            preview: string;
+            thumbnail: string;
+        };
+    };
+    fresh_at: string;
+    created_at: string;
+    updated_at: string;
+    is_ongoing: boolean;
+    age_rating: {
+        value: string;
+        label: string;
+        is_adult: boolean;
+        description: string;
+    };
+    publish_day: {
+        value: number;
+        description: string;
+    };
+    description: string;
+    episodes_total: number;
 }
