@@ -1,10 +1,10 @@
 import { apiRoutes } from "@/consts/apiRoutes";
-import { LatestReleaseAnime } from "@/types/api.types";
+import type { LatestReleaseAnime, CatalogAnime } from "@/types/api.types";
 import Image from "next/image";
 import HoverItem from "./HoverItem";
 
 interface IProps {
-    anime: LatestReleaseAnime;
+    anime: CatalogAnime | LatestReleaseAnime;
 }
 
 export default function AnimeCard({ anime }: IProps) {
@@ -18,7 +18,9 @@ export default function AnimeCard({ anime }: IProps) {
                 className="w-full h-full"
             />
             <div className="absolute left-0 top-0 flex flex-col justify-between items-center opacity-0 hover:opacity-100 bg-black/60 w-full h-full transition-opacity duration-500 py-2">
-                <p>{anime.latest_episode.ordinal} Эпизод</p>
+                {"latest_episode" in anime && anime.latest_episode && (
+                    <p>{anime.latest_episode.ordinal} Эпизод</p>
+                )}
                 <h1 className="font-semibold text-xl text-center">
                     {anime.name.main}
                 </h1>

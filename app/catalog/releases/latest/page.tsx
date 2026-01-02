@@ -1,5 +1,5 @@
 import LatestReleases from "@/components/Catalog/Latest/LatestReleases";
 
-export default async function Home() {
+export default function page() {
     return <LatestReleases />;
 }

@@ -2,10 +2,14 @@ import { apiRoutes } from "@/consts/apiRoutes";
 import { CatalogResponse, LatestReleaseAnime } from "@/types/api.types";
 import axios from "axios";
 
-export async function getCatalog() {
+export async function getCatalog(limit?: number) {
     try {
         const response: CatalogResponse = await axios
-            .get(apiRoutes.catalog)
+            .get(apiRoutes.catalog, {
+                params: {
+                    limit: limit || 20,
+                },
+            })
             .then((resp) => resp.data);
         return response;
     } catch (error) {
@@ -14,12 +18,12 @@ export async function getCatalog() {
     }
 }
 
-export async function getLatestReleases() {
+export async function getLatestReleases(limit?: number) {
     try {
         const response: Array<LatestReleaseAnime> = await axios
             .get(apiRoutes.latestReleases, {
                 params: {
-                    limit: 20,
+                    limit: limit || 20,
                 },
             })
             .then((resp) => resp.data);

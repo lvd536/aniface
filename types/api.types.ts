@@ -113,7 +113,7 @@ interface User {
         };
     };
 }
-interface CatalogAnime {
+export interface CatalogAnime {
     id: number;
     type: {
         value: string;
