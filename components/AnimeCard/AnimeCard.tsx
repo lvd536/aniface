@@ -23,9 +23,11 @@ export default function AnimeCard({ anime }: IProps) {
                     {anime.name.main}
                 </h1>
                 <div className="flex px-3 py-1 items-center justify-between">
-                    <HoverItem>{anime.season.description}</HoverItem>
-                    <HoverItem>{anime.year}</HoverItem>
-                    <HoverItem className="px-2">
+                    <HoverItem separatingCircle>
+                        {anime.season.description}
+                    </HoverItem>
+                    <HoverItem separatingCircle>{anime.year}</HoverItem>
+                    <HoverItem separatingCircle className="px-2">
                         {anime.type.description}
                     </HoverItem>
                     <HoverItem>{anime.age_rating.label}</HoverItem>
