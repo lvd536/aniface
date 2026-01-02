@@ -1,8 +1,8 @@
-const baseUrl = "https://www.anilibria.top/api/v1/";
+const baseUrl = "https://api.anilibria.app/api/v1/";
 
 export const apiRoutes = {
     catalog: baseUrl + "anime/catalog/releases",
     latestReleases: baseUrl + "anime/releases/latest",
     anime: (anime: string) => baseUrl + `anime/releases/${anime}`,
-    image: (base: string) => `https://www.anilibria.top${base}`,
+    image: (base: string) => `https://anilibria.tv${base}`,
 } as const;
