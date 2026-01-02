@@ -27,7 +27,7 @@ export default function RootLayout({
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased container mx-auto`}
             >
-                <div className="fixed left-0 top-0 w-screen h-30 bg-gray-600 z-10 mb-30"></div>
+                {/* <div className="fixed left-0 top-0 w-screen h-30 bg-gray-600 z-10 mb-30"></div> */}
                 {children}
             </body>
         </html>

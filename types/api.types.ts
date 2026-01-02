@@ -157,3 +157,28 @@ interface CatalogAnime {
     description: string;
     episodes_total: number;
 }
+
+export interface LatestReleaseAnime extends CatalogAnime {
+    latest_episode: {
+        id: string;
+        name: string;
+        ordinal: 12;
+        preview: {
+            src: string;
+            preview: string;
+            thumbnail: string;
+            optimized: {
+                src: string;
+                preview: string;
+                thumbnail: string;
+            };
+        };
+        hls_480: string;
+        hls_720: string;
+        hls_1080: string;
+        duration: number;
+        updated_at: string;
+        release_id: number;
+        name_english: string | null;
+    };
+}
