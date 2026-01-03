@@ -58,8 +58,78 @@ export interface AnimeResponse {
     members: Member[];
     episodes: Episode[];
 }
+export type GenresResponse = Array<Genre>;
+export interface CatalogAnime {
+    id: number;
+    type: {
+        value: string;
+        description: string;
+    };
+    year: number;
+    name: {
+        main: string;
+        english: string;
+        alternative: string | null;
+    };
+    alias: string;
+    season: {
+        value: string;
+        description: string;
+    };
+    poster: {
+        src: string;
+        preview: string;
+        thumbnail: string;
+        optimized: {
+            src: string;
+            preview: string;
+            thumbnail: string;
+        };
+    };
+    fresh_at: string;
+    created_at: string;
+    updated_at: string;
+    is_ongoing: boolean;
+    age_rating: {
+        value: string;
+        label: string;
+        is_adult: boolean;
+        description: string;
+    };
+    publish_day: {
+        value: number;
+        description: string;
+    };
+    description: string;
+    episodes_total: number;
+}
+export type LatestReleasesResponse = Array<LatestReleaseAnime>;
+export interface LatestReleaseAnime extends CatalogAnime {
+    latest_episode: {
+        id: string;
+        name: string;
+        ordinal: 12;
+        preview: {
+            src: string;
+            preview: string;
+            thumbnail: string;
+            optimized: {
+                src: string;
+                preview: string;
+                thumbnail: string;
+            };
+        };
+        hls_480: string;
+        hls_720: string;
+        hls_1080: string;
+        duration: number;
+        updated_at: string;
+        release_id: number;
+        name_english: string | null;
+    };
+}
 
-interface Genre {
+export interface Genre {
     id: number;
     name: string;
     image: {
@@ -111,74 +181,5 @@ interface User {
             preview: string;
             thumbnail: string;
         };
-    };
-}
-export interface CatalogAnime {
-    id: number;
-    type: {
-        value: string;
-        description: string;
-    };
-    year: number;
-    name: {
-        main: string;
-        english: string;
-        alternative: string | null;
-    };
-    alias: string;
-    season: {
-        value: string;
-        description: string;
-    };
-    poster: {
-        src: string;
-        preview: string;
-        thumbnail: string;
-        optimized: {
-            src: string;
-            preview: string;
-            thumbnail: string;
-        };
-    };
-    fresh_at: string;
-    created_at: string;
-    updated_at: string;
-    is_ongoing: boolean;
-    age_rating: {
-        value: string;
-        label: string;
-        is_adult: boolean;
-        description: string;
-    };
-    publish_day: {
-        value: number;
-        description: string;
-    };
-    description: string;
-    episodes_total: number;
-}
-
-export interface LatestReleaseAnime extends CatalogAnime {
-    latest_episode: {
-        id: string;
-        name: string;
-        ordinal: 12;
-        preview: {
-            src: string;
-            preview: string;
-            thumbnail: string;
-            optimized: {
-                src: string;
-                preview: string;
-                thumbnail: string;
-            };
-        };
-        hls_480: string;
-        hls_720: string;
-        hls_1080: string;
-        duration: number;
-        updated_at: string;
-        release_id: number;
-        name_english: string | null;
     };
 }
