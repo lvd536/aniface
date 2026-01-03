@@ -4,7 +4,7 @@ export const browserRoutes = {
         latest: "/catalog/releases/latest",
         catalog: "/catalog/releases",
         search: "/catalog/search",
-        categories: "/categories",
+        categories: "/anime/categories",
     },
     auth: { register: "/auth/register", login: "/auth/login" },
     user: { profile: "/user/profile", settings: "/user/settings" },
