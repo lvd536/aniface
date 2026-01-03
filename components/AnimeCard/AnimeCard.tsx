@@ -9,7 +9,7 @@ interface IProps {
 
 export default function AnimeCard({ anime }: IProps) {
     return (
-        <div key={anime.id} className="group relative">
+        <div key={anime.id} className="relative">
             <Image
                 src={apiRoutes.image(anime.poster.preview)}
                 alt=""

@@ -152,6 +152,7 @@ export interface Franchise {
     last_year: number;
     first_year: number;
     total_releases: number;
+    total_episodes: number;
     total_duration: number;
     total_duration_in_seconds: number;
 }

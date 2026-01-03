@@ -76,7 +76,7 @@ export async function getRandomGenres(
 ): Promise<GenresResponse> {
     try {
         const response: GenresResponse = await axios
-            .get(apiRoutes.genres, {
+            .get(apiRoutes.genresRandom, {
                 params: {
                     limit: limit,
                 },
@@ -105,9 +105,9 @@ export async function searchAnimeReleases(
 }
 export async function getAllFranchises(): Promise<FranchisesResponse> {
     try {
-        const response: FranchisesResponse = await axios.get(
-            apiRoutes.franchises
-        );
+        const response: FranchisesResponse = await axios
+            .get(apiRoutes.franchises)
+            .then((resp) => resp.data);
         return response;
     } catch (error) {
         console.error("Error fetching franchises:", error);
@@ -119,14 +119,13 @@ export async function getRandomFranchises(
     limit: number = 3
 ): Promise<FranchisesResponse> {
     try {
-        const response: FranchisesResponse = await axios.get(
-            apiRoutes.franchises,
-            {
+        const response: FranchisesResponse = await axios
+            .get(apiRoutes.franchisesRandom, {
                 params: {
                     limit: limit,
                 },
-            }
-        );
+            })
+            .then((resp) => resp.data);
         return response;
     } catch (error) {
         console.error("Error fetching random franchises:", error);
