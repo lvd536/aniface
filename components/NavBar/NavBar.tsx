@@ -1,5 +1,6 @@
 import { browserRoutes } from "@/consts/browserRoutes";
 import Link from "next/link";
+import { User, Search } from "lucide-react";
 
 export default function NavBar() {
     return (
@@ -16,18 +17,24 @@ export default function NavBar() {
                         <Link href={browserRoutes.anime.catalog}>Каталог</Link>
                     </li>
                     <li>
-                        <Link href={browserRoutes.anime.search}>Поиск</Link>
-                    </li>
-                    <li>
                         <Link href={browserRoutes.anime.categories}>
                             Категории
                         </Link>
                     </li>
                 </ul>
                 <div className="flex gap-1 font-medium">
-                    <Link href={browserRoutes.auth.login}>Вход</Link>
-                    <span className="mx-1">/</span>
-                    <Link href={browserRoutes.auth.register}>Регистрация</Link>
+                    <button
+                        type="button"
+                        className="flex items-center justify-center w-7.5 h-7.5 bg-gray-600 rounded-sm hover:bg-gray-500 transition-bg duration-200"
+                    >
+                        <Search width={19} height={19} />
+                    </button>
+                    <Link
+                        href={browserRoutes.auth.register}
+                        className="flex items-center justify-center w-7.5 h-7.5 bg-gray-600 rounded-sm hover:bg-gray-500 transition-bg duration-200"
+                    >
+                        <User width={19} height={19} />
+                    </Link>
                 </div>
             </div>
         </nav>

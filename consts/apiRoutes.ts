@@ -6,4 +6,5 @@ export const apiRoutes = {
     anime: (anime: string) => baseUrl + `anime/releases/${anime}`,
     image: (base: string) => `https://anilibria.tv${base}`,
     genres: baseUrl + "anime/genres",
+    search: baseUrl + `app/search`,
 } as const;

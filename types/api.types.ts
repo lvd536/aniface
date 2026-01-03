@@ -1,132 +1,59 @@
-export interface CatalogResponse {
-    data: CatalogAnime[];
-    meta: {
-        pagination: {
-            total: number;
-            count: number;
-            per_page: number;
-            current_page: number;
-            total_pages: number;
-        };
-    };
+export type AnimeType =
+    | "TV"
+    | "DORAMA"
+    | "ONA"
+    | "SPECIAL"
+    | "WEB"
+    | "OVA"
+    | "OAD"
+    | "MOVIE";
+
+export type Season = "winter" | "spring" | "summer" | "autumn";
+
+export type AgeRatingValue =
+    | "R0_PLUS"
+    | "R6_PLUS"
+    | "R12_PLUS"
+    | "R16_PLUS"
+    | "R18_PLUS";
+
+export type PublishStatus = "IS_ONGOING" | "IS_NOT_ONGOING";
+
+export type ProductionStatus = "IS_IN_PRODUCTION" | "IS_NOT_IN_PRODUCTION";
+
+export interface ValueDescription<T = string> {
+    value: T;
+    description: string;
 }
 
-export interface AnimeResponse {
-    id: number;
-    type: {
-        value: string;
-        description: string;
-    };
-    year: number;
-    name: {
-        main: string;
-        english: string;
-        alternative: string | null;
-    };
-    alias: string;
-    season: {
-        value: string;
-        description: string;
-    };
-    poster: {
-        src: string;
-        preview: string;
-        thumbnail: string;
-        optimized: {
-            src: string;
-            preview: string;
-            thumbnail: string;
-        };
-    };
-    fresh_at: string;
-    created_at: string;
-    updated_at: string;
-    is_ongoing: boolean;
-    age_rating: {
-        value: string;
-        label: string;
-        is_adult: boolean;
-        description: string;
-    };
-    publish_day: {
-        value: number;
-        description: string;
-    };
-    description: string;
-    episodes_total: number;
-    genres: Genre[];
-    members: Member[];
-    episodes: Episode[];
+export interface ImageSet {
+    src: string;
+    preview: string;
+    thumbnail: string;
 }
-export type GenresResponse = Array<Genre>;
-export interface CatalogAnime {
-    id: number;
-    type: {
-        value: string;
-        description: string;
-    };
-    year: number;
-    name: {
-        main: string;
-        english: string;
-        alternative: string | null;
-    };
-    alias: string;
-    season: {
-        value: string;
-        description: string;
-    };
-    poster: {
-        src: string;
-        preview: string;
-        thumbnail: string;
-        optimized: {
-            src: string;
-            preview: string;
-            thumbnail: string;
-        };
-    };
-    fresh_at: string;
-    created_at: string;
-    updated_at: string;
-    is_ongoing: boolean;
-    age_rating: {
-        value: string;
-        label: string;
-        is_adult: boolean;
-        description: string;
-    };
-    publish_day: {
-        value: number;
-        description: string;
-    };
-    description: string;
-    episodes_total: number;
+
+export interface Poster extends ImageSet {
+    optimized: ImageSet;
 }
-export type LatestReleasesResponse = Array<LatestReleaseAnime>;
-export interface LatestReleaseAnime extends CatalogAnime {
-    latest_episode: {
-        id: string;
-        name: string;
-        ordinal: 12;
-        preview: {
-            src: string;
-            preview: string;
-            thumbnail: string;
-            optimized: {
-                src: string;
-                preview: string;
-                thumbnail: string;
-            };
-        };
-        hls_480: string;
-        hls_720: string;
-        hls_1080: string;
-        duration: number;
-        updated_at: string;
-        release_id: number;
-        name_english: string | null;
+
+export interface AnimeCatalogFilters {
+    types?: AnimeType[];
+    genres?: number[];
+    search?: string;
+    seasons?: Season[];
+    age_ratings?: AgeRatingValue[];
+    years?: {
+        from_year?: number;
+        to_year?: number;
     };
+    publish_statuses?: PublishStatus[];
+    production_statuses?: ProductionStatus[];
+}
+
+export interface AnimeCatalogParams {
+    page?: number;
+    limit?: number;
+    f?: AnimeCatalogFilters;
 }
 
 export interface Genre {
@@ -142,28 +69,95 @@ export interface Genre {
     };
     total_releases: number;
 }
-interface Member {
-    id: string;
-    role: {
-        value: string;
+
+export interface CatalogAnime {
+    id: number;
+    type: ValueDescription<AnimeType>;
+    year: number;
+    name: {
+        main: string;
+        english: string;
+        alternative: string | null;
+    };
+    alias: string;
+    season: ValueDescription<Season>;
+    poster: Poster;
+    fresh_at: string;
+    created_at: string;
+    updated_at: string;
+    is_ongoing: boolean;
+    age_rating: {
+        value: AgeRatingValue;
+        label: string;
+        is_adult: boolean;
         description: string;
     };
+    publish_day: ValueDescription<number>;
+    description: string;
+    episodes_total: number;
+}
+
+export interface AnimeResponse extends CatalogAnime {
+    genres: Genre[];
+    members: Member[];
+    episodes: Episode[];
+}
+
+export interface LatestReleaseAnime extends CatalogAnime {
+    latest_episode: {
+        id: string;
+        name: string;
+        ordinal: number;
+        preview: Poster;
+        hls_480: string;
+        hls_720: string;
+        hls_1080: string;
+        duration: number;
+        updated_at: string;
+        release_id: number;
+        name_english: string | null;
+    };
+}
+
+export interface CatalogResponse<T = CatalogAnime> {
+    data: T[];
+    meta: {
+        pagination: {
+            total: number;
+            count: number;
+            per_page: number;
+            current_page: number;
+            total_pages: number;
+        };
+    };
+}
+
+export interface SearchAnime {
+    id: number;
+    name: {
+        main: string;
+    };
+    alias: string;
+    poster: {
+        src: string;
+    };
+}
+
+export type SearchAnimeResponse = SearchAnime[];
+export type LatestReleasesResponse = LatestReleaseAnime[];
+export type GenresResponse = Genre[];
+
+interface Member {
+    id: string;
+    role: ValueDescription;
     nickname: string;
     user: User | null;
 }
+
 interface Episode {
     id: string;
     name: string | null;
-    preview: {
-        src: string;
-        preview: string;
-        thumbnail: string;
-        optimized: {
-            src: string;
-            preview: string;
-            thumbnail: string;
-        };
-    };
+    preview: Poster;
     hls_480: string;
     hls_720: string;
     hls_1080: string;
@@ -172,6 +166,7 @@ interface Episode {
     release_id: number;
     name_english: string | null;
 }
+
 interface User {
     id: number;
     avatar: {

@@ -3,7 +3,6 @@ export const browserRoutes = {
     anime: {
         latest: "/catalog/releases/latest",
         catalog: "/catalog/releases",
-        search: "/catalog/search",
         categories: "/anime/categories",
     },
     auth: { register: "/auth/register", login: "/auth/login" },
