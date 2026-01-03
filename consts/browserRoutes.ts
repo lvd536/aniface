@@ -2,6 +2,7 @@ export const browserRoutes = {
     home: "/",
     anime: {
         latest: "/catalog/releases/latest",
+        franchises: "/catalog/releases/franchises",
         catalog: "/catalog/releases",
         categories: "/anime/categories",
     },

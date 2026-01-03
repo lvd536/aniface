@@ -1,9 +1,12 @@
 import { apiRoutes } from "@/consts/apiRoutes";
 import {
+    AnimeCatalogParams,
+    AnimeResponse,
     CatalogResponse,
+    FranchisesResponse,
     GenresResponse,
+    LatestReleaseAnime,
     LatestReleasesResponse,
-    SearchAnimeResponse,
 } from "@/types/api.types";
 import axios from "axios";
 
@@ -45,9 +48,9 @@ export async function getLatestReleases(
     }
 }
 
-export async function getAnime(anime: string) {
+export async function getAnime(anime: string): Promise<AnimeResponse> {
     try {
-        const response: GenresResponse = await axios
+        const response: AnimeResponse = await axios
             .get(apiRoutes.anime(anime))
             .then((resp) => resp.data);
         return response;
@@ -68,69 +71,65 @@ export async function getAllGenres(): Promise<GenresResponse> {
         throw error;
     }
 }
-
-export async function getSearchAnimeList(
-    query: string
-): Promise<SearchAnimeResponse> {
+export async function getRandomGenres(
+    limit: number = 6
+): Promise<GenresResponse> {
     try {
-        const response: SearchAnimeResponse = await axios.get(
-            apiRoutes.search,
+        const response: GenresResponse = await axios
+            .get(apiRoutes.genres, {
+                params: {
+                    limit: limit,
+                },
+            })
+            .then((resp) => resp.data);
+        return response;
+    } catch (error) {
+        console.error("Error fetching genres:", error);
+        throw error;
+    }
+}
+export async function searchAnimeReleases(
+    params: AnimeCatalogParams
+): Promise<CatalogResponse<LatestReleaseAnime>> {
+    try {
+        const response: CatalogResponse<LatestReleaseAnime> = await axios.get(
+            apiRoutes.searchReleases,
+            { params }
+        );
+
+        return response;
+    } catch (error) {
+        console.error("Error searching releases:", error);
+        throw error;
+    }
+}
+export async function getAllFranchises(): Promise<FranchisesResponse> {
+    try {
+        const response: FranchisesResponse = await axios.get(
+            apiRoutes.franchises
+        );
+        return response;
+    } catch (error) {
+        console.error("Error fetching franchises:", error);
+        throw error;
+    }
+}
+
+export async function getRandomFranchises(
+    limit: number = 3
+): Promise<FranchisesResponse> {
+    try {
+        const response: FranchisesResponse = await axios.get(
+            apiRoutes.franchises,
             {
                 params: {
-                    query: query,
-                    include: "id,name.main,alias,poster.src",
+                    limit: limit,
                 },
             }
         );
         return response;
     } catch (error) {
-        console.error("Error fetching search query:", error);
+        console.error("Error fetching random franchises:", error);
         throw error;
-    }
-}
-
-export async function searchAnimeReleases() {
-    try {
-        const response = await axios.get(
-            "https://aniliberty.top/api/v1/anime/catalog/releases",
-            {
-                params: {
-                    page: 1,
-                    limit: 15,
-                    f: {
-                        types: [
-                            "TV",
-                            "DORAMA",
-                            "ONA",
-                            "SPECIAL",
-                            "WEB",
-                            "OVA",
-                            "OAD",
-                            "MOVIE",
-                        ],
-                        genres: [24, 32],
-                        search: "v",
-                        seasons: ["winter", "spring", "summer", "autumn"],
-                        age_ratings: [
-                            "R0_PLUS",
-                            "R6_PLUS",
-                            "R12_PLUS",
-                            "R16_PLUS",
-                            "R18_PLUS",
-                        ],
-                        years: { from_year: 1990, to_year: 2025 },
-                        publish_statuses: ["IS_ONGOING", "IS_NOT_ONGOING"],
-                        production_statuses: [
-                            "IS_IN_PRODUCTION",
-                            "IS_NOT_IN_PRODUCTION",
-                        ],
-                    },
-                },
-            }
-        );
-
-        console.log(response.data);
-    } catch (error) {
-        console.error(error);
     }
 }

@@ -143,9 +143,23 @@ export interface SearchAnime {
     };
 }
 
+export interface Franchise {
+    id: number;
+    name: string;
+    name_english: string;
+    image: Poster;
+    rating: number;
+    last_year: number;
+    first_year: number;
+    total_releases: number;
+    total_duration: number;
+    total_duration_in_seconds: number;
+}
+
 export type SearchAnimeResponse = SearchAnime[];
 export type LatestReleasesResponse = LatestReleaseAnime[];
 export type GenresResponse = Genre[];
+export type FranchisesResponse = Franchise[];
 
 interface Member {
     id: string;

@@ -10,11 +10,9 @@ export default function NavBar() {
                     <li>
                         <Link href={browserRoutes.home}>Главная</Link>
                     </li>
+
                     <li>
-                        <Link href={browserRoutes.anime.latest}>Последние</Link>
-                    </li>
-                    <li>
-                        <Link href={browserRoutes.anime.catalog}>Каталог</Link>
+                        <Link href={browserRoutes.anime.catalog}>Релизы</Link>
                     </li>
                     <li>
                         <Link href={browserRoutes.anime.categories}>
