@@ -12,7 +12,7 @@ export default async function GenreList() {
                 >
                     <Image
                         src={apiRoutes.image(genre.image.optimized.preview)}
-                        alt=""
+                        alt="genre"
                         height={300}
                         width={150}
                         className="w-full h-full rounded-lg"

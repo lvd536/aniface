@@ -12,7 +12,7 @@ export default async function FranchisesList() {
                 >
                     <Image
                         src={apiRoutes.image(franchise.image.optimized.preview)}
-                        alt=""
+                        alt="franchise"
                         height={300}
                         width={150}
                         className="w-1/2 h-full rounded-l-lg object-cover"

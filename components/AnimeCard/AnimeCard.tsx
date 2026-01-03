@@ -12,7 +12,7 @@ export default function AnimeCard({ anime }: IProps) {
         <div key={anime.id} className="relative">
             <Image
                 src={apiRoutes.image(anime.poster.preview)}
-                alt=""
+                alt="anime"
                 height={300}
                 width={150}
                 className="w-full h-full"

@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function NotFound() {
     return (
         <div className="w-full flex flex-col gap-3 items-center justify-center">
-            <Image src={notfound} alt="" className="animate-404-image" />
+            <Image src={notfound} alt="okak meme image" className="animate-404-image" />
             <p className="text-6xl font-bold text-shadow-lg text-shadow-indigo-700 animate-404-error">
                 404 Not Found
             </p>

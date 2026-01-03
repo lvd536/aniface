@@ -12,7 +12,7 @@ export default async function page() {
                 >
                     <Image
                         src={apiRoutes.image(genre.image.preview)}
-                        alt=""
+                        alt="genre"
                         width={150}
                         height={250}
                         className="w-full h-full rounded-t-sm"

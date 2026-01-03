@@ -13,7 +13,7 @@ export default async function LatestList() {
                 >
                     <Image
                         src={apiRoutes.image(anime.poster.preview)}
-                        alt=""
+                        alt="anime"
                         height={300}
                         width={150}
                         className="w-full h-full rounded-lg"
