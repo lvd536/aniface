@@ -1,6 +1,6 @@
-import FranchisesList from "@/components/Home/Lists/FranchisesList";
-import GenreList from "@/components/Home/Lists/GenreList";
-import LatestList from "@/components/Home/Lists/LatestList";
+import FranchisesList from "@/components/Home/Lists/Franchise/FranchisesList";
+import GenreList from "@/components/Home/Lists/Genre/GenreList";
+import LatestList from "@/components/Home/Lists/Latest/LatestList";
 import { browserRoutes } from "@/consts/browserRoutes";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
