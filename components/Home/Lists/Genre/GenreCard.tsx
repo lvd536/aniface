@@ -1,5 +1,35 @@
-export default function GenreCard() {
-  return (
-    <div>GenreCard</div>
-  )
+import { apiRoutes } from "@/consts/apiRoutes";
+import { browserRoutes } from "@/consts/browserRoutes";
+import { Genre } from "@/types/api.types";
+import Image from "next/image";
+import Link from "next/link";
+
+interface IProps {
+    genre: Genre;
+}
+
+export default function GenreCard({ genre }: IProps) {
+    return (
+        <li key={genre.id}>
+            <Link
+                href={browserRoutes.anime.categories + `?genre=${genre.id}`}
+                className="relative rounded-lg w-25 sm:w-30 lg:w-60 xl:w-50 2xl:w-60 max-h-85 min-h-35"
+            >
+                <Image
+                    src={apiRoutes.image(genre.image.optimized.preview)}
+                    alt="genre"
+                    height={300}
+                    width={150}
+                    className="w-full h-full rounded-lg"
+                />
+                <h3 className="absolute w-full text-sm font-bold text-center bottom-6 z-1">
+                    {genre.name}
+                </h3>
+                <p className="absolute w-full text-xs text-foreground/60 font-bold text-center bottom-1 z-1">
+                    {`Релизов: ${genre.total_releases}`}
+                </p>
+                <div className="absolute left-0 top-0 w-full h-full card-shadow rounded-lg" />
+            </Link>
+        </li>
+    );
 }
