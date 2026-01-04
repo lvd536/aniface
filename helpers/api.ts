@@ -2,6 +2,7 @@ import { apiRoutes } from "@/consts/apiRoutes";
 import {
     AnimeCatalogParams,
     AnimeResponse,
+    CatalogAnimeResponse,
     CatalogResponse,
     FranchisesResponse,
     GenresResponse,
@@ -53,6 +54,7 @@ export async function getAnime(anime: string): Promise<AnimeResponse> {
         const response: AnimeResponse = await axios
             .get(apiRoutes.anime(anime))
             .then((resp) => resp.data);
+        console.log(response);
         return response;
     } catch (error) {
         console.error("Error fetching anime:", error);
@@ -85,6 +87,19 @@ export async function getRandomGenres(
         return response;
     } catch (error) {
         console.error("Error fetching genres:", error);
+        throw error;
+    }
+}
+export async function getAnimeByGenre(
+    genreId: number
+): Promise<CatalogAnimeResponse> {
+    try {
+        const response: CatalogAnimeResponse = await axios
+            .get(apiRoutes.genreById(genreId))
+            .then((resp) => resp.data.data);
+        return response;
+    } catch (error) {
+        console.error("Error fetching anime by genre:", error);
         throw error;
     }
 }

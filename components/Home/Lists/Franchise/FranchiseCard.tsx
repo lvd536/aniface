@@ -10,16 +10,16 @@ interface IProps {
 
 export default function FranchiseCard({ franchise }: IProps) {
     return (
-        <li key={franchise.id}>
+        <div className="max-lg:w-full">
             <Link
                 href={
                     browserRoutes.anime.franchises +
-                    `?franchiese=${franchise.id}`
+                    `?franchise=${franchise.id}`
                 }
-                className="flex rounded-l-lg w-50 sm:w-60 lg:w-120 xl:w-100 2xl:w-120 max-h-85 h-50"
+                className="flex rounded-l-lg w-full lg:w-120 xl:w-100 2xl:w-120 max-h-85 h-50"
             >
                 <Image
-                    src={apiRoutes.image(franchise.image.optimized.preview)}
+                    src={apiRoutes.image(franchise.image.preview)}
                     alt="franchise"
                     height={300}
                     width={150}
@@ -27,10 +27,10 @@ export default function FranchiseCard({ franchise }: IProps) {
                 />
                 <div className="flex flex-col justify-between bg-black/40 w-1/2 h-full rounded-r-lg px-4 py-2">
                     <div>
-                        <h3 className="text-sm font-semibold bottom-6 z-1">
+                        <h3 className="text-xs lg:text-sm font-semibold bottom-6 z-1">
                             {franchise.name}
                         </h3>
-                        <p className="text-xs text-foreground/60 font-medium">
+                        <p className="hidden lg:block text-xs text-foreground/60 font-medium">
                             {franchise.name_english}
                         </p>
                     </div>
@@ -50,11 +50,11 @@ export default function FranchiseCard({ franchise }: IProps) {
                                 </>
                             )}
                         </div>
-                        <div className="flex gap-2 items-center">
+                        <div className="lg:flex gap-2 items-center">
                             <p className="text-xs text-foreground/60 font-medium">
                                 {`Сезонов: ${franchise.total_releases}`}
                             </p>
-                            <div className="w-1 h-1 rounded-full bg-foreground/50" />
+                            <div className="hidden lg:block w-1 h-1 rounded-full bg-foreground/50" />
                             <p className="text-xs text-foreground/60 font-medium">
                                 {`Эпизодов: ${franchise.total_episodes}`}
                             </p>
@@ -65,6 +65,6 @@ export default function FranchiseCard({ franchise }: IProps) {
                     </div>
                 </div>
             </Link>
-        </li>
+        </div>
     );
 }

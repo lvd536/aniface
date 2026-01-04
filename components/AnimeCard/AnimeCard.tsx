@@ -15,9 +15,9 @@ export default function AnimeCard({ anime }: IProps) {
                 alt="anime"
                 height={300}
                 width={150}
-                className="w-full h-full"
+                className="w-full h-full rounded-lg"
             />
-            <div className="absolute left-0 top-0 flex flex-col justify-between items-center opacity-0 hover:opacity-100 bg-black/60 w-full h-full transition-opacity duration-500 py-2">
+            <div className="absolute left-0 top-0 flex flex-col justify-between items-center opacity-0 hover:opacity-100 bg-black/60 w-full h-full transition-opacity duration-500 py-2 rounded-lg">
                 {"latest_episode" in anime && anime.latest_episode && (
                     <p>{anime.latest_episode.ordinal} Эпизод</p>
                 )}

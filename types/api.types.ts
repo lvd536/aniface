@@ -161,6 +161,7 @@ export type SearchAnimeResponse = SearchAnime[];
 export type LatestReleasesResponse = LatestReleaseAnime[];
 export type GenresResponse = Genre[];
 export type FranchisesResponse = Franchise[];
+export type CatalogAnimeResponse = CatalogAnime[];
 
 interface Member {
     id: string;

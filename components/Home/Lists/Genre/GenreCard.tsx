@@ -10,13 +10,13 @@ interface IProps {
 
 export default function GenreCard({ genre }: IProps) {
     return (
-        <li key={genre.id}>
+        <div>
             <Link
-                href={browserRoutes.anime.categories + `?genre=${genre.id}`}
+                href={browserRoutes.anime.genre(genre.id)}
                 className="relative rounded-lg w-25 sm:w-30 lg:w-60 xl:w-50 2xl:w-60 max-h-85 min-h-35"
             >
                 <Image
-                    src={apiRoutes.image(genre.image.optimized.preview)}
+                    src={apiRoutes.image(genre.image.preview)}
                     alt="genre"
                     height={300}
                     width={150}
@@ -30,6 +30,6 @@ export default function GenreCard({ genre }: IProps) {
                 </p>
                 <div className="absolute left-0 top-0 w-full h-full card-shadow rounded-lg" />
             </Link>
-        </li>
+        </div>
     );
 }
