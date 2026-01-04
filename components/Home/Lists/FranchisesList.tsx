@@ -25,9 +25,6 @@ export default async function FranchisesList() {
                             <p className="text-xs text-foreground/60 font-medium">
                                 {franchise.name_english}
                             </p>
-                            <p className="text-xs text-foreground/60 font-medium">
-                                Релизов: {franchise.total_releases}
-                            </p>
                         </div>
                         <div>
                             <div className="flex gap-2">

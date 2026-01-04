@@ -21,7 +21,7 @@ export default async function LatestList() {
                     <div className="absolute left-0 top-0 flex flex-col justify-between items-center opacity-0 hover:opacity-100 bg-black/60 w-full h-full transition-opacity duration-500 py-2">
                         {"latest_episode" in anime && anime.latest_episode && (
                             <p className="p-2 font-semibold rounded-sm bg-gray-600/85">
-                                {anime.latest_episode.ordinal} Эпизод
+                                {`${anime.latest_episode.ordinal} Эпизод`}
                             </p>
                         )}
                         <h1 className="font-semibold text-xl text-center">
