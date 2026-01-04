@@ -6,6 +6,7 @@ export const browserRoutes = {
         },
         latest: "/catalog/releases/latest",
         franchises: "/catalog/releases/franchises",
+        franchise: (id: string) => `/catalog/releases/franchises/${id}`,
         catalog: "/catalog/releases",
         categories: "/catalog/categories",
         genre: (id: number) => `/catalog/genres/${id}`,

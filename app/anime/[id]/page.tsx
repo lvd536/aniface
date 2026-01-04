@@ -14,8 +14,8 @@ export default async function page({ params }: IProps) {
                 <Image
                     src={apiRoutes.image(anime.poster.preview)}
                     alt="Anime poster"
-                    width={200}
-                    height={400}
+                    height={1920}
+                    width={1080}
                     className="w-80 h-100 rounded-sm"
                 />
                 <div>

@@ -19,8 +19,8 @@ export default function AnimeCard({ anime }: IProps) {
             <Image
                 src={apiRoutes.image(anime.poster.preview)}
                 alt="anime"
-                height={300}
-                width={150}
+                height={1920}
+                width={1080}
                 className="w-full h-full rounded-lg"
             />
             <div className="absolute left-0 top-0 flex flex-col justify-between items-center opacity-0 hover:opacity-100 bg-black/60 w-full h-full transition-opacity duration-500 py-2 rounded-lg">

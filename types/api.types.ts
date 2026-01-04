@@ -80,7 +80,10 @@ export interface CatalogAnime {
         alternative: string | null;
     };
     alias: string;
-    season: ValueDescription<Season>;
+    season: {
+        value: string;
+        description: string;
+    };
     poster: Poster;
     fresh_at: string;
     created_at: string;
@@ -94,7 +97,7 @@ export interface CatalogAnime {
     };
     publish_day: ValueDescription<number>;
     description: string;
-    episodes_total: number;
+    episodes_total?: number;
 }
 
 export interface AnimeResponse extends CatalogAnime {
@@ -144,7 +147,7 @@ export interface SearchAnime {
 }
 
 export interface Franchise {
-    id: number;
+    id: string;
     name: string;
     name_english: string;
     image: Poster;
@@ -157,10 +160,21 @@ export interface Franchise {
     total_duration_in_seconds: number;
 }
 
+export interface FranchiseRelease {
+    franchise_id: string;
+    id: string;
+    release: CatalogAnime;
+    release_id: number;
+    sort_order: number;
+}
+
 export type SearchAnimeResponse = SearchAnime[];
 export type LatestReleasesResponse = LatestReleaseAnime[];
 export type GenresResponse = Genre[];
 export type FranchisesResponse = Franchise[];
+export interface FranchiseResponse extends Franchise {
+    franchise_releases: FranchiseRelease[];
+}
 export type CatalogAnimeResponse = CatalogAnime[];
 
 interface Member {

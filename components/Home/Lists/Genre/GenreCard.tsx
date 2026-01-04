@@ -13,13 +13,13 @@ export default function GenreCard({ genre }: IProps) {
         <div>
             <Link
                 href={browserRoutes.anime.genre(genre.id)}
-                className="relative rounded-lg w-25 sm:w-30 lg:w-60 xl:w-50 2xl:w-60 max-h-85 min-h-35"
+                className="relative rounded-lg"
             >
                 <Image
                     src={apiRoutes.image(genre.image.preview)}
                     alt="genre"
-                    height={300}
-                    width={150}
+                    height={1080}
+                    width={1920}
                     className="w-full h-full rounded-lg"
                 />
                 <h3 className="absolute w-full text-sm font-bold text-center bottom-6 z-1">

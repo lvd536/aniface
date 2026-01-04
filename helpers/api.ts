@@ -4,6 +4,7 @@ import {
     AnimeResponse,
     CatalogAnimeResponse,
     CatalogResponse,
+    FranchiseResponse,
     FranchisesResponse,
     GenresResponse,
     LatestReleaseAnime,
@@ -123,6 +124,18 @@ export async function getAllFranchises(): Promise<FranchisesResponse> {
         const response: FranchisesResponse = await axios
             .get(apiRoutes.franchises)
             .then((resp) => resp.data);
+        return response;
+    } catch (error) {
+        console.error("Error fetching franchises:", error);
+        throw error;
+    }
+}
+export async function getFranchise(id: string): Promise<FranchiseResponse> {
+    try {
+        const response: FranchiseResponse = await axios
+            .get(apiRoutes.franchise(id))
+            .then((resp) => resp.data);
+        console.log(response);
         return response;
     } catch (error) {
         console.error("Error fetching franchises:", error);

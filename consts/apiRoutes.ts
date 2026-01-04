@@ -9,6 +9,7 @@ export const apiRoutes = {
     genresRandom: baseUrl + "anime/genres/random",
     genreById: (id: number) => baseUrl + `anime/genres/${id}/releases`,
     franchises: baseUrl + "anime/franchises",
+    franchise: (id: string) => baseUrl + `anime/franchises/${id}`,
     franchisesRandom: baseUrl + "anime/franchises/random",
     searchReleases: baseUrl + `anime/catalog/releases`,
     appSearchReleases: baseUrl + "app/search/releases",
