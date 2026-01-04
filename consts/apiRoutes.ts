@@ -10,4 +10,5 @@ export const apiRoutes = {
     franchises: baseUrl + "anime/franchises",
     franchisesRandom: baseUrl + "anime/franchises/random",
     searchReleases: baseUrl + `anime/catalog/releases`,
+    appSearchReleases: baseUrl + "app/search/releases",
 } as const;
