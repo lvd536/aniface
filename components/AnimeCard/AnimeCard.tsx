@@ -2,6 +2,8 @@ import { apiRoutes } from "@/consts/apiRoutes";
 import type { LatestReleaseAnime, CatalogAnime } from "@/types/api.types";
 import Image from "next/image";
 import HoverItem from "./HoverItem";
+import Link from "next/link";
+import { browserRoutes } from "@/consts/browserRoutes";
 
 interface IProps {
     anime: CatalogAnime | LatestReleaseAnime;
@@ -9,7 +11,11 @@ interface IProps {
 
 export default function AnimeCard({ anime }: IProps) {
     return (
-        <div key={anime.id} className="relative">
+        <Link
+            key={anime.id}
+            href={browserRoutes.anime.title(anime.id)}
+            className="relative"
+        >
             <Image
                 src={apiRoutes.image(anime.poster.preview)}
                 alt="anime"
@@ -35,6 +41,6 @@ export default function AnimeCard({ anime }: IProps) {
                     <HoverItem>{anime.age_rating.label}</HoverItem>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 }

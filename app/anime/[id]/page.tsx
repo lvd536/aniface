@@ -10,7 +10,7 @@ export default async function page({ params }: IProps) {
     const anime = await getAnime(id);
     return (
         <div className="w-full h-full">
-            <div className="flex gap-2 sm:gap-5 justify-between">
+            <div className="flex max-sm:flex-col gap-2 sm:gap-5 justify-between">
                 <Image
                     src={apiRoutes.image(anime.poster.preview)}
                     alt="Anime poster"
