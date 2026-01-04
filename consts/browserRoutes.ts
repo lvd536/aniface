@@ -1,6 +1,9 @@
 export const browserRoutes = {
     home: "/",
     anime: {
+        title: (anime: string) => {
+            return `/catalog/releases/${anime}`;
+        },
         latest: "/catalog/releases/latest",
         franchises: "/catalog/releases/franchises",
         catalog: "/catalog/releases",
