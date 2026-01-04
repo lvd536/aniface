@@ -17,7 +17,7 @@ export default function Franchise({ franchiseResponse }: IProps) {
                     browserRoutes.anime.franchises +
                     `?franchise=${franchise.id}`
                 }
-                className="flex rounded-l-lg w-full p-2 bg-black/40 rounded-lg"
+                className="flex rounded-l-lg w-full p-4 bg-black/40 rounded-xl"
             >
                 <Image
                     src={apiRoutes.image(franchise.image.preview)}

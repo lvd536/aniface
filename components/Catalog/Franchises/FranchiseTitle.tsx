@@ -13,7 +13,7 @@ export default function FranchiseTitle({ franchise }: IProps) {
         <div className="max-lg:w-full h-35">
             <Link
                 href={browserRoutes.anime.title(franchise.id)}
-                className="flex rounded-l-lg w-full p-2"
+                className="flex rounded-l-lg w-full"
             >
                 <Image
                     src={apiRoutes.image(franchise.poster.preview)}
