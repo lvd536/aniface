@@ -98,6 +98,7 @@ export interface CatalogAnime {
     publish_day: ValueDescription<number>;
     description: string;
     episodes_total?: number;
+    average_duration_of_episode: number;
 }
 
 export interface AnimeResponse extends CatalogAnime {
