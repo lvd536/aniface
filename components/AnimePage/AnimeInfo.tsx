@@ -62,7 +62,7 @@ export default function AnimeInfo({ anime }: IProps) {
                     />
                 </div>
             </div>
-            <p className="text-sm font-medium text-foreground/70">
+            <p className="text-md font-medium text-foreground/70 my-2">
                 {anime.description}
             </p>
         </>

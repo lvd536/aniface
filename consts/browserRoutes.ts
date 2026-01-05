@@ -10,6 +10,7 @@ export const browserRoutes = {
         catalog: "/catalog/releases",
         categories: "/catalog/categories",
         genre: (id: number) => `/catalog/genres/${id}`,
+        episode: (id: string) => `/anime/video/${id}`,
     },
     auth: { register: "/auth/register", login: "/auth/login" },
     user: { profile: "/user/profile", settings: "/user/settings" },
