@@ -1,7 +1,6 @@
 import { apiRoutes } from "@/consts/apiRoutes";
 import { AnimeResponse } from "@/types/api.types";
 import Image from "next/image";
-import AnimeInfoText from "./AnimeInfoText";
 import AnimeInfoMain from "./AnimeInfo/AnimeInfoMain";
 import AnimeInfoDetails from "./AnimeInfo/AnimeInfoDetails";
 
@@ -10,11 +9,13 @@ interface IProps {
 }
 
 export default function AnimeInfo({ anime }: IProps) {
-    const duration = `${Math.floor(
-        (anime.episodes.length * anime.average_duration_of_episode) / 60
-    )} часов ${
-        (anime.episodes.length * anime.average_duration_of_episode) % 60
-    } минут`;
+    const duration =
+        anime.average_duration_of_episode &&
+        `${Math.floor(
+            (anime.episodes.length * anime.average_duration_of_episode) / 60
+        )} часов ${
+            (anime.episodes.length * anime.average_duration_of_episode) % 60
+        } минут`;
     const genres = anime.genres.map((genre, index) => (
         <div className="flex items-center gap-2" key={genre.id}>
             <p>{genre.name}</p>

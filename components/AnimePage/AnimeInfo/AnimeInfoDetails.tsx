@@ -6,8 +6,8 @@ interface IProps {
     seasonDescription: string;
     genres: ReactNode;
     year: number;
-    average_duration_of_episode: number;
-    duration: string;
+    average_duration_of_episode?: number;
+    duration?: string | 0;
 }
 
 export default function AnimeInfoDetails({
@@ -29,14 +29,18 @@ export default function AnimeInfoDetails({
                 }
             />
             <AnimeInfoText firstText="Год выхода:" secondText={year} />
-            <AnimeInfoText
-                firstText="Длительность:"
-                secondText={`~${average_duration_of_episode} мин`}
-            />
-            <AnimeInfoText
-                firstText="Общее время просмотра:"
-                secondText={duration}
-            />
+            {average_duration_of_episode && (
+                <AnimeInfoText
+                    firstText="Длительность:"
+                    secondText={`~${average_duration_of_episode} мин`}
+                />
+            )}
+            {average_duration_of_episode && duration && (
+                <AnimeInfoText
+                    firstText="Общее время просмотра:"
+                    secondText={duration}
+                />
+            )}
         </>
     );
 }
