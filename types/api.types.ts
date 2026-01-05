@@ -185,10 +185,10 @@ interface Member {
     user: User | null;
 }
 
-interface Episode {
+export interface Episode {
     id: string;
     ordinal: number;
-    name: string | null;
+    name: string;
     preview: Poster;
     hls_480: string;
     hls_720: string;
