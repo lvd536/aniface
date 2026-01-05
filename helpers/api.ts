@@ -55,7 +55,6 @@ export async function getAnime(anime: string): Promise<AnimeResponse> {
         const response: AnimeResponse = await axios
             .get(apiRoutes.anime(anime))
             .then((resp) => resp.data);
-        console.log(response);
         return response;
     } catch (error) {
         console.error("Error fetching anime:", error);
@@ -135,7 +134,6 @@ export async function getFranchise(id: string): Promise<FranchiseResponse> {
         const response: FranchiseResponse = await axios
             .get(apiRoutes.franchise(id))
             .then((resp) => resp.data);
-        console.log(response);
         return response;
     } catch (error) {
         console.error("Error fetching franchises:", error);
