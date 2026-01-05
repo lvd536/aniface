@@ -4,6 +4,7 @@ import {
     AnimeResponse,
     CatalogAnimeResponse,
     CatalogResponse,
+    EpisodeResponse,
     FranchiseResponse,
     FranchisesResponse,
     GenresResponse,
@@ -155,6 +156,18 @@ export async function getRandomFranchises(
         return response;
     } catch (error) {
         console.error("Error fetching random franchises:", error);
+        throw error;
+    }
+}
+
+export async function getEpisode(id: string): Promise<EpisodeResponse> {
+    try {
+        const response: EpisodeResponse = await axios
+            .get(apiRoutes.episode(id))
+            .then((resp) => resp.data);
+        return response;
+    } catch (error) {
+        console.error("Error fetching episode:", error);
         throw error;
     }
 }

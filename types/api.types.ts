@@ -187,6 +187,7 @@ interface Member {
 
 interface Episode {
     id: string;
+    ordinal: number;
     name: string | null;
     preview: Poster;
     hls_480: string;
@@ -196,6 +197,14 @@ interface Episode {
     updated_at: string;
     release_id: number;
     name_english: string | null;
+}
+
+interface AnimeEpisode extends CatalogAnime {
+    episodes: Episode[];
+}
+
+export interface EpisodeResponse extends Episode {
+    release: AnimeEpisode;
 }
 
 interface User {

@@ -13,4 +13,5 @@ export const apiRoutes = {
     franchisesRandom: baseUrl + "anime/franchises/random",
     searchReleases: baseUrl + `anime/catalog/releases`,
     appSearchReleases: baseUrl + "app/search/releases",
+    episode: (id: string) => baseUrl + `anime/releases/episodes/${id}`
 } as const;

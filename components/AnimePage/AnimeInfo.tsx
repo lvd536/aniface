@@ -17,12 +17,12 @@ export default function AnimeInfo({ anime }: IProps) {
             (anime.episodes.length * anime.average_duration_of_episode) % 60
         } минут`;
     const genres = anime.genres.map((genre, index) => (
-        <div className="flex items-center gap-2" key={genre.id}>
+        <li className="flex items-center gap-2" key={genre.id}>
             <p>{genre.name}</p>
             {index !== anime.genres.length - 1 && (
                 <span className="w-1.25 h-1.25 bg-foreground rounded-full" />
             )}
-        </div>
+        </li>
     ));
     const isOngoing = {
         className: anime.is_ongoing
