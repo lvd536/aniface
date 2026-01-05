@@ -8,8 +8,8 @@ interface IProps {
 export default function AnimeInfoText({ firstText, secondText }: IProps) {
     return (
         <div className="flex text-sm gap-2">
-            <p className="text-foreground/50">{firstText}</p>
-            <p>{secondText}</p>
+            <span className="text-foreground/50">{firstText}</span>
+            <span>{secondText}</span>
         </div>
     );
 }
