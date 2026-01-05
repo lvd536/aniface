@@ -2,6 +2,8 @@ import { apiRoutes } from "@/consts/apiRoutes";
 import { AnimeResponse } from "@/types/api.types";
 import Image from "next/image";
 import AnimeInfoText from "./AnimeInfoText";
+import AnimeInfoMain from "./AnimeInfo/AnimeInfoMain";
+import AnimeInfoDetails from "./AnimeInfo/AnimeInfoDetails";
 
 interface IProps {
     anime: AnimeResponse;
@@ -13,8 +15,13 @@ export default function AnimeInfo({ anime }: IProps) {
     )} часов ${
         (anime.episodes.length * anime.average_duration_of_episode) % 60
     } минут`;
-    const genres = anime.genres.map((genre) => (
-        <p key={genre.id}>{genre.name}</p>
+    const genres = anime.genres.map((genre, index) => (
+        <div className="flex items-center gap-2" key={genre.id}>
+            <p>{genre.name}</p>
+            {index !== anime.genres.length - 1 && (
+                <span className="w-1.25 h-1.25 bg-foreground rounded-full" />
+            )}
+        </div>
     ));
     const isOngoing = {
         className: anime.is_ongoing
@@ -33,49 +40,24 @@ export default function AnimeInfo({ anime }: IProps) {
                     className="w-80 h-100 rounded-sm"
                 />
                 <div className="flex flex-col gap-1">
-                    <h1 className="font-bold text-4xl text-foreground">
-                        {anime.name.main}
-                    </h1>
-                    <h2 className="font-medium text-xs text-foreground/50">
-                        {anime.name.english}
-                    </h2>
-                    <div className="flex text-xs items-center gap-2">
-                        <p className="py-1 px-2 ring ring-indigo-400 rounded-lg">
-                            {anime.age_rating.label}
-                        </p>
-                        <p
-                            className={`p-1 px-2 rounded-lg ring ${isOngoing.className}`}
-                        >
-                            {isOngoing.text}
-                        </p>
-                    </div>
-                    <AnimeInfoText
-                        firstText="Тип:"
-                        secondText={anime.type.description}
+                    <AnimeInfoMain
+                        name={anime.name}
+                        ageLabel={anime.age_rating.label}
+                        isOngoing={isOngoing}
                     />
-                    <AnimeInfoText
-                        firstText="Сезон:"
-                        secondText={anime.season.description}
-                    />
-                    <AnimeInfoText
-                        firstText="Жанры:"
-                        secondText={
+                    <AnimeInfoDetails
+                        typeDescription={anime.type.description}
+                        seasonDescription={anime.season.description}
+                        genres={
                             <ul className="flex items-center gap-2">
                                 {genres}
                             </ul>
                         }
-                    />
-                    <AnimeInfoText
-                        firstText="Год выхода:"
-                        secondText={anime.year}
-                    />
-                    <AnimeInfoText
-                        firstText="Длительность:"
-                        secondText={`~${anime.average_duration_of_episode} мин`}
-                    />
-                    <AnimeInfoText
-                        firstText="Общее время просмотра:"
-                        secondText={duration}
+                        year={anime.year}
+                        average_duration_of_episode={
+                            anime.average_duration_of_episode
+                        }
+                        duration={duration}
                     />
                 </div>
             </div>
