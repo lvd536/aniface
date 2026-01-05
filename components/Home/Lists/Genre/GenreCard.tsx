@@ -10,7 +10,7 @@ interface IProps {
 
 export default function GenreCard({ genre }: IProps) {
     return (
-        <div>
+        <>
             <Link
                 href={browserRoutes.anime.genre(genre.id)}
                 className="relative rounded-lg w-50 h-72"
@@ -30,6 +30,6 @@ export default function GenreCard({ genre }: IProps) {
                 </p>
                 <div className="absolute left-0 top-0 w-50 h-72 card-shadow rounded-lg" />
             </Link>
-        </div>
+        </>
     );
 }
