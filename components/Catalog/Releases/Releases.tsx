@@ -9,12 +9,12 @@ export default async function Releases({ page }: IProps) {
     const animeCatalog = await getCatalog(page);
     return (
         <div className="flex flex-col min-h-screen items-center justify-between font-sans gap-5">
-            <div className="grid grid-cols-1 xs:grid-cols-[repeat(2,200px)] sm:grid-cols-[repeat(5,1fr)] gap-5">
+            <div className="flex flex-wrap justify-center gap-5">
                 {animeCatalog.data.map((anime) => (
                     <AnimeCard anime={anime} key={anime.id} />
                 ))}
             </div>
-            <ul className="flex gap-2 items-center justify-between">
+            <ul className="flex flex-wrap gap-2 items-center justify-between">
                 {Array.from(
                     {
                         length: 10,

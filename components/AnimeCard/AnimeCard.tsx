@@ -21,7 +21,7 @@ export default function AnimeCard({ anime }: IProps) {
                 alt="anime"
                 height={1920}
                 width={1080}
-                className="w-full h-full rounded-lg"
+                className="w-50 h-72 rounded-lg object-cover"
             />
             <div className="absolute left-0 top-0 flex flex-col justify-between items-center opacity-0 hover:opacity-100 bg-black/60 w-full h-full transition-opacity duration-500 py-2 rounded-lg">
                 {"latest_episode" in anime && anime.latest_episode && (
@@ -30,12 +30,12 @@ export default function AnimeCard({ anime }: IProps) {
                 <h1 className="font-semibold text-xl text-center">
                     {anime.name.main}
                 </h1>
-                <div className="flex px-3 py-1 items-center justify-between">
+                <div className="flex text-xs xl:text-sm flex-wrap px-3 py-1 items-center justify-between">
                     <HoverItem separatingCircle>
                         {anime.season.description}
                     </HoverItem>
                     <HoverItem separatingCircle>{anime.year}</HoverItem>
-                    <HoverItem separatingCircle className="px-2">
+                    <HoverItem separatingCircle className="px-1">
                         {anime.type.description}
                     </HoverItem>
                     <HoverItem>{anime.age_rating.label}</HoverItem>
