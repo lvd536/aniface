@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import AnimeInfoText from "../AnimeInfoText";
+import AnimeInfoText from "./AnimeInfoText";
 
 interface IProps {
     typeDescription: string;

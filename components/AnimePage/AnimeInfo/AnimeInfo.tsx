@@ -1,8 +1,8 @@
 import { apiRoutes } from "@/consts/apiRoutes";
 import { AnimeResponse } from "@/types/api.types";
 import Image from "next/image";
-import AnimeInfoMain from "./AnimeInfo/AnimeInfoMain";
-import AnimeInfoDetails from "./AnimeInfo/AnimeInfoDetails";
+import AnimeInfoMain from "./AnimeInfoMain";
+import AnimeInfoDetails from "./AnimeInfoDetails";
 
 interface IProps {
     anime: AnimeResponse;

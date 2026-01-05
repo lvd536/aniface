@@ -1,4 +1,4 @@
-import AnimeInfo from "@/components/AnimePage/AnimeInfo";
+import AnimeInfo from "@/components/AnimePage/AnimeInfo/AnimeInfo";
 import { apiRoutes } from "@/consts/apiRoutes";
 import { browserRoutes } from "@/consts/browserRoutes";
 import { getAnime } from "@/helpers/api";
