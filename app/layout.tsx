@@ -1,22 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Lato } from "next/font/google";
+import { Montserrat, Inter } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/NavBar/NavBar";
 
-const geistSans = Geist({
-    variable: "--font-geist-sans",
-    subsets: ["latin"],
+const montserrat = Montserrat({
+    variable: "--font-geist-montserrat",
+    subsets: ["latin", "cyrillic"],
 });
 
-const geistMono = Geist_Mono({
-    variable: "--font-geist-mono",
-    subsets: ["latin"],
-});
-
-const lato = Lato({
-    variable: "--font-geist-lato",
-    weight: ["100", "300", "400", "700", "900"],
-    subsets: ["latin"],
+const inter = Inter({
+    variable: "--font-geist-inter",
+    subsets: ["latin", "cyrillic"],
 });
 
 export const metadata: Metadata = {
@@ -32,10 +26,12 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body
-                className={`${geistSans.variable} ${geistMono.variable} ${lato.variable} antialiased`}
+                className={`${montserrat.variable} ${inter.variable} antialiased`}
             >
                 <NavBar />
-                <main className="container mx-auto mt-20">{children}</main>
+                <main className="container font-sans mx-auto mt-20">
+                    {children}
+                </main>
                 <footer className="h-20 bg-black/25 mt-5"></footer>
             </body>
         </html>
