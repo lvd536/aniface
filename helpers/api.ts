@@ -41,7 +41,7 @@ export async function getLatestReleases(
         const response: LatestReleasesResponse = await axios
             .get(apiRoutes.latestReleases, {
                 params: {
-                    limit: limit || 20,
+                    limit: limit || 49,
                 },
             })
             .then((resp) => resp.data);
