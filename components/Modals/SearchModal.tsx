@@ -1,11 +1,10 @@
 "use client";
-
 import { searchAppReleases } from "@/helpers/api";
 import { CatalogAnime } from "@/types/api.types";
 import { TextSearch, X, VideoOff } from "lucide-react";
 import { useEffect, useState } from "react";
-import AnimeCard from "../AnimeCard/AnimeCard";
 import SearchItem from "./SearchItem";
+import SearchBar from "../SearchBar";
 
 interface IProps {
     isOpen: boolean;
@@ -31,8 +30,6 @@ export default function SearchModal({ isOpen, onClose }: IProps) {
                         response: searchedAnime,
                         error: undefined,
                     };
-                } else {
-                    setSearchResults([]);
                 }
                 return {
                     response: searchedAnime,
@@ -57,17 +54,14 @@ export default function SearchModal({ isOpen, onClose }: IProps) {
         <>
             {isOpen && (
                 <div className="fixed flex w-screen h-screen top-0 left-0 justify-center items-center gap-4 bg-black/70">
-                    <div className="flex flex-col items-center rounded-lg bg-neutral-800/90 p-2 w-200 h-200 backdrop-blur-xs">
-                        <input
-                            type="search"
-                            name="animeSearch"
+                    <div className="relative flex flex-col items-center rounded-lg bg-neutral-800/90 px-2 pt-2 w-150 h-200 backdrop-blur-xs">
+                        <SearchBar
                             id="animeSearch"
                             placeholder="Введите название аниме..."
                             onChange={(e) => setSearchValue(e.target.value)}
                             value={searchValue}
-                            className="w-full bg-foreground/15 placeholder:font-mono p-2 rounded-lg"
                         />
-                        <div className="h-full flex">
+                        <div className="w-full h-full flex justify-center group overflow-y-auto my-2">
                             {searchResults.length > 0 ? (
                                 <div className="flex flex-col gap-2">
                                     {searchResults.map((anime) => (
@@ -97,10 +91,14 @@ export default function SearchModal({ isOpen, onClose }: IProps) {
                                 </div>
                             )}
                         </div>
+                        <button
+                            type="button"
+                            className="absolute top-0 -right-15 self-start"
+                            onClick={onClose}
+                        >
+                            <X width={35} height={35} />
+                        </button>
                     </div>
-                    <button type="button" onClick={onClose}>
-                        <X width={50} height={50} />
-                    </button>
                 </div>
             )}
         </>

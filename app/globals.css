@@ -41,6 +41,21 @@ body {
     );
 }
 
+::-webkit-scrollbar {
+    width: 6px;
+    margin: 20px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 9999px;
+    background-color: #404040;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background-color: #737373;
+}
+
 @keyframes notFoundTextError {
     0% {
         opacity: 0;

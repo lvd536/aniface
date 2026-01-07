@@ -11,16 +11,16 @@ export default function SearchItem({ anime }: IProps) {
     return (
         <Link
             href={browserRoutes.anime.title(anime.id)}
-            className="flex rounded-l-lg w-full h-50 p-2"
+            className="flex rounded-l-lg w-full h-35 p-2 bg-black/40 rounded-r-lg"
         >
             <Image
                 src={apiRoutes.image(anime.poster.preview)}
-                alt="franchise"
-                height={1920}
+                alt="anime poster"
+                height={1080}
                 width={1080}
-                className="w-1/2 h-full rounded-l-lg object-cover"
+                className="w-20 h-20 rounded-lg object-cover"
             />
-            <div className="flex flex-col justify-between bg-black/40 w-1/2 h-full rounded-r-lg px-4 py-2">
+            <div className="flex flex-col justify-between w-full h-full px-4 py-2">
                 <div>
                     <h3 className="text-xs lg:text-sm font-semibold bottom-6 z-1">
                         {anime.name.main}
@@ -29,16 +29,21 @@ export default function SearchItem({ anime }: IProps) {
                         {anime.name.english}
                     </p>
                 </div>
-                <div>
-                    <div className="flex gap-2">
-                        <p className="text-xs text-foreground/60 font-medium">
-                            {anime.year}
-                        </p>
-                    </div>
+                <div className="flex items-center gap-2">
+                    <p className="text-xs text-foreground/60 font-medium">
+                        {anime.year}
+                    </p>
+                    <div className="hidden lg:block w-1 h-1 rounded-full bg-foreground/50" />
+                    <p className="text-xs text-foreground/60 font-medium">
+                        {anime.type.description}
+                    </p>
                     {anime.episodes_total && (
-                        <p className="text-xs text-foreground/60 font-medium">
-                            {`Эпизодов: ${anime.episodes_total}`}
-                        </p>
+                        <>
+                            <div className="hidden lg:block w-1 h-1 rounded-full bg-foreground/50" />
+                            <p className="text-xs text-foreground/60 font-medium">
+                                {`Эпизодов: ${anime.episodes_total}`}
+                            </p>
+                        </>
                     )}
                 </div>
             </div>
