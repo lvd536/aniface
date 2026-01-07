@@ -5,6 +5,7 @@ import { CatalogAnime } from "@/types/api.types";
 import { TextSearch, X, VideoOff } from "lucide-react";
 import { useEffect, useState } from "react";
 import AnimeCard from "../AnimeCard/AnimeCard";
+import SearchItem from "./SearchItem";
 
 interface IProps {
     isOpen: boolean;
@@ -68,7 +69,7 @@ export default function SearchModal({ isOpen, onClose }: IProps) {
                             {searchResults.length > 0 ? (
                                 <div className="flex flex-col gap-2">
                                     {searchResults.map((anime) => (
-                                        <AnimeCard
+                                        <SearchItem
                                             key={anime.id}
                                             anime={anime}
                                         />
