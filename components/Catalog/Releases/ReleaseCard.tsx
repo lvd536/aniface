@@ -13,7 +13,7 @@ export default function ReleaseCard({ release }: IProps) {
                 width={1080}
                 height={1920}
                 alt="anime poster"
-                className="max-md:hidden w-70 h-full rounded-lg"
+                className="max-md:hidden w-70 h-full rounded-lg object-cover"
             />
             <div className="flex flex-col gap-2">
                 <div>

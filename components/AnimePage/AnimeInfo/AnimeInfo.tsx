@@ -38,7 +38,7 @@ export default function AnimeInfo({ anime }: IProps) {
                     alt="Anime poster"
                     height={1920}
                     width={1080}
-                    className="w-80 h-100 rounded-sm"
+                    className="w-80 h-100 rounded-sm object-cover"
                 />
                 <div className="flex flex-col gap-1">
                     <AnimeInfoMain

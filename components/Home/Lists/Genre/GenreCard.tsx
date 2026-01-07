@@ -18,9 +18,9 @@ export default function GenreCard({ genre }: IProps) {
                 <Image
                     src={apiRoutes.image(genre.image.preview)}
                     alt="genre"
-                    height={1080}
-                    width={1920}
-                    className="w-50 h-72 rounded-lg"
+                    height={1920}
+                    width={1080}
+                    className="w-50 h-72 rounded-lg object-cover"
                 />
                 <h3 className="absolute w-50 text-sm font-semibold text-center bottom-6 z-1">
                     {genre.name}
