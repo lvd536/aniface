@@ -1,8 +1,13 @@
+"use client";
+
 import { browserRoutes } from "@/consts/browserRoutes";
 import Link from "next/link";
 import { User, Search } from "lucide-react";
+import { useState } from "react";
+import SearchModal from "../Modals/SearchModal";
 
 export default function NavBar() {
+    const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false);
     return (
         <nav className="fixed font-mono left-0 top-0 w-screen h-15 bg-black/90 z-2">
             <div className="h-full container items-center mx-auto flex justify-between select-none">
@@ -24,6 +29,9 @@ export default function NavBar() {
                     <button
                         type="button"
                         className="flex items-center justify-center w-7.5 h-7.5 bg-foreground/15 rounded-sm hover:bg-foreground/25 transition-bg duration-200"
+                        onClick={() => {
+                            setIsSearchModalOpen((prev) => !prev);
+                        }}
                     >
                         <Search width={19} height={19} />
                     </button>
@@ -35,6 +43,12 @@ export default function NavBar() {
                     </Link>
                 </div>
             </div>
+            <SearchModal
+                isOpen={isSearchModalOpen}
+                onClose={() => {
+                    setIsSearchModalOpen((prev) => !prev);
+                }}
+            />
         </nav>
     );
 }

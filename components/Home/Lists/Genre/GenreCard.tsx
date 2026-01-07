@@ -22,10 +22,10 @@ export default function GenreCard({ genre }: IProps) {
                     width={1920}
                     className="w-50 h-72 rounded-lg"
                 />
-                <h3 className="absolute w-50 text-sm font-bold text-center bottom-6 z-1">
+                <h3 className="absolute w-50 text-sm font-semibold text-center bottom-6 z-1">
                     {genre.name}
                 </h3>
-                <p className="absolute w-50 text-xs text-foreground/60 font-bold text-center bottom-1 z-1">
+                <p className="absolute w-50 text-xs text-foreground/60 font-medium text-center bottom-1 z-1">
                     {`Релизов: ${genre.total_releases}`}
                 </p>
                 <div className="absolute left-0 top-0 w-50 h-72 card-shadow rounded-lg" />

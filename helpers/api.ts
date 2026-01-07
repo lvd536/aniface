@@ -2,6 +2,7 @@ import { apiRoutes } from "@/consts/apiRoutes";
 import {
     AnimeCatalogParams,
     AnimeResponse,
+    CatalogAnime,
     CatalogAnimeResponse,
     CatalogResponse,
     EpisodeResponse,
@@ -113,6 +114,23 @@ export async function searchAnimeReleases(
             { params }
         );
 
+        return response;
+    } catch (error) {
+        console.error("Error searching releases:", error);
+        throw error;
+    }
+}
+export async function searchAppReleases(
+    query: string
+): Promise<CatalogAnime[]> {
+    try {
+        const response: CatalogAnime[] = await axios
+            .get(apiRoutes.searchReleases, {
+                params: {
+                    query: query,
+                },
+            })
+            .then((resp) => resp.data.data);
         return response;
     } catch (error) {
         console.error("Error searching releases:", error);
