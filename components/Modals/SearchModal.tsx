@@ -68,6 +68,7 @@ export default function SearchModal({ isOpen, onClose }: IProps) {
                                         <SearchItem
                                             key={anime.id}
                                             anime={anime}
+                                            onClick={onClose}
                                         />
                                     ))}
                                 </div>
