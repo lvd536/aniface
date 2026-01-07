@@ -27,7 +27,7 @@ export default function SearchItem({ anime, onClick }: IProps) {
                     <h3 className="text-xs lg:text-sm font-semibold bottom-6 z-1">
                         {anime.name.main}
                     </h3>
-                    <p className="hidden lg:block text-xs text-foreground/60 font-medium">
+                    <p className="block text-xs text-foreground/60 font-medium">
                         {anime.name.english}
                     </p>
                 </div>
@@ -35,13 +35,13 @@ export default function SearchItem({ anime, onClick }: IProps) {
                     <p className="text-xs text-foreground/60 font-medium">
                         {anime.year}
                     </p>
-                    <div className="hidden lg:block w-1 h-1 rounded-full bg-foreground/50" />
+                    <div className="block w-1 h-1 rounded-full bg-foreground/50" />
                     <p className="text-xs text-foreground/60 font-medium">
                         {anime.type.description}
                     </p>
                     {anime.episodes_total && (
                         <>
-                            <div className="hidden lg:block w-1 h-1 rounded-full bg-foreground/50" />
+                            <div className="block w-1 h-1 rounded-full bg-foreground/50" />
                             <p className="text-xs text-foreground/60 font-medium">
                                 {`Эпизодов: ${anime.episodes_total}`}
                             </p>

@@ -95,6 +95,7 @@ export interface CatalogAnime {
         is_adult: boolean;
         description: string;
     };
+    genres: Genre[];
     publish_day: ValueDescription<number>;
     description: string;
     episodes_total?: number;

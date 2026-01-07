@@ -1,0 +1,55 @@
+import { apiRoutes } from "@/consts/apiRoutes";
+import { CatalogAnime, LatestReleaseAnime } from "@/types/api.types";
+import Image from "next/image";
+interface IProps {
+    release: CatalogAnime | LatestReleaseAnime;
+}
+
+export default function ReleaseCard({ release }: IProps) {
+    return (
+        <li className="flex h-70 gap-3 items-center justify-between px-2 py-3 hover:bg-foreground/25 rounded-lg transition-bg duration-300">
+            <Image
+                src={apiRoutes.image(release.poster.preview)}
+                width={1080}
+                height={1920}
+                alt="anime poster"
+                className="max-md:hidden w-1/8 h-full rounded-lg"
+            />
+            <div className="flex flex-col gap-2">
+                <div>
+                    <p className="text-md font-bold">{release.name.main}</p>
+                    <p className="text-sm font-medium text-foreground/30">
+                        {release.name.english}
+                    </p>
+                </div>
+                <div className="flex flex-col text-sm">
+                    <ul className="flex gap-1 text-foreground/30">
+                        {release.genres.map((genre, index) => (
+                            <li
+                                key={genre.id}
+                                className="flex items-center gap-1"
+                            >
+                                {genre.name}
+                                {index !== release.genres.length - 1 && (
+                                    <span className="block w-1 h-1 rounded-full bg-foreground/50" />
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                    <div className="flex gap-2 items-center text-foreground/40">
+                        <p>{release.year}</p>
+                        <span className="block w-1 h-1 rounded-full bg-foreground/50" />
+                        <p>{release.season.description}</p>
+                        <span className="block w-1 h-1 rounded-full bg-foreground/50" />
+                        <p>{release.type.description}</p>
+                        <span className="block w-1 h-1 rounded-full bg-foreground/50" />
+                        <p>{release.age_rating.label}</p>
+                    </div>
+                </div>
+                <p className="text-foreground/75 line-clamp-12 lg:line-clamp-6 mt-2">
+                    {release.description}
+                </p>
+            </div>
+        </li>
+    );
+}
