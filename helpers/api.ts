@@ -22,7 +22,7 @@ export async function getCatalog(
         const response: CatalogResponse = await axios
             .get(apiRoutes.catalog, {
                 params: {
-                    limit: limit || 21,
+                    limit: limit,
                     page: page,
                 },
             })

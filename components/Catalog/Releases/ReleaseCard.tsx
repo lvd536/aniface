@@ -7,13 +7,13 @@ interface IProps {
 
 export default function ReleaseCard({ release }: IProps) {
     return (
-        <li className="flex h-70 gap-3 items-center justify-between px-2 py-3 hover:bg-foreground/25 rounded-lg transition-bg duration-300">
+        <li className="flex h-70 gap-3 items-center justify-between px-3 py-4 hover:bg-foreground/25 rounded-lg transition-bg duration-300">
             <Image
                 src={apiRoutes.image(release.poster.preview)}
                 width={1080}
                 height={1920}
                 alt="anime poster"
-                className="max-md:hidden w-1/8 h-full rounded-lg"
+                className="max-md:hidden w-70 h-full rounded-lg"
             />
             <div className="flex flex-col gap-2">
                 <div>
@@ -23,7 +23,7 @@ export default function ReleaseCard({ release }: IProps) {
                     </p>
                 </div>
                 <div className="flex flex-col text-sm">
-                    <ul className="flex gap-1 text-foreground/30">
+                    <ul className="flex flex-wrap gap-2 text-foreground/30">
                         {release.genres.map((genre, index) => (
                             <li
                                 key={genre.id}
