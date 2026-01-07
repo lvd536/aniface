@@ -125,12 +125,12 @@ export async function searchAppReleases(
 ): Promise<CatalogAnime[]> {
     try {
         const response: CatalogAnime[] = await axios
-            .get(apiRoutes.searchReleases, {
+            .get(apiRoutes.appSearchReleases, {
                 params: {
                     query: query,
                 },
             })
-            .then((resp) => resp.data.data);
+            .then((resp) => resp.data);
         return response;
     } catch (error) {
         console.error("Error searching releases:", error);

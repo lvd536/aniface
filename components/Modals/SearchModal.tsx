@@ -23,6 +23,8 @@ export default function SearchModal({ isOpen, onClose }: IProps) {
             error: string | undefined;
         }> {
             try {
+                setSearchResults([]);
+                setError(undefined);
                 const searchedAnime = await searchAppReleases(searchValue);
                 if (searchedAnime.length > 0) {
                     return {
