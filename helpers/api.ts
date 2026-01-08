@@ -9,13 +9,8 @@ import {
     FranchiseResponse,
     FranchisesResponse,
     GenresResponse,
-    LatestReleaseAnime,
     LatestReleasesResponse,
     Genre,
-    AnimeType,
-    AgeRatingValue,
-    Season,
-    PublishStatus,
 } from "@/types/api.types";
 import axios from "axios";
 
@@ -204,9 +199,9 @@ async function fetchGenres(): Promise<Genre[]> {
         throw error;
     }
 }
-async function fetchTypes(): Promise<AnimeType[]> {
+async function fetchTypes(): Promise<{ value: string; description: string }[]> {
     try {
-        const response: AnimeType[] = await axios
+        const response: { value: string; description: string }[] = await axios
             .get(apiRoutes.types)
             .then((resp) => resp.data);
         return response;
@@ -215,9 +210,11 @@ async function fetchTypes(): Promise<AnimeType[]> {
         throw error;
     }
 }
-async function fetchPublishStatus(): Promise<PublishStatus[]> {
+async function fetchPublishStatus(): Promise<
+    { value: string; description: string }[]
+> {
     try {
-        const response: PublishStatus[] = await axios
+        const response: { value: string; description: string }[] = await axios
             .get(apiRoutes.publishStatuses)
             .then((resp) => resp.data);
         return response;
@@ -226,9 +223,9 @@ async function fetchPublishStatus(): Promise<PublishStatus[]> {
         throw error;
     }
 }
-async function fetchSeasons(): Promise<Season[]> {
+async function fetchSeasons(): Promise<{ value: string; description: string }[]> {
     try {
-        const response: Season[] = await axios
+        const response: { value: string; description: string }[] = await axios
             .get(apiRoutes.seasons)
             .then((resp) => resp.data);
         return response;
@@ -248,9 +245,9 @@ async function fetchYears(): Promise<number[]> {
         throw error;
     }
 }
-async function fetchAgeRatings(): Promise<AgeRatingValue[]> {
+async function fetchAgeRatings(): Promise<{ value: string; label: string; description: string }[]> {
     try {
-        const response: AgeRatingValue[] = await axios
+        const response: { value: string; label: string; description: string }[] = await axios
             .get(apiRoutes.ageRatings)
             .then((resp) => resp.data);
         return response;
@@ -262,11 +259,11 @@ async function fetchAgeRatings(): Promise<AgeRatingValue[]> {
 
 export async function fetchFilters(): Promise<{
     genres: Genre[];
-    types: AnimeType[];
-    publishStatuses: PublishStatus[];
-    seasons: Season[];
+    types: { value: string; description: string }[];
+    publishStatuses: { value: string; description: string }[];
+    seasons: { value: string; description: string }[];
     years: number[];
-    ageRatings: AgeRatingValue[];
+    ageRatings: { value: string; label: string; description: string }[];
 }> {
     try {
         const [genres, types, publishStatuses, seasons, years, ageRatings] =

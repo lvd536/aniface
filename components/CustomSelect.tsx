@@ -26,6 +26,7 @@ export default function CustomSelect({
         <Select
             isMulti={isMulti}
             name={name}
+            key={name}
             options={options}
             value={value}
             unstyled
@@ -35,9 +36,9 @@ export default function CustomSelect({
                 control: ({ isFocused }) =>
                     `flex rounded-lg ${
                         isFocused ? "bg-foreground/15" : "bg-foreground/10"
-                    } border-2 transition-all border-none p-1`,
+                    } transition-all border-none p-1`,
                 menu: () =>
-                    "bg-stone-800 mt-2 rounded-lg border border-stone-700 overflow-hidden shadow-xl",
+                    "bg-stone-800 mt-2 rounded-lg overflow-hidden shadow-xl",
                 option: ({ isFocused, isSelected }) =>
                     `px-3 py-2 cursor-pointer transition-colors ${
                         isSelected

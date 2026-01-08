@@ -2,17 +2,12 @@
 import { useEffect, useState } from "react";
 import ReleaseCard from "./ReleaseCard";
 import type {
-    AgeRatingValue,
     AnimeCatalogFilters,
-    AnimeType,
     CatalogAnime,
     CatalogResponse,
     Genre,
-    PublishStatus,
-    Season,
 } from "@/types/api.types";
-import { fetchFilters, getCatalog, searchAnimeReleases } from "@/helpers/api";
-import { MultiValue } from "react-select";
+import { fetchFilters, searchAnimeReleases } from "@/helpers/api";
 import CustomSelect from "@/components/CustomSelect";
 
 const initialData: AnimeCatalogFilters = {
@@ -30,11 +25,11 @@ export default function Releases() {
     const [formData, setFormData] = useState<AnimeCatalogFilters>(initialData);
     const [filterData, setFilterData] = useState<{
         genres: Genre[];
-        types: AnimeType[];
-        publishStatuses: PublishStatus[];
-        seasons: Season[];
+        types: { value: string; description: string }[];
+        publishStatuses: { value: string; description: string }[];
+        seasons: { value: string; description: string }[];
         years: number[];
-        ageRatings: AgeRatingValue[];
+        ageRatings: { value: string; label: string; description: string }[];
     }>({
         genres: [],
         types: [],
@@ -87,6 +82,13 @@ export default function Releases() {
         fetchFilters().then((data) => {
             if (data) {
                 setFilterData(data);
+                setFormData((prev) => ({
+                    ...prev,
+                    years: {
+                        from_year: data.years.at(0),
+                        to_year: data.years.at(-1),
+                    },
+                }));
             }
         });
         return () => document.removeEventListener("scroll", scrollHandler);
@@ -133,8 +135,8 @@ export default function Releases() {
                                 onChange={(newValue) => {
                                     const values = Array.isArray(newValue)
                                         ? newValue.map((opt) =>
-                                                Number(opt.value)
-                                        )
+                                              Number(opt.value)
+                                          )
                                         : [];
 
                                     setFormData((prev) => ({
@@ -154,6 +156,41 @@ export default function Releases() {
                                 Укажите типы релизов, по которым будут
                                 отфильтрованы все релизы
                             </p>
+                            <CustomSelect
+                                isMulti
+                                name="types"
+                                options={filterData.types.map((type) => ({
+                                    label: type.value,
+                                    value: type.value,
+                                }))}
+                                value={
+                                    formData.types?.map((type) => {
+                                        const found = filterData.types.find(
+                                            (t) => t.value === type
+                                        );
+                                        return {
+                                            label:
+                                                found?.value || "Загрузка...",
+                                            value: String(type),
+                                        };
+                                    }) || []
+                                }
+                                placeholder="Выберите тип..."
+                                onChange={(newValue) => {
+                                    const values = Array.isArray(newValue)
+                                        ? newValue.map((opt) => opt.value)
+                                        : [];
+
+                                    setFormData((prev) => ({
+                                        ...prev,
+                                        types: values,
+                                    }));
+
+                                    setAnimeList(null);
+                                    setAnimeCurrentPage(1);
+                                    setFetching(true);
+                                }}
+                            />
                         </div>
                         <div className="border-b-foreground/20 border-b p-2">
                             <h3 className="text-sm font-medium">
@@ -164,6 +201,45 @@ export default function Releases() {
                                 которым будут отфильтрованы все тайтлы в
                                 каталоге
                             </p>
+                            <CustomSelect
+                                isMulti
+                                name="types"
+                                options={filterData.publishStatuses.map(
+                                    (type) => ({
+                                        label: type.description,
+                                        value: type.value,
+                                    })
+                                )}
+                                value={
+                                    formData.publish_statuses?.map((type) => {
+                                        const found =
+                                            filterData.publishStatuses.find(
+                                                (t) => t.value === type
+                                            );
+                                        return {
+                                            label:
+                                                found?.description ||
+                                                "Загрузка...",
+                                            value: String(type),
+                                        };
+                                    }) || []
+                                }
+                                placeholder="Выберите статус..."
+                                onChange={(newValue) => {
+                                    const values = Array.isArray(newValue)
+                                        ? newValue.map((opt) => opt.value)
+                                        : [];
+
+                                    setFormData((prev) => ({
+                                        ...prev,
+                                        publish_statuses: values,
+                                    }));
+
+                                    setAnimeList(null);
+                                    setAnimeCurrentPage(1);
+                                    setFetching(true);
+                                }}
+                            />
                         </div>
                         <div className="border-b-foreground/20 border-b p-2">
                             <h3 className="text-sm font-medium">Сезоны</h3>
@@ -172,6 +248,42 @@ export default function Releases() {
                                 которым будут отфильтрованы все тайтлы в
                                 каталоге
                             </p>
+                            <CustomSelect
+                                isMulti
+                                name="types"
+                                options={filterData.seasons.map((type) => ({
+                                    label: type.description,
+                                    value: type.value,
+                                }))}
+                                value={
+                                    formData.seasons?.map((type) => {
+                                        const found = filterData.seasons.find(
+                                            (t) => t.value === type
+                                        );
+                                        return {
+                                            label:
+                                                found?.description ||
+                                                "Загрузка...",
+                                            value: String(type),
+                                        };
+                                    }) || []
+                                }
+                                placeholder="Выберите сезоны..."
+                                onChange={(newValue) => {
+                                    const values = Array.isArray(newValue)
+                                        ? newValue.map((opt) => opt.value)
+                                        : [];
+
+                                    setFormData((prev) => ({
+                                        ...prev,
+                                        seasons: values,
+                                    }));
+
+                                    setAnimeList(null);
+                                    setAnimeCurrentPage(1);
+                                    setFetching(true);
+                                }}
+                            />
                         </div>
                         <div className="border-b-foreground/20 border-b p-2">
                             <h3 className="text-sm font-medium">Период</h3>
@@ -179,6 +291,59 @@ export default function Releases() {
                                 Укажите года выхода релиза, по которым будут
                                 отфильтрованы все тайтлы в каталоге
                             </p>
+                            {filterData.years && (
+                                <div className="flex gap-2 items-center mt-1">
+                                    <input
+                                        type="number"
+                                        name="from_year"
+                                        id="from_year"
+                                        className="flex items-center justify-center w-20 bg-foreground/10 focus:bg-foreground/15 transition-all outline-none px-3 py-2 rounded-lg text-sm"
+                                        onChange={(e) => {
+                                            setFormData((prev) => ({
+                                                ...prev,
+                                                years: {
+                                                    ...prev.years,
+                                                    from_year: Number(
+                                                        e.target.value
+                                                    ),
+                                                },
+                                            }));
+                                            setAnimeList(null);
+                                            setAnimeCurrentPage(1);
+                                            setFetching(true);
+                                        }}
+                                        value={formData.years?.from_year}
+                                        min={filterData.years.at(0)}
+                                        max={filterData.years.at(-1)}
+                                    />
+                                    <span className="text-md font-bold text-foreground/20">
+                                        -
+                                    </span>
+                                    <input
+                                        type="number"
+                                        name="to_year"
+                                        id="to_year"
+                                        className="flex items-center justify-center w-20 bg-foreground/10 focus:bg-foreground/15 transition-all outline-none px-3 py-2 rounded-lg text-sm"
+                                        onChange={(e) => {
+                                            setFormData((prev) => ({
+                                                ...prev,
+                                                years: {
+                                                    ...prev.years,
+                                                    to_year: Number(
+                                                        e.target.value
+                                                    ),
+                                                },
+                                            }));
+                                            setAnimeList(null);
+                                            setAnimeCurrentPage(1);
+                                            setFetching(true);
+                                        }}
+                                        value={formData.years?.to_year}
+                                        min={filterData.years.at(0)}
+                                        max={filterData.years.at(-1)}
+                                    />
+                                </div>
+                            )}
                         </div>
                         <div className="p-2">
                             <h3 className="text-sm font-medium">
@@ -188,6 +353,42 @@ export default function Releases() {
                                 Укажите допустимы возрстаной рейтинг релизов, по
                                 которым будут отфильтрованы все тайтлы
                             </p>
+                            <CustomSelect
+                                isMulti
+                                name="types"
+                                options={filterData.ageRatings.map((type) => ({
+                                    label: type.label,
+                                    value: type.value,
+                                }))}
+                                value={
+                                    formData.age_ratings?.map((type) => {
+                                        const found =
+                                            filterData.ageRatings.find(
+                                                (t) => t.value === type
+                                            );
+                                        return {
+                                            label:
+                                                found?.label || "Загрузка...",
+                                            value: String(type),
+                                        };
+                                    }) || []
+                                }
+                                placeholder="Выберите возраста..."
+                                onChange={(newValue) => {
+                                    const values = Array.isArray(newValue)
+                                        ? newValue.map((opt) => opt.value)
+                                        : [];
+
+                                    setFormData((prev) => ({
+                                        ...prev,
+                                        age_ratings: values,
+                                    }));
+
+                                    setAnimeList(null);
+                                    setAnimeCurrentPage(1);
+                                    setFetching(true);
+                                }}
+                            />
                         </div>
                     </form>
                 </>
