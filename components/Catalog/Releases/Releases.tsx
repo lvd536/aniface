@@ -41,29 +41,55 @@ export default function Releases() {
     const [fetching, setFetching] = useState<boolean>(true);
 
     useEffect(() => {
+        let aborted = false;
         async function fetchData() {
             try {
-                const animeList = await searchAnimeReleases({
+                const data = await searchAnimeReleases({
                     page: animePage,
                     limit: 21,
                     f: formData,
                 });
-                return animeList;
+                if (aborted) return null;
+                return data;
             } catch (error) {
                 console.error(error);
-                throw error;
+                if (!aborted) throw error;
+                return null;
             }
         }
+
         if (fetching) {
-            fetchData().then((data) => {
-                if (data) {
-                    setAnimeList(data);
+            fetchData()
+                .then((data) => {
+                    if (!data || aborted) return;
+                    setAnimeList((prev) => {
+                        if (prev && animePage > 1) {
+                            return {
+                                ...data,
+                                data: [...prev.data, ...data.data],
+                            } as CatalogResponse<CatalogAnime>;
+                        }
+                        return data;
+                    });
+
                     setFetching(false);
-                    if (data.meta.pagination.total_pages > animePage)
+                    const currentPage =
+                        data.meta?.pagination?.current_page ?? animePage;
+                    const totalPages =
+                        data.meta?.pagination?.total_pages ?? currentPage;
+                    if (totalPages > currentPage) {
                         setAnimeCurrentPage((prev) => prev + 1);
-                }
-            });
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                    setFetching(false);
+                });
         }
+
+        return () => {
+            aborted = true;
+        };
     }, [fetching, animePage, formData]);
 
     useEffect(() => {
