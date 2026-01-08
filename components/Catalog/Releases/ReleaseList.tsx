@@ -7,7 +7,7 @@ interface IProps {
 
 export default function ReleaseList({ releases }: IProps) {
     return (
-        <ul className="max-lg:w-1/2 w-7/10 flex flex-col justify-center gap-5 bg-stone-600/25 rounded-lg">
+        <ul className="flex flex-col justify-center gap-5 bg-stone-600/25 rounded-lg">
             {releases.map((anime) => (
                 <ReleaseCard release={anime} key={anime.id} />
             ))}
