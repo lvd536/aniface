@@ -9,6 +9,7 @@ import type {
 } from "@/types/api.types";
 import { fetchFilters, searchAnimeReleases } from "@/helpers/api";
 import CustomSelect from "@/components/CustomSelect";
+import ReleaseList from "./ReleaseList";
 
 const initialData: AnimeCatalogFilters = {
     search: "",
@@ -124,11 +125,7 @@ export default function Releases() {
         <div className="flex gap-2 items-start justify-between">
             {animeList ? (
                 <>
-                    <ul className="max-lg:w-1/2 w-7/10 flex flex-col justify-center gap-5 bg-stone-600/25 rounded-lg">
-                        {animeList.data.map((anime) => (
-                            <ReleaseCard release={anime} key={anime.id} />
-                        ))}
-                    </ul>
+                    <ReleaseList releases={animeList.data} />
                     <form
                         action=""
                         className="max-lg:w-1/2 w-3/10 flex flex-col gap-2 bg-stone-600/25 px-3 py-4 rounded-lg"
