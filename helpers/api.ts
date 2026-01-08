@@ -11,6 +11,11 @@ import {
     GenresResponse,
     LatestReleaseAnime,
     LatestReleasesResponse,
+    Genre,
+    AnimeType,
+    AgeRatingValue,
+    Season,
+    PublishStatus,
 } from "@/types/api.types";
 import axios from "axios";
 
@@ -107,12 +112,11 @@ export async function getAnimeByGenre(
 }
 export async function searchAnimeReleases(
     params: AnimeCatalogParams
-): Promise<CatalogResponse<LatestReleaseAnime>> {
+): Promise<CatalogResponse<CatalogAnime>> {
     try {
-        const response: CatalogResponse<LatestReleaseAnime> = await axios.get(
-            apiRoutes.searchReleases,
-            { params }
-        );
+        const response: CatalogResponse<CatalogAnime> = await axios
+            .get(apiRoutes.searchReleases, { params })
+            .then((data) => data.data);
 
         return response;
     } catch (error) {
@@ -186,6 +190,104 @@ export async function getEpisode(id: string): Promise<EpisodeResponse> {
         return response;
     } catch (error) {
         console.error("Error fetching episode:", error);
+        throw error;
+    }
+}
+async function fetchGenres(): Promise<Genre[]> {
+    try {
+        const response: Genre[] = await axios
+            .get(apiRoutes.genresList)
+            .then((resp) => resp.data);
+        return response;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+async function fetchTypes(): Promise<AnimeType[]> {
+    try {
+        const response: AnimeType[] = await axios
+            .get(apiRoutes.types)
+            .then((resp) => resp.data);
+        return response;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+async function fetchPublishStatus(): Promise<PublishStatus[]> {
+    try {
+        const response: PublishStatus[] = await axios
+            .get(apiRoutes.publishStatuses)
+            .then((resp) => resp.data);
+        return response;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+async function fetchSeasons(): Promise<Season[]> {
+    try {
+        const response: Season[] = await axios
+            .get(apiRoutes.seasons)
+            .then((resp) => resp.data);
+        return response;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+async function fetchYears(): Promise<number[]> {
+    try {
+        const response: number[] = await axios
+            .get(apiRoutes.years)
+            .then((resp) => resp.data);
+        return response;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+async function fetchAgeRatings(): Promise<AgeRatingValue[]> {
+    try {
+        const response: AgeRatingValue[] = await axios
+            .get(apiRoutes.ageRatings)
+            .then((resp) => resp.data);
+        return response;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
+export async function fetchFilters(): Promise<{
+    genres: Genre[];
+    types: AnimeType[];
+    publishStatuses: PublishStatus[];
+    seasons: Season[];
+    years: number[];
+    ageRatings: AgeRatingValue[];
+}> {
+    try {
+        const [genres, types, publishStatuses, seasons, years, ageRatings] =
+            await Promise.all([
+                fetchGenres(),
+                fetchTypes(),
+                fetchPublishStatus(),
+                fetchSeasons(),
+                fetchYears(),
+                fetchAgeRatings(),
+            ]);
+        return {
+            genres,
+            types,
+            publishStatuses,
+            seasons,
+            years,
+            ageRatings,
+        };
+    } catch (error) {
+        console.log("Error fetching filters:", error);
         throw error;
     }
 }

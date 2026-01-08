@@ -19,6 +19,7 @@
     "react-firebase-hooks": "^5.1.1",
     "react-hook-form": "^7.69.0",
     "react-player": "^3.4.0",
+    "react-select": "^5.10.2",
     "zustand": "^5.0.9"
   },
   "devDependencies": {
