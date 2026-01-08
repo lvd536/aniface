@@ -13,5 +13,11 @@ export const apiRoutes = {
     franchisesRandom: baseUrl + "anime/franchises/random",
     searchReleases: baseUrl + `anime/catalog/releases`,
     appSearchReleases: baseUrl + "app/search/releases",
-    episode: (id: string) => baseUrl + `anime/releases/episodes/${id}`
+    episode: (id: string) => baseUrl + `anime/releases/episodes/${id}`,
+    genresList: baseUrl + "anime/catalog/references/genres",
+    types: baseUrl + "anime/catalog/references/types",
+    publishStatuses: baseUrl + "anime/catalog/references/publish-statuses",
+    seasons: baseUrl + "anime/catalog/references/seasons",
+    years: baseUrl + "anime/catalog/references/years",
+    ageRatings: baseUrl + "anime/catalog/references/age-ratings",
 } as const;

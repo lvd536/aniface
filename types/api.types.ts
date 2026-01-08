@@ -38,7 +38,7 @@ export interface Poster extends ImageSet {
 
 export interface AnimeCatalogFilters {
     types?: AnimeType[];
-    genres?: number[];
+    genres?: Genre[];
     search?: string;
     seasons?: Season[];
     age_ratings?: AgeRatingValue[];
