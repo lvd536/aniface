@@ -13,22 +13,22 @@ export default function GenreCard({ genre }: IProps) {
         <>
             <Link
                 href={browserRoutes.anime.genre(genre.id)}
-                className="relative rounded-lg w-50 h-72"
+                className="relative rounded-lg min-w-47 max-w-47 h-72"
             >
                 <Image
                     src={apiRoutes.image(genre.image.preview)}
                     alt="genre"
                     height={1920}
                     width={1080}
-                    className="w-50 h-72 rounded-lg object-cover"
+                    className="min-w-47 max-w-47 h-72 rounded-lg object-cover"
                 />
-                <h3 className="absolute w-50 text-sm font-semibold text-center bottom-6 z-1">
+                <h3 className="absolute min-w-47 max-w-47 text-sm font-semibold text-center bottom-6 z-1">
                     {genre.name}
                 </h3>
-                <p className="absolute w-50 text-xs text-foreground/60 font-medium text-center bottom-1 z-1">
+                <p className="absolute min-w-47 max-w-47 text-xs text-foreground/60 font-medium text-center bottom-1 z-1">
                     {`Релизов: ${genre.total_releases}`}
                 </p>
-                <div className="absolute left-0 top-0 w-50 h-72 card-shadow rounded-lg" />
+                <div className="absolute left-0 top-0 min-w-47 max-w-47 h-72 card-shadow rounded-lg" />
             </Link>
         </>
     );
