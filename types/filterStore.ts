@@ -18,6 +18,8 @@ interface FilterStore {
     setFilterData: (data: FilterData) => void;
     fetching: boolean;
     setFetching: (fetching: boolean) => void;
+    showFilters: boolean;
+    setShowFilters: (show: boolean) => void;
 
     fetchPage: () => Promise<void>;
     fetchFiltersOnce: () => Promise<void>;
@@ -94,7 +96,8 @@ export const useFilterStore = create<FilterStore>((set, get) => {
         setFormData: (data) => {
             set({ formData: data, animePage: 1, animeList: null });
         },
-
+        showFilters: true,
+        setShowFilters: (show) => set({ showFilters: show }),
         fetching: false,
         setFetching: (fetching) => {
             set({ fetching });
