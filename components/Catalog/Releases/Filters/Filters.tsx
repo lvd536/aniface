@@ -1,35 +1,12 @@
 "use client";
-import type {
-    AnimeCatalogFilters,
-    CatalogAnime,
-    CatalogResponse,
-    FilterData,
-} from "@/types/api.types";
 import CustomSelect from "@/components/CustomSelect";
 import NumberInput from "./NumberInput";
 import FilterTitle from "./FilterTitle";
 import FilterDescription from "./FilterDescription";
 import { MultiValue, SingleValue } from "react-select";
+import { useFilterStore } from "@/types/filterStore";
 
-interface IProps {
-    setAnimeList: React.Dispatch<
-        React.SetStateAction<CatalogResponse<CatalogAnime> | null>
-    >;
-    formData: AnimeCatalogFilters;
-    filterData: FilterData;
-    setFormData: React.Dispatch<React.SetStateAction<AnimeCatalogFilters>>;
-    setAnimeCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-    setFetching: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export default function Filters({
-    formData,
-    filterData,
-    setAnimeCurrentPage,
-    setAnimeList,
-    setFetching,
-    setFormData,
-}: IProps) {
+export default function Filters() {
     type SelectOption<T extends string | number = string> = {
         label: string;
         value: T;
@@ -44,7 +21,7 @@ export default function Filters({
 
     const resetAndFetch = () => {
         setAnimeList(null);
-        setAnimeCurrentPage(1);
+        setAnimePage(1);
         setFetching(true);
     };
 
@@ -62,10 +39,10 @@ export default function Filters({
 
             const values: T[] = arrayValue.map((opt) => parse(opt.value));
 
-            setFormData((prev) => ({
-                ...prev,
+            setFormData({
+                ...formData,
                 [field]: values,
-            }));
+            });
 
             resetAndFetch();
         };
@@ -75,13 +52,13 @@ export default function Filters({
         (e: React.ChangeEvent<HTMLInputElement>) => {
             const value = Number(e.target.value);
 
-            setFormData((prev) => ({
-                ...prev,
+            setFormData({
+                ...formData,
                 years: {
-                    ...prev.years,
+                    ...formData.years,
                     [key]: value,
                 },
-            }));
+            });
 
             resetAndFetch();
         };
@@ -110,6 +87,15 @@ export default function Filters({
             };
         });
     };
+
+    const {
+        filterData,
+        setFormData,
+        formData,
+        setAnimeList,
+        setFetching,
+        setAnimePage,
+    } = useFilterStore();
 
     return (
         <form

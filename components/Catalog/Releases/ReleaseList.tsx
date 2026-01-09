@@ -1,16 +1,17 @@
-import { CatalogAnime } from "@/types/api.types";
 import ReleaseCard from "./ReleaseCard";
+import { useFilterStore } from "@/types/filterStore";
 
-interface IProps {
-    releases: CatalogAnime[];
-}
-
-export default function ReleaseList({ releases }: IProps) {
+export default function ReleaseList() {
+    const { animeList } = useFilterStore();
     return (
-        <ul className="flex flex-col justify-center gap-5 bg-stone-600/25 rounded-lg">
-            {releases.map((anime) => (
-                <ReleaseCard release={anime} key={anime.id} />
-            ))}
-        </ul>
+        <>
+            {animeList && (
+                <ul className="flex flex-col justify-center gap-5 bg-stone-600/25 rounded-lg">
+                    {animeList.data.map((anime) => (
+                        <ReleaseCard release={anime} key={anime.id} />
+                    ))}
+                </ul>
+            )}
+        </>
     );
 }

@@ -1,46 +1,23 @@
 "use client";
-import { useEffect, useState } from "react";
-import type {
-    AnimeCatalogFilters,
-    CatalogAnime,
-    CatalogResponse,
-    Genre,
-} from "@/types/api.types";
+import { useEffect } from "react";
 import { fetchFilters, searchAnimeReleases } from "@/helpers/api";
 import ReleaseList from "./ReleaseList";
 import Filters from "./Filters/Filters";
 import SearchBar from "@/components/SearchBar";
-
-const initialData: AnimeCatalogFilters = {
-    search: "",
-    genres: [],
-    types: [],
-    publish_statuses: [],
-    seasons: [],
-    years: {},
-} as const;
+import { useFilterStore } from "@/types/filterStore";
 
 export default function Releases() {
-    const [animePage, setAnimeCurrentPage] = useState<number>(1);
-    const [animeList, setAnimeList] =
-        useState<CatalogResponse<CatalogAnime> | null>(null);
-    const [formData, setFormData] = useState<AnimeCatalogFilters>(initialData);
-    const [filterData, setFilterData] = useState<{
-        genres: Genre[];
-        types: { value: string; description: string }[];
-        publishStatuses: { value: string; description: string }[];
-        seasons: { value: string; description: string }[];
-        years: number[];
-        ageRatings: { value: string; label: string; description: string }[];
-    }>({
-        genres: [],
-        types: [],
-        publishStatuses: [],
-        seasons: [],
-        years: [],
-        ageRatings: [],
-    });
-    const [fetching, setFetching] = useState<boolean>(true);
+    const {
+        setFilterData,
+        setFormData,
+        formData,
+        setAnimeList,
+        animeList,
+        setFetching,
+        fetching,
+        animePage,
+        setAnimePage,
+    } = useFilterStore();
 
     useEffect(() => {
         async function fetchData() {
@@ -61,15 +38,14 @@ export default function Releases() {
                 fetchData()
                     .then((data) => {
                         if (!data) return;
-                        setAnimeList((prev) => {
-                            if (prev && animePage > 1) {
-                                return {
-                                    ...data,
-                                    data: [...prev.data, ...data.data],
-                                } as CatalogResponse<CatalogAnime>;
-                            }
-                            return data;
-                        });
+                        if (animeList && animePage > 1) {
+                            setAnimeList({
+                                ...data,
+                                data: [...animeList.data, ...data.data],
+                            });
+                        } else {
+                            setAnimeList(data);
+                        }
 
                         setFetching(false);
                         const currentPage =
@@ -77,7 +53,7 @@ export default function Releases() {
                         const totalPages =
                             data.meta?.pagination?.total_pages ?? currentPage;
                         if (totalPages > currentPage) {
-                            setAnimeCurrentPage((prev) => prev + 1);
+                            setAnimePage(currentPage + 1);
                         }
                     })
                     .catch((err) => {
@@ -88,7 +64,15 @@ export default function Releases() {
         }, 500);
 
         return () => clearTimeout(fetchTimedOut);
-    }, [fetching, animePage, formData]);
+    }, [
+        fetching,
+        animePage,
+        formData,
+        animeList,
+        setAnimePage,
+        setAnimeList,
+        setFetching,
+    ]);
     useEffect(() => {
         function scrollHandler(e: Event) {
             const target = e.target as Document;
@@ -105,20 +89,20 @@ export default function Releases() {
         fetchFilters().then((data) => {
             if (data) {
                 setFilterData(data);
-                setFormData((prev) => ({
-                    ...prev,
+                setFormData({
+                    ...formData,
                     years: {
                         from_year: data.years.at(0),
                         to_year: data.years.at(-1),
                     },
-                }));
+                });
             }
         });
         return () => document.removeEventListener("scroll", scrollHandler);
     }, []);
     const resetAndFetch = () => {
         setAnimeList(null);
-        setAnimeCurrentPage(1);
+        setAnimePage(1);
         setFetching(true);
     };
 
@@ -128,26 +112,19 @@ export default function Releases() {
                 <SearchBar
                     id="releaseSearch"
                     onChange={(e) => {
-                        setFormData((prev) => ({
-                            ...prev,
+                        setFormData({
+                            ...formData,
                             search: e.target.value,
-                        }));
+                        });
                         resetAndFetch();
                     }}
                     placeholder="Введите название аниме..."
                     value={formData.search}
                 />
-                {animeList && <ReleaseList releases={animeList.data} />}
+                <ReleaseList />
                 {fetching && <p>Fetching...</p>}
             </div>
-            <Filters
-                filterData={filterData}
-                formData={formData}
-                setAnimeCurrentPage={setAnimeCurrentPage}
-                setAnimeList={setAnimeList}
-                setFetching={setFetching}
-                setFormData={setFormData}
-            />
+            <Filters />
         </div>
     );
 }
