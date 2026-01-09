@@ -25,7 +25,7 @@ export default function NavBar() {
                         </Link>
                     </li>
                 </ul>
-                <div className="flex gap-1 font-medium">
+                <div className="flex gap-2 font-medium">
                     <button
                         type="button"
                         className="flex items-center justify-center w-7.5 h-7.5 bg-foreground/15 rounded-sm hover:bg-foreground/25 transition-bg duration-200"
