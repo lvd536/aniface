@@ -100,7 +100,7 @@ export default function Filters() {
     return (
         <form
             action=""
-            className="max-lg:w-1/2 w-3/10 flex flex-col gap-2 bg-stone-600/25 px-3 py-4 rounded-lg"
+            className="max-lg:fixed max-lg:left-0 max-lg:top-20 max-sm:w-full max-lg:w-1/2 w-3/10 flex flex-col gap-2 max-lg:bg-stone-800 bg-stone-600/25 px-3 py-4 rounded-lg transition-all duration-500 starting:opacity-0 starting:size-0 z-5"
         >
             <div className="border-b-foreground/20 border-b p-2">
                 <FilterTitle>Жанры</FilterTitle>

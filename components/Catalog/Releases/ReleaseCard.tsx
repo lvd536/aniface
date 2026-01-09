@@ -12,7 +12,7 @@ export default function ReleaseCard({ release }: IProps) {
         <li>
             <Link
                 href={browserRoutes.anime.title(release.id)}
-                className="flex h-70 gap-3 items-center justify-start px-3 py-4 hover:bg-foreground/25 rounded-lg transition-bg duration-300"
+                className="flex min-h-70 gap-3 items-center justify-start px-3 py-4 hover:bg-foreground/25 rounded-lg transition-bg duration-300"
             >
                 <Image
                     src={apiRoutes.image(release.poster.preview)}
