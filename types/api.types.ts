@@ -36,6 +36,28 @@ export interface Poster extends ImageSet {
     optimized: ImageSet;
 }
 
+export interface FilterData {
+    genres: Genre[];
+    types: {
+        value: string;
+        description: string;
+    }[];
+    publishStatuses: {
+        value: string;
+        description: string;
+    }[];
+    seasons: {
+        value: string;
+        description: string;
+    }[];
+    years: number[];
+    ageRatings: {
+        value: string;
+        label: string;
+        description: string;
+    }[];
+}
+
 export interface AnimeCatalogFilters {
     types?: AnimeType[];
     genres?: number[];

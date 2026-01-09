@@ -1,44 +1,22 @@
 "use client";
-import React from "react";
 import type {
     AnimeCatalogFilters,
     CatalogAnime,
     CatalogResponse,
-    Genre,
+    FilterData,
 } from "@/types/api.types";
 import CustomSelect from "@/components/CustomSelect";
 import NumberInput from "./NumberInput";
 import FilterTitle from "./FilterTitle";
 import FilterDescription from "./FilterDescription";
 import { MultiValue, SingleValue } from "react-select";
-import SearchBar from "@/components/SearchBar";
 
 interface IProps {
     setAnimeList: React.Dispatch<
         React.SetStateAction<CatalogResponse<CatalogAnime> | null>
     >;
     formData: AnimeCatalogFilters;
-    filterData: {
-        genres: Genre[];
-        types: {
-            value: string;
-            description: string;
-        }[];
-        publishStatuses: {
-            value: string;
-            description: string;
-        }[];
-        seasons: {
-            value: string;
-            description: string;
-        }[];
-        years: number[];
-        ageRatings: {
-            value: string;
-            label: string;
-            description: string;
-        }[];
-    };
+    filterData: FilterData;
     setFormData: React.Dispatch<React.SetStateAction<AnimeCatalogFilters>>;
     setAnimeCurrentPage: React.Dispatch<React.SetStateAction<number>>;
     setFetching: React.Dispatch<React.SetStateAction<boolean>>;
