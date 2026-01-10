@@ -5,26 +5,11 @@ import FilterTitle from "./FilterTitle";
 import FilterDescription from "./FilterDescription";
 import { MultiValue, SingleValue } from "react-select";
 import { useFilterStore } from "@/types/filterStore";
+import { MultiSelectField, SelectOption } from "@/types/filter.types";
 
 export default function Filters() {
-    type SelectOption<T extends string | number = string> = {
-        label: string;
-        value: T;
-    };
-
-    type MultiSelectField =
-        | "genres"
-        | "types"
-        | "publish_statuses"
-        | "seasons"
-        | "age_ratings";
-
-    const resetAndFetch = () => {
-        setAnimeList(null);
-        setAnimePage(1);
-        setFetching(true);
-    };
-
+    const { filterData, setFormData, formData, resetAndFetch } =
+        useFilterStore();
     const handleMultiSelectChange =
         <T extends string | number>(
             field: MultiSelectField,
@@ -87,15 +72,6 @@ export default function Filters() {
             };
         });
     };
-
-    const {
-        filterData,
-        setFormData,
-        formData,
-        setAnimeList,
-        setFetching,
-        setAnimePage,
-    } = useFilterStore();
 
     return (
         <form
