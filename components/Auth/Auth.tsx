@@ -10,7 +10,7 @@ interface IProps {
 export default async function Auth({ type }: IProps) {
     return (
         <div className="flex items-center justify-center h-screen gap-1">
-            <div className="relative w-1/3 max-lg:w-2/3 h-120 bg-foreground/15 rounded-md p-2">
+            <div className="relative w-1/3 max-md:w-full max-lg:w-2/3 h-120 bg-foreground/15 rounded-md p-2">
                 <h1 className="text-lg font-semibold text-center">
                     Страница {type === "login" ? "Входа" : "Регистрации"}
                 </h1>
