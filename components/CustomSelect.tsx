@@ -26,7 +26,7 @@ export default function CustomSelect({
         <Select
             isMulti={isMulti}
             name={name}
-            key={name}
+            instanceId={name}
             options={options}
             value={value}
             unstyled
