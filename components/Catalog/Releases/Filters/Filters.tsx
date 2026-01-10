@@ -4,7 +4,7 @@ import NumberInput from "./NumberInput";
 import FilterTitle from "./FilterTitle";
 import FilterDescription from "./FilterDescription";
 import { MultiValue, SingleValue } from "react-select";
-import { useFilterStore } from "@/types/filterStore";
+import { useFilterStore } from "@/stores/filterStore";
 import { MultiSelectField, SelectOption } from "@/types/filter.types";
 
 export default function Filters() {

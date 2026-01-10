@@ -12,6 +12,5 @@ export const browserRoutes = {
         genre: (id: number) => `/catalog/genres/${id}`,
         episode: (id: string) => `/anime/video/${id}`,
     },
-    auth: { register: "/auth/register", login: "/auth/login" },
     user: { profile: "/user/profile", settings: "/user/settings" },
 } as const;

@@ -4,7 +4,7 @@ import {
     CatalogAnime,
     AnimeCatalogFilters,
     FilterData,
-} from "./api.types";
+} from "@/types/api.types";
 import { searchAnimeReleases, fetchFilters } from "@/helpers/api";
 
 interface FilterStore {

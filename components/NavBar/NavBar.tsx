@@ -5,6 +5,7 @@ import Link from "next/link";
 import { User, Search } from "lucide-react";
 import { useState } from "react";
 import SearchModal from "../Modals/SearchModal";
+import { supabase } from "@/lib/supabase/client";
 
 export default function NavBar() {
     const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false);
@@ -35,12 +36,17 @@ export default function NavBar() {
                     >
                         <Search width={19} height={19} />
                     </button>
-                    <Link
-                        href={browserRoutes.auth.register}
+                    <button
+                        type="button"
                         className="flex items-center justify-center w-7.5 h-7.5 bg-foreground/15 rounded-sm hover:bg-foreground/25 transition-bg duration-200"
+                        onClick={() =>
+                            supabase.auth.signInWithOAuth({
+                                provider: "google",
+                            })
+                        }
                     >
                         <User width={19} height={19} />
-                    </Link>
+                    </button>
                 </div>
             </div>
             <SearchModal

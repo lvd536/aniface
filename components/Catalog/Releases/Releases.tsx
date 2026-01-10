@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import ReleaseList from "./ReleaseList";
 import Filters from "./Filters/Filters";
 import SearchBar from "@/components/SearchBar";
-import { useFilterStore } from "@/types/filterStore";
+import { useFilterStore } from "@/stores/filterStore";
 import { ListFilter } from "lucide-react";
 
 export default function Releases() {

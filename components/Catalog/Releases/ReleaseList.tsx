@@ -1,5 +1,5 @@
 import ReleaseCard from "./ReleaseCard";
-import { useFilterStore } from "@/types/filterStore";
+import { useFilterStore } from "@/stores/filterStore";
 
 export default function ReleaseList() {
     const { animeList } = useFilterStore();
