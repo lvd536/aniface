@@ -36,7 +36,8 @@ export const useStatsStore = create<StatsState>((set) => ({
             }),
             await supabase
                 .from("user_titles")
-                .select("anime_id")
+                .select("anime_id, end_watching")
+                .not("end_watching", "is", null)
                 .eq("user_id", userId),
         ]);
         set({
