@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { browserRoutes } from "@/consts/browserRoutes";
+import { useUserStore } from "@/stores/userStore";
 
 export default function SetUsernamePage() {
     const [username, setUsername] = useState("");
@@ -41,6 +42,7 @@ export default function SetUsernamePage() {
                 p_username: username,
             });
             if (error) throw error;
+            else await useUserStore.getState().fetchProfile();
             router.replace(browserRoutes.user.profile);
         } catch (e: any) {
             const msg = (e?.message || "").toString();

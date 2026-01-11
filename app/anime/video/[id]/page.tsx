@@ -1,8 +1,11 @@
+"use server";
 import { browserRoutes } from "@/consts/browserRoutes";
-import { getEpisode } from "@/helpers/api";
+import { getAnime, getEpisode } from "@/helpers/api";
 import Link from "next/link";
-import ReactPlayer from "react-player";
 import { ArrowLeft } from "lucide-react";
+import { checkUserTitleExists } from "@/helpers/supabase";
+import { createClient } from "@/lib/supabase/server";
+import Player from "@/components/AnimePage/Video/Player";
 interface IProps {
     params: Promise<{ id: string }>;
 }
@@ -10,9 +13,12 @@ interface IProps {
 export default async function page({ params }: IProps) {
     const { id } = await params;
     const episode = await getEpisode(id);
+    const anime = await getAnime(episode.release.id.toString());
+    const client = await createClient();
+    await checkUserTitleExists(anime, client, true);
     return (
         <div className="fixed left-0 top-0 w-screen h-screen flex flex-col gap-5 bg-background items-center justify-center z-5">
-            <div className="fixed left-30 top-2 flex items-center justify-start p-2 rounded-lg gap-3 bg-black/50">
+            <div className="fixed left-30 top-2 flex items-center justify-start p-2 rounded-lg gap-3 bg-black/50 z-50">
                 <Link
                     href={browserRoutes.anime.title(episode.release.id)}
                     className="p-2 rounded-lg bg-foreground/15"
@@ -30,11 +36,12 @@ export default async function page({ params }: IProps) {
                 <span className="w-1.5 h-1.5 bg-foreground/80 rounded-full" />
                 <p className="font-bold text-md">{`${episode.ordinal} Эпизод`}</p>
             </div>
-            <ReactPlayer
-                src={episode.hls_480}
-                controls
-                width="100%"
-                height="100%"
+            <Player
+                qualitiesSrc={{
+                    hls_480: episode.hls_480,
+                    hls_720: episode.hls_720,
+                    hls_1080: episode.hls_1080,
+                }}
             />
         </div>
     );

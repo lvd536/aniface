@@ -2,19 +2,19 @@
 
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { supabase } from "@/lib/supabase/client";
 import { browserRoutes } from "@/consts/browserRoutes";
+import { createClient } from "@/lib/supabase/client";
 
 export default function AuthCallbackPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
-
+    const client = createClient();
     useEffect(() => {
         (async () => {
             const code = searchParams.get("code");
 
             if (code) {
-                const { error } = await supabase.auth.exchangeCodeForSession(
+                const { error } = await client.auth.exchangeCodeForSession(
                     code
                 );
                 if (error) {
@@ -26,7 +26,7 @@ export default function AuthCallbackPage() {
 
             const {
                 data: { session },
-            } = await supabase.auth.getSession();
+            } = await client.auth.getSession();
 
             const userId = session?.user?.id;
             if (!userId) {
@@ -34,7 +34,7 @@ export default function AuthCallbackPage() {
                 return;
             }
 
-            const { data, error } = await supabase
+            const { data, error } = await client
                 .from("users")
                 .select("username")
                 .eq("id", userId)

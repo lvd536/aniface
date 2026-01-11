@@ -5,10 +5,15 @@ import Link from "next/link";
 import { User, Search } from "lucide-react";
 import { useState } from "react";
 import SearchModal from "../Modals/SearchModal";
-import { supabase } from "@/lib/supabase/client";
+import { useUserStore } from "@/stores/userStore";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 
 export default function NavBar() {
     const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false);
+    const { profile } = useUserStore();
+    const router = useRouter();
+    const client = createClient();
     return (
         <nav className="fixed font-mono left-0 top-0 w-screen h-15 bg-black/90 z-2">
             <div className="h-full container items-center mx-auto flex justify-between select-none">
@@ -39,15 +44,18 @@ export default function NavBar() {
                     <button
                         type="button"
                         className="flex items-center justify-center w-7.5 h-7.5 bg-foreground/15 rounded-sm hover:bg-foreground/25 transition-bg duration-200"
-                        onClick={() =>
-                            supabase.auth.signInWithOAuth({
-                                provider: "google",
-                                options: {
-                                    redirectTo:
-                                        browserRoutes.auth.callback
-                                },
-                            })
-                        }
+                        onClick={() => {
+                            if (profile) {
+                                router.replace(browserRoutes.user.profile);
+                            } else {
+                                client.auth.signInWithOAuth({
+                                    provider: "google",
+                                    options: {
+                                        redirectTo: browserRoutes.auth.callback,
+                                    },
+                                });
+                            }
+                        }}
                     >
                         <User width={19} height={19} />
                     </button>

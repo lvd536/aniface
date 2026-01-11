@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat, Inter } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/NavBar/NavBar";
+import { AuthInit } from "@/components/Auth/AuthProvider";
 
 const montserrat = Montserrat({
     variable: "--font-geist-montserrat",
@@ -33,6 +34,7 @@ export default function RootLayout({
                     {children}
                 </main>
                 <footer className="h-20 bg-black/25 mt-5"></footer>
+                <AuthInit />
             </body>
         </html>
     );
