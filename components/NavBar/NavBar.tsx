@@ -42,6 +42,10 @@ export default function NavBar() {
                         onClick={() =>
                             supabase.auth.signInWithOAuth({
                                 provider: "google",
+                                options: {
+                                    redirectTo:
+                                        browserRoutes.auth.callback
+                                },
                             })
                         }
                     >

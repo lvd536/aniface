@@ -13,4 +13,7 @@ export const browserRoutes = {
         episode: (id: string) => `/anime/video/${id}`,
     },
     user: { profile: "/user/profile", settings: "/user/settings", setUsername: '/user/set-username' },
+    auth: {
+        callback: '/auth/callback'
+    }
 } as const;

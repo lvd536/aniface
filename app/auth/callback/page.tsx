@@ -1,22 +1,36 @@
 "use client";
 
 import { useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
 import { browserRoutes } from "@/consts/browserRoutes";
 
-export default function page() {
+export default function AuthCallbackPage() {
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     useEffect(() => {
         (async () => {
+            const code = searchParams.get("code");
+
+            if (code) {
+                const { error } = await supabase.auth.exchangeCodeForSession(
+                    code
+                );
+                if (error) {
+                    console.error("exchangeCodeForSession error:", error);
+                    router.replace(browserRoutes.home);
+                    return;
+                }
+            }
+
             const {
                 data: { session },
             } = await supabase.auth.getSession();
 
             const userId = session?.user?.id;
             if (!userId) {
-                router.replace("/");
+                router.replace(browserRoutes.home);
                 return;
             }
 
@@ -26,19 +40,20 @@ export default function page() {
                 .eq("id", userId)
                 .single();
 
-            if (error) {
-                router.replace(browserRoutes.user.setUsername);
-                return;
-            }
-
             const username = data?.username;
-            if (!username || username.trim() === "") {
+            const needsSetup =
+                error ||
+                !username ||
+                username.trim() === "" ||
+                username.startsWith("temp_");
+
+            if (needsSetup) {
                 router.replace(browserRoutes.user.setUsername);
             } else {
                 router.replace(browserRoutes.home);
             }
         })();
-    }, [router]);
+    }, [router, searchParams]);
 
     return <p>Signing you in…</p>;
 }
