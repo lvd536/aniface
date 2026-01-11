@@ -47,6 +47,7 @@ export type Database = {
           last_watched_episode: number | null
           start_watching: string | null
           user_id: string | null
+          watched_episodes: Json
         }
         Insert: {
           anime_id?: string | null
@@ -59,6 +60,7 @@ export type Database = {
           last_watched_episode?: number | null
           start_watching?: string | null
           user_id?: string | null
+          watched_episodes?: Json
         }
         Update: {
           anime_id?: string | null
@@ -71,6 +73,7 @@ export type Database = {
           last_watched_episode?: number | null
           start_watching?: string | null
           user_id?: string | null
+          watched_episodes?: Json
         }
         Relationships: [
           {
@@ -130,6 +133,23 @@ export type Database = {
       get_total_watched_time_seconds: {
         Args: { p_user_id: string }
         Returns: number
+      }
+      mark_episode_as_watched: {
+        Args: {
+          p_anime_id: string
+          p_episode_id: string
+          p_episode_number: number
+        }
+        Returns: Json
+      }
+      save_episode_watched_time: {
+        Args: {
+          p_anime_id: string
+          p_episode_id: string
+          p_episode_number?: number
+          p_watched_time: number
+        }
+        Returns: Json
       }
       set_username: { Args: { p_username: string }; Returns: Json }
     }

@@ -34,6 +34,7 @@ export default function EpisodeItem({
                 alt="Episode poster"
                 width={1920}
                 height={1080}
+                loading="lazy"
                 className="w-80 h-40 rounded-lg object-cover"
             />
             <div className="absolute flex top-0 left-0 w-full h-full items-end justify-between backdrop-blur-xs bg-black/65 rounded-lg p-3">

@@ -117,3 +117,185 @@ export async function checkUserTitleExists(
     }
     return null;
 }
+
+export async function markEpisodeAsWatched(
+    episodeId: string,
+    episodeNumber: number,
+    animeId: string,
+    watchedTime: number,
+    client: SupabaseClient
+) {
+    const {
+        data: { user },
+        error: userError,
+    } = await client.auth.getUser();
+
+    if (userError || !user) {
+        console.error("markEpisodeAsWatched: getUser error", userError);
+        return;
+    }
+
+    try {
+        const { data: titleExistsData, error: titleExistsError } = await client
+            .from("user_titles")
+            .select(
+                "id, watched_episodes, episodes_count, end_time, last_watched_episode"
+            )
+            .eq("user_id", user.id)
+            .eq("anime_id", animeId)
+            .maybeSingle();
+
+        if (titleExistsError) throw titleExistsError;
+        if (!titleExistsData) return;
+
+        let episodes = Array.isArray(titleExistsData.watched_episodes)
+            ? [...titleExistsData.watched_episodes]
+            : [];
+
+        const episodeIndex = episodes.findIndex(
+            (ep: any) => ep.episode_id === episodeId
+        );
+
+        const newEpisodeData = {
+            episode_id: episodeId,
+            episode_number: episodeNumber,
+            watched_time: watchedTime,
+            isWatched: true,
+        };
+
+        if (episodeIndex !== -1) {
+            episodes[episodeIndex] = {
+                ...episodes[episodeIndex],
+                ...newEpisodeData,
+            };
+        } else {
+            episodes.push(newEpisodeData);
+        }
+
+        const { error: updateError } = await client
+            .from("user_titles")
+            .update({
+                watched_episodes: episodes,
+                episodes_count: titleExistsData.episodes_count + 1,
+                end_time: new Date().toISOString(),
+                last_watched_episode: episodeId,
+            })
+            .eq("id", titleExistsData.id);
+
+        if (updateError) throw updateError;
+    } catch (error) {
+        console.error("Error in markEpisodeAsWatched:", error);
+    }
+}
+
+export async function saveEpisodeWatchedTime(
+    episodeId: string,
+    episodeNumber: number,
+    animeId: string,
+    watchedTime: number,
+    client: SupabaseClient
+) {
+    const {
+        data: { user },
+        error: userError,
+    } = await client.auth.getUser();
+
+    if (userError || !user) {
+        console.error("saveEpisodeWatchedTime: getUser error", userError);
+        return;
+    }
+
+    try {
+        const { data: titleExistsData, error: titleExistsError } = await client
+            .from("user_titles")
+            .select("id, watched_episodes, last_watched_episode")
+            .eq("user_id", user.id)
+            .eq("anime_id", animeId)
+            .maybeSingle();
+
+        if (titleExistsError) throw titleExistsError;
+        if (!titleExistsData) return;
+
+        let episodes = Array.isArray(titleExistsData.watched_episodes)
+            ? [...titleExistsData.watched_episodes]
+            : [];
+
+        const episodeIndex = episodes.findIndex(
+            (ep: any) => ep.episode_id === episodeId
+        );
+
+        if (episodeIndex !== -1 && episodes[episodeIndex].isWatched) {
+            return;
+        }
+
+        const newEpisodeData = {
+            episode_id: episodeId,
+            episode_number: episodeNumber,
+            watched_time: watchedTime,
+            isWatched: false,
+        };
+
+        if (episodeIndex !== -1) {
+            episodes[episodeIndex] = {
+                ...episodes[episodeIndex],
+                ...newEpisodeData,
+            };
+        } else {
+            episodes.push(newEpisodeData);
+        }
+
+        const { error: updateError } = await client
+            .from("user_titles")
+            .update({
+                watched_episodes: episodes,
+                last_watched_episode: episodeId,
+            })
+            .eq("id", titleExistsData.id);
+
+        if (updateError) throw updateError;
+    } catch (error) {
+        console.error("Error in saveEpisodeWatchedTime:", error);
+    }
+}
+
+export async function markTitleAsWatched(
+    episodeId: string,
+    episodeNumber: number,
+    animeId: string,
+    client: SupabaseClient
+) {
+    const {
+        data: { user },
+        error: userError,
+    } = await client.auth.getUser();
+
+    if (userError || !user) {
+        console.error("saveEpisodeWatchedTime: getUser error", userError);
+        return;
+    }
+
+    try {
+        const { data: titleExistsData, error: titleExistsError } = await client
+            .from("user_titles")
+            .select("id, end_watching, episodes_count, last_watched_episode")
+            .eq("user_id", user.id)
+            .eq("anime_id", animeId)
+            .maybeSingle();
+
+        if (titleExistsError) throw titleExistsError;
+        if (!titleExistsData) return;
+
+        const { error: updateError } = await client
+            .from("user_titles")
+            .update({
+                end_watching: new Date().toISOString(),
+                episodes_count: episodeNumber,
+                last_watched_episode: episodeId,
+            })
+            .eq("id", titleExistsData.id);
+
+        if (updateError) throw updateError;
+    } catch (error) {
+        console.error("Error in saveEpisodeWatchedTime:", error);
+    }
+}
