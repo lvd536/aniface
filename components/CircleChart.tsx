@@ -2,16 +2,16 @@
 
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
 
-const data = [
-    { name: "Романтика", value: 40 },
-    { name: "Драма", value: 30 },
-    { name: "Комедия", value: 20 },
-    { name: "Другие", value: 10 },
-];
+interface IProps {
+    data: {
+        name: string;
+        value: number;
+    }[];
+}
 
 const COLORS = ["#6366f1", "#22c55e", "#f97316", "#ef4444"];
 
-export default function CircleChart() {
+export default function CircleChart({data}: IProps) {
     return (
         <PieChart width={200} height={200}>
             <Pie

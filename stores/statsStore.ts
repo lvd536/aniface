@@ -39,7 +39,6 @@ export const useStatsStore = create<StatsState>((set) => ({
                 .select("anime_id")
                 .eq("user_id", userId),
         ]);
-
         set({
             totalEpisodes: Number(episodes ?? 0),
             totalSeconds: Number(seconds ?? 0),
