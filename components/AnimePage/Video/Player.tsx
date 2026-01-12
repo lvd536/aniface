@@ -17,6 +17,7 @@ import { useEffect, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import {
     markEpisodeAsWatched,
+    markTitleAsWatched,
     saveEpisodeWatchedTime,
 } from "@/helpers/supabase";
 
@@ -37,7 +38,7 @@ export default function Player({
     animeId,
     episodeId,
     episodeNumber,
-    episodesTotal
+    episodesTotal,
 }: IProps) {
     const playerRef = useRef<HTMLVideoElement | null>(null);
 
@@ -65,6 +66,13 @@ export default function Player({
                     Math.round(currentTime),
                     supabase
                 );
+                if (episodeNumber === episodesTotal)
+                    await markTitleAsWatched(
+                        episodeId,
+                        episodeNumber,
+                        animeId.toString(),
+                        supabase
+                    );
             } else {
                 await saveEpisodeWatchedTime(
                     episodeId.toString(),
