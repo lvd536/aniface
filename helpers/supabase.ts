@@ -1,4 +1,5 @@
 import { AnimeResponse } from "@/types/api.types";
+import { WatchedEpisodes } from "@/types/db.types";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 export async function checkAnimeExists(
@@ -295,6 +296,46 @@ export async function markTitleAsWatched(
             .eq("id", titleExistsData.id);
 
         if (updateError) throw updateError;
+    } catch (error) {
+        console.error("Error in saveEpisodeWatchedTime:", error);
+    }
+}
+
+export async function getWatchedEpisodes(
+    animeId: string,
+    client: SupabaseClient
+) {
+    const {
+        data: { user },
+        error: userError,
+    } = await client.auth.getUser();
+
+    if (userError || !user) {
+        console.error("saveEpisodeWatchedTime: getUser error", userError);
+        return;
+    }
+
+    try {
+        const { data: titleExistsData, error: titleExistsError } = await client
+            .from("user_titles")
+            .select("id, end_watching, episodes_count, last_watched_episode")
+            .eq("user_id", user.id)
+            .eq("anime_id", animeId)
+            .maybeSingle();
+
+        if (titleExistsError) throw titleExistsError;
+        if (!titleExistsData) return;
+
+        const { data: episodesData, error: episodesError } = await client
+            .from("user_titles")
+            .select("watched_episodes")
+            .eq("id", titleExistsData.id)
+            .maybeSingle();
+        if (episodesData) {
+            const { watched_episodes } = episodesData;
+            return watched_episodes;
+        }
+        if (episodesError) throw episodesError;
     } catch (error) {
         console.error("Error in saveEpisodeWatchedTime:", error);
     }
