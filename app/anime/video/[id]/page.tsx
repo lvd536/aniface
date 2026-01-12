@@ -44,7 +44,7 @@ export default async function page({ params, searchParams }: IProps) {
                 animeId={anime.id}
                 episodeId={episode.id}
                 episodeNumber={episode.ordinal}
-                episodesTotal={anime.episodes.length + 1}
+                episodesTotal={anime.episodes.length}
                 qualitiesSrc={{
                     hls_480: episode.hls_480,
                     hls_720: episode.hls_720,
