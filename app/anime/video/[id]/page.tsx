@@ -8,10 +8,14 @@ import { createClient } from "@/lib/supabase/server";
 import Player from "@/components/AnimePage/Video/Player";
 interface IProps {
     params: Promise<{ id: string }>;
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export default async function page({ params }: IProps) {
+export default async function page({ params, searchParams }: IProps) {
     const { id } = await params;
+    const sParams = await searchParams;
+    const startFrom = sParams.startFrom ? Number(sParams.startFrom) : undefined;
+
     const episode = await getEpisode(id);
     const anime = await getAnime(episode.release.id.toString());
     const client = await createClient();
@@ -46,6 +50,7 @@ export default async function page({ params }: IProps) {
                     hls_720: episode.hls_720,
                     hls_1080: episode.hls_1080,
                 }}
+                startFrom={startFrom}
             />
         </div>
     );

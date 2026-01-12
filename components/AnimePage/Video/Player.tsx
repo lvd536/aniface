@@ -31,6 +31,7 @@ interface IProps {
         hls_720: string | null;
         hls_1080: string | null;
     };
+    startFrom?: number;
 }
 
 export default function Player({
@@ -39,15 +40,21 @@ export default function Player({
     episodeId,
     episodeNumber,
     episodesTotal,
+    startFrom,
 }: IProps) {
     const playerRef = useRef<HTMLVideoElement | null>(null);
-
     const supabase = createClient();
 
     useEffect(() => {
         const clear = setInterval(updateCloudTime, 5000);
         return () => clearInterval(clear);
     }, []);
+
+    useEffect(() => {
+        if (playerRef.current && startFrom) {
+            playerRef.current.currentTime = startFrom;
+        }
+    }, [playerRef.current]);
 
     const updateCloudTime = async () => {
         if (!playerRef.current) return;

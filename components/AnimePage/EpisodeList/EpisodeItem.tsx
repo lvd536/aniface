@@ -26,9 +26,12 @@ export default function EpisodeItem({
         const remainingSeconds = seconds % 60;
         return `${minutes}:${remainingSeconds}`;
     }
+    const linkUrl = watchedEpisodeData
+        ? `${id}?startFrom=${watchedEpisodeData.watched_time}`
+        : id;
     return (
         <Link
-            href={browserRoutes.anime.episode(id)}
+            href={browserRoutes.anime.episode(linkUrl)}
             key={id}
             className="relative w-80 h-40 rounded-lg"
         >
