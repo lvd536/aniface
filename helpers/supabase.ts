@@ -340,3 +340,24 @@ export async function getWatchedEpisodes(
         console.error("Error in saveEpisodeWatchedTime:", error);
     }
 }
+
+export async function getTotalWatchedTimeSeconds(
+    userId: string,
+    client: SupabaseClient
+) {
+    try {
+        const { data, error } = await client
+            .from("user_titles")
+            .select("episodes_count, avg_episode_seconds")
+            .eq("user_id", userId);
+        if (error) throw error;
+        let watchedTime = 0;
+        data.map((title) => {
+            watchedTime += title.episodes_count * title.avg_episode_seconds;
+        });
+        return watchedTime;
+    } catch (error) {
+        console.error("Error in getTotalWatchedTimeSeconds:", error);
+        return 0;
+    }
+}

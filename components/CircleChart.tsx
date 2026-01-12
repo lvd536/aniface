@@ -11,15 +11,15 @@ interface IProps {
 
 const COLORS = ["#6366f1", "#22c55e", "#f97316", "#ef4444"];
 
-export default function CircleChart({data}: IProps) {
+export default function CircleChart({ data }: IProps) {
     return (
-        <PieChart width={200} height={200}>
+        <PieChart width={150} height={150}>
             <Pie
                 data={data}
                 cx="50%"
                 cy="50%"
-                innerRadius={60}
-                outerRadius={90}
+                innerRadius={40}
+                outerRadius={70}
                 dataKey="value"
             >
                 {data.map((_, i) => (

@@ -73,8 +73,6 @@ export default function Player({
                     Math.round(currentTime),
                     supabase
                 );
-                console.log(episodeNumber);
-                console.log(episodesTotal);
                 if (episodeNumber === episodesTotal)
                     await markTitleAsWatched(
                         episodeId,
