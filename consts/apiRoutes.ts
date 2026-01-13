@@ -4,7 +4,7 @@ export const apiRoutes = {
     catalog: baseUrl + "anime/catalog/releases",
     latestReleases: baseUrl + "anime/releases/latest",
     anime: (anime: string) => baseUrl + `anime/releases/${anime}`,
-    image: (base: string) => `https://anilibria.tv${base}`,
+    image: (base: string) => new URL(`https://anilibria.tv${base}`).href,
     genres: baseUrl + "anime/genres",
     genresRandom: baseUrl + "anime/genres/random",
     genreById: (id: number) => baseUrl + `anime/genres/${id}/releases`,

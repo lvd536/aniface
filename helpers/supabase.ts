@@ -312,7 +312,7 @@ export async function getWatchedEpisodes(
     } = await client.auth.getUser();
 
     if (userError || !user) {
-        console.error("saveEpisodeWatchedTime: getUser error", userError);
+        console.error("getWatchedEpisodes: getUser error", userError);
         return;
     }
 
@@ -338,7 +338,7 @@ export async function getWatchedEpisodes(
         }
         if (episodesError) throw episodesError;
     } catch (error) {
-        console.error("Error in saveEpisodeWatchedTime:", error);
+        console.error("Error in getWatchedEpisodes:", error);
     }
 }
 
@@ -390,7 +390,77 @@ export async function getLastWatchedTitles(
         });
         return await Promise.all(mappedLastWatched);
     } catch (error) {
-        console.error("Error in getTotalWatchedTimeSeconds:", error);
+        console.error("Error in getLastWatchedTitles:", error);
         return undefined;
+    }
+}
+
+export async function getTitleStatuses(
+    animeId: string,
+    client: SupabaseClient
+) {
+    const {
+        data: { user },
+        error: userError,
+    } = await client.auth.getUser();
+
+    if (userError || !user) {
+        console.error("getTitleStatuses: getUser error", userError);
+        return;
+    }
+
+    try {
+        const { data: titleStatuses, error: titleStatusesError } = await client
+            .from("user_titles")
+            .select("isFavorite, isPlanned, isAbandoned")
+            .eq("user_id", user.id)
+            .eq("anime_id", animeId)
+            .maybeSingle();
+
+        if (titleStatusesError) throw titleStatusesError;
+        if (!titleStatuses) return;
+        return titleStatuses;
+    } catch (error) {
+        console.error("Error in getTitleStatuses:", error);
+    }
+}
+
+export async function setTitleStatus(
+    animeId: string,
+    statusName: "isFavorite" | "isPlanned" | "isAbandoned",
+    statusValue: boolean,
+    client: SupabaseClient
+) {
+    const {
+        data: { user },
+        error: userError,
+    } = await client.auth.getUser();
+
+    if (userError || !user) {
+        console.error("setTitleStatus: getUser error", userError);
+        return;
+    }
+
+    try {
+        const { data: titleExistsData, error: titleExistsError } = await client
+            .from("user_titles")
+            .select("id")
+            .eq("user_id", user.id)
+            .eq("anime_id", animeId)
+            .maybeSingle();
+
+        if (titleExistsError) throw titleExistsError;
+        if (!titleExistsData) return;
+
+        const { error: updateError } = await client
+            .from("user_titles")
+            .update({
+                [statusName]: statusValue,
+            })
+            .eq("id", titleExistsData.id);
+
+        if (updateError) throw updateError;
+    } catch (error) {
+        console.error("Error in setTitleStatus:", error);
     }
 }

@@ -59,6 +59,7 @@ export default function AnimeInfo({ anime }: IProps) {
                             anime.average_duration_of_episode
                         }
                         duration={duration}
+                        animeId={anime.id}
                     />
                 </div>
             </div>

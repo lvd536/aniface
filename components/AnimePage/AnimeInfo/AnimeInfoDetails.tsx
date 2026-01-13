@@ -1,5 +1,15 @@
 import { ReactNode } from "react";
 import AnimeInfoText from "./AnimeInfoText";
+import {
+    AlarmClock,
+    AlarmClockOff,
+    Heart,
+    HeartMinus,
+    Brain,
+} from "lucide-react";
+import { getTitleStatuses } from "@/helpers/supabase";
+import { createClient } from "@/lib/supabase/server";
+import StatusButtons from "./StatusButtons";
 
 interface IProps {
     typeDescription: string;
@@ -8,16 +18,20 @@ interface IProps {
     year: number;
     average_duration_of_episode?: number;
     duration?: string | 0;
+    animeId: number;
 }
 
-export default function AnimeInfoDetails({
+export default async function AnimeInfoDetails({
     typeDescription,
     seasonDescription,
     genres,
     year,
     average_duration_of_episode,
     duration,
+    animeId,
 }: IProps) {
+    const client = await createClient();
+    const titleStatuses = await getTitleStatuses(animeId.toString(), client);
     return (
         <>
             <AnimeInfoText firstText="Тип:" secondText={typeDescription} />
@@ -41,6 +55,7 @@ export default function AnimeInfoDetails({
                     secondText={duration}
                 />
             )}
+            {titleStatuses && <StatusButtons titleStatuses={titleStatuses} animeId={animeId} />}
         </>
     );
 }
