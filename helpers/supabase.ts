@@ -372,16 +372,22 @@ export async function getLastWatchedTitles(
             .from("user_titles")
             .select("anime_id, last_watched_episode, watched_episodes")
             .eq("user_id", userId)
+            .neq("watched_episodes", "[]")
+            .order("end_time", { ascending: false })
             .limit(3);
         if (error) throw error;
-        const mappedLastWatched = data.map(async (title) => ({
-            episode: await getEpisode(title.last_watched_episode),
-            stopTime:
-                title.watched_episodes.find(
-                    (e: WatchedEpisode) =>
-                        e.episode_id === title.last_watched_episode
-                ) || 0,
-        }));
+        const mappedLastWatched = data.map(async (title) => {
+            const episode = await getEpisode(title.last_watched_episode);
+            console.log(episode);
+            return {
+                episode: await getEpisode(title.last_watched_episode),
+                stopTime:
+                    title.watched_episodes.find(
+                        (e: WatchedEpisode) =>
+                            e.episode_id === title.last_watched_episode
+                    ).watched_time || 0,
+            };
+        });
         return await Promise.all(mappedLastWatched);
     } catch (error) {
         console.error("Error in getTotalWatchedTimeSeconds:", error);
