@@ -3,12 +3,22 @@ import Image from "next/image";
 import { apiRoutes } from "@/consts/apiRoutes";
 import { browserRoutes } from "@/consts/browserRoutes";
 import type { FranchiseResponse } from "@/types/api.types";
+import NoImage_9x16 from "@/public/NoImage_9x16.png";
 
 interface IProps {
     franchiseResponse: FranchiseResponse;
 }
 
-export default function Franchise({ franchiseResponse }: IProps) {
+async function getSafeImageUrl(url: string) {
+    try {
+        const res = await fetch(url, { method: "HEAD", cache: "no-store" });
+        return res.ok ? url : NoImage_9x16;
+    } catch {
+        return NoImage_9x16;
+    }
+}
+
+export default async function Franchise({ franchiseResponse }: IProps) {
     const { franchise_releases, ...franchise } = franchiseResponse;
     return (
         <div className="max-lg:w-full h-40">
@@ -20,7 +30,9 @@ export default function Franchise({ franchiseResponse }: IProps) {
                 className="flex rounded-l-lg w-full p-4 bg-black/40 rounded-xl"
             >
                 <Image
-                    src={apiRoutes.image(franchise.image.preview)}
+                    src={await getSafeImageUrl(
+                        apiRoutes.image(franchise.image.preview)
+                    )}
                     alt="franchise"
                     height={600}
                     width={600}

@@ -3,12 +3,23 @@ import { browserRoutes } from "@/consts/browserRoutes";
 import { CatalogAnime, LatestReleaseAnime } from "@/types/api.types";
 import Link from "next/link";
 import Image from "next/image";
+import NoImage_9x16 from "@/public/NoImage_9x16.png";
 
 interface IProps {
     anime: CatalogAnime | LatestReleaseAnime;
     onClick?: () => void;
 }
-export default function SearchItem({ anime, onClick }: IProps) {
+
+async function getSafeImageUrl(url: string) {
+    try {
+        const res = await fetch(url, { method: "HEAD", cache: "no-store" });
+        return res.ok ? url : NoImage_9x16;
+    } catch {
+        return NoImage_9x16;
+    }
+}
+
+export default async function SearchItem({ anime, onClick }: IProps) {
     return (
         <Link
             href={browserRoutes.anime.title(anime.id)}
@@ -16,7 +27,9 @@ export default function SearchItem({ anime, onClick }: IProps) {
             onClick={onClick}
         >
             <Image
-                src={apiRoutes.image(anime.poster.preview)}
+                src={await getSafeImageUrl(
+                    apiRoutes.image(anime.poster.preview)
+                )}
                 alt="anime poster"
                 height={1080}
                 width={1080}

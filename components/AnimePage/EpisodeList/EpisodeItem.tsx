@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { apiRoutes } from "@/consts/apiRoutes";
 import { WatchedEpisode } from "@/types/db.types";
+import NoImage_16x9 from "@/public/NoImage_16x9.png";
 
 interface IProps {
     image: string;
@@ -13,7 +14,16 @@ interface IProps {
     watchedEpisodeData?: WatchedEpisode;
 }
 
-export default function EpisodeItem({
+async function getSafeImageUrl(url: string) {
+    try {
+        const res = await fetch(url, { method: "HEAD", cache: "no-store" });
+        return res.ok ? url : NoImage_16x9;
+    } catch {
+        return NoImage_16x9;
+    }
+}
+
+export default async function EpisodeItem({
     id,
     name,
     ordinal,
@@ -36,7 +46,7 @@ export default function EpisodeItem({
             className="relative w-80 h-40 rounded-lg"
         >
             <Image
-                src={apiRoutes.image(image)}
+                src={await getSafeImageUrl(apiRoutes.image(image))}
                 alt="Episode poster"
                 width={1920}
                 height={1080}
