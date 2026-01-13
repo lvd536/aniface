@@ -30,7 +30,7 @@ export default function RootLayout({
                 className={`${montserrat.variable} ${inter.variable} antialiased`}
             >
                 <NavBar />
-                <main className="container font-sans mx-auto mt-20">
+                <main className="container font-sans mx-auto mt-20 h-[calc(100vh-60px)]">
                     {children}
                 </main>
                 <footer className="h-20 bg-black/25 mt-5"></footer>
