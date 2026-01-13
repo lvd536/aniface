@@ -3,22 +3,11 @@ import { browserRoutes } from "@/consts/browserRoutes";
 import { CatalogAnime, LatestReleaseAnime } from "@/types/api.types";
 import Image from "next/image";
 import Link from "next/link";
-import NoImage_9x16 from "@/public/NoImage_9x16.png";
-
 interface IProps {
     release: CatalogAnime | LatestReleaseAnime;
 }
 
-async function getSafeImageUrl(url: string) {
-    try {
-        const res = await fetch(url, { method: "HEAD", cache: "no-store" });
-        return res.ok ? url : NoImage_9x16;
-    } catch {
-        return NoImage_9x16;
-    }
-}
-
-export default async function ReleaseCard({ release }: IProps) {
+export default function ReleaseCard({ release }: IProps) {
     return (
         <li>
             <Link
@@ -26,9 +15,7 @@ export default async function ReleaseCard({ release }: IProps) {
                 className="flex min-h-70 gap-3 items-center justify-start px-3 py-4 hover:bg-foreground/25 rounded-lg transition-bg duration-300"
             >
                 <Image
-                    src={await getSafeImageUrl(
-                        apiRoutes.image(release.poster.preview)
-                    )}
+                    src={apiRoutes.image(release.poster.preview)}
                     width={1080}
                     height={1920}
                     alt="anime poster"

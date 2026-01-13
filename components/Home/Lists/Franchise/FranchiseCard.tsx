@@ -3,22 +3,12 @@ import { Franchise } from "@/types/api.types";
 import Link from "next/link";
 import Image from "next/image";
 import { apiRoutes } from "@/consts/apiRoutes";
-import NoImage_16x9 from "@/public/NoImage_16x9.png";
 
 interface IProps {
     franchise: Franchise;
 }
 
-async function getSafeImageUrl(url: string) {
-    try {
-        const res = await fetch(url, { method: "HEAD", cache: "no-store" });
-        return res.ok ? url : NoImage_16x9;
-    } catch {
-        return NoImage_16x9;
-    }
-}
-
-export default async function FranchiseCard({ franchise }: IProps) {
+export default function FranchiseCard({ franchise }: IProps) {
     return (
         <div className="max-lg:w-full">
             <Link
@@ -26,9 +16,7 @@ export default async function FranchiseCard({ franchise }: IProps) {
                 className="flex rounded-l-lg w-full lg:w-120 xl:w-100 2xl:w-120 max-h-85 h-50"
             >
                 <Image
-                    src={await getSafeImageUrl(
-                        apiRoutes.image(franchise.image.preview)
-                    )}
+                    src={apiRoutes.image(franchise.image.preview)}
                     alt="franchise"
                     height={1920}
                     width={1080}

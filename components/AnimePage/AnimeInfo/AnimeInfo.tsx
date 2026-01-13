@@ -3,22 +3,12 @@ import { AnimeResponse } from "@/types/api.types";
 import Image from "next/image";
 import AnimeInfoMain from "./AnimeInfoMain";
 import AnimeInfoDetails from "./AnimeInfoDetails";
-import NoImage_9x16 from "@/public/NoImage_9x16.png";
 
 interface IProps {
     anime: AnimeResponse;
 }
 
-async function getSafeImageUrl(url: string) {
-    try {
-        const res = await fetch(url, { method: "HEAD", cache: "no-store" });
-        return res.ok ? url : NoImage_9x16;
-    } catch {
-        return NoImage_9x16;
-    }
-}
-
-export default async function AnimeInfo({ anime }: IProps) {
+export default function AnimeInfo({ anime }: IProps) {
     const duration =
         anime.average_duration_of_episode &&
         `${Math.floor(
@@ -44,13 +34,11 @@ export default async function AnimeInfo({ anime }: IProps) {
         <>
             <div className="flex max-sm:flex-col gap-2 sm:gap-5">
                 <Image
-                    src={await getSafeImageUrl(
-                        apiRoutes.image(anime.poster.preview)
-                    )}
+                    src={apiRoutes.image(anime.poster.preview)}
                     alt="Anime poster"
                     height={1920}
                     width={1080}
-                    className="w-70 h-100 rounded-sm object-cover"
+                    className="w-80 h-100 rounded-sm object-cover"
                 />
                 <div className="flex flex-col gap-1">
                     <AnimeInfoMain

@@ -4,22 +4,11 @@ import Image from "next/image";
 import { apiRoutes } from "@/consts/apiRoutes";
 import { browserRoutes } from "@/consts/browserRoutes";
 import FranchiseDetailsItem from "./FranchiseDetailsItem";
-import NoImage_9x16 from "@/public/NoImage_9x16.png";
 
 interface IProps {
     franchise: CatalogAnime;
 }
-
-async function getSafeImageUrl(url: string) {
-    try {
-        const res = await fetch(url, { method: "HEAD", cache: "no-store" });
-        return res.ok ? url : NoImage_9x16;
-    } catch {
-        return NoImage_9x16;
-    }
-}
-
-export default async function FranchiseTitle({ franchise }: IProps) {
+export default function FranchiseTitle({ franchise }: IProps) {
     return (
         <div className="max-lg:w-full h-35">
             <Link
@@ -27,9 +16,7 @@ export default async function FranchiseTitle({ franchise }: IProps) {
                 className="flex rounded-l-lg w-full"
             >
                 <Image
-                    src={await getSafeImageUrl(
-                        apiRoutes.image(franchise.poster.preview)
-                    )}
+                    src={apiRoutes.image(franchise.poster.preview)}
                     alt="franchise"
                     height={600}
                     width={600}

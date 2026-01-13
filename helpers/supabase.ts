@@ -1,6 +1,7 @@
 import { AnimeResponse } from "@/types/api.types";
-import { WatchedEpisodes } from "@/types/db.types";
+import { WatchedEpisode, WatchedEpisodes } from "@/types/db.types";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { getEpisode } from "./api";
 
 export async function checkAnimeExists(
     anime: AnimeResponse,
@@ -359,5 +360,31 @@ export async function getTotalWatchedTimeSeconds(
     } catch (error) {
         console.error("Error in getTotalWatchedTimeSeconds:", error);
         return 0;
+    }
+}
+
+export async function getLastWatchedTitles(
+    userId: string,
+    client: SupabaseClient
+) {
+    try {
+        const { data, error } = await client
+            .from("user_titles")
+            .select("anime_id, last_watched_episode, watched_episodes")
+            .eq("user_id", userId)
+            .limit(3);
+        if (error) throw error;
+        const mappedLastWatched = data.map(async (title) => ({
+            episode: await getEpisode(title.last_watched_episode),
+            stopTime:
+                title.watched_episodes.find(
+                    (e: WatchedEpisode) =>
+                        e.episode_id === title.last_watched_episode
+                ) || 0,
+        }));
+        return await Promise.all(mappedLastWatched);
+    } catch (error) {
+        console.error("Error in getTotalWatchedTimeSeconds:", error);
+        return undefined;
     }
 }

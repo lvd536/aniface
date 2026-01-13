@@ -3,22 +3,12 @@ import { browserRoutes } from "@/consts/browserRoutes";
 import { Genre } from "@/types/api.types";
 import Image from "next/image";
 import Link from "next/link";
-import NoImage_9x16 from "@/public/NoImage_9x16.png";
 
 interface IProps {
     genre: Genre;
 }
 
-async function getSafeImageUrl(url: string) {
-    try {
-        const res = await fetch(url, { method: "HEAD", cache: "no-store" });
-        return res.ok ? url : NoImage_9x16;
-    } catch {
-        return NoImage_9x16;
-    }
-}
-
-export default async function GenreCard({ genre }: IProps) {
+export default function GenreCard({ genre }: IProps) {
     return (
         <>
             <Link
@@ -26,9 +16,7 @@ export default async function GenreCard({ genre }: IProps) {
                 className="relative rounded-lg min-w-47 max-w-47 h-72"
             >
                 <Image
-                    src={await getSafeImageUrl(
-                        apiRoutes.image(genre.image.preview)
-                    )}
+                    src={apiRoutes.image(genre.image.preview)}
                     alt="genre"
                     height={1920}
                     width={1080}

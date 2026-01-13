@@ -1,6 +1,10 @@
 import { create } from "zustand";
 import { createClient } from "@/lib/supabase/client";
-import { getTotalWatchedTimeSeconds } from "@/helpers/supabase";
+import {
+    getLastWatchedTitles,
+    getTotalWatchedTimeSeconds,
+} from "@/helpers/supabase";
+import { EpisodeResponse } from "@/types/api.types";
 
 type GenreStat = { genre: string; cnt: number };
 
@@ -9,6 +13,10 @@ type StatsState = {
     totalEpisodes: number;
     totalSeconds: number;
     topGenres: GenreStat[];
+    totalLastWatched: {
+        episode: EpisodeResponse;
+        stopTime: any;
+    }[];
     fetchStats: (userId: string) => Promise<void>;
 };
 
@@ -17,6 +25,7 @@ export const useStatsStore = create<StatsState>((set) => ({
     totalEpisodes: 0,
     totalSeconds: 0,
     topGenres: [],
+    totalLastWatched: [],
 
     fetchStats: async (userId) => {
         const supabase = createClient();
@@ -25,6 +34,7 @@ export const useStatsStore = create<StatsState>((set) => ({
             watchedSeconds,
             { data: genres },
             { data: titles },
+            lastWatched,
         ] = await Promise.all([
             supabase.rpc("get_total_watched_episodes", {
                 p_user_id: userId,
@@ -38,12 +48,14 @@ export const useStatsStore = create<StatsState>((set) => ({
                 .select("anime_id, end_watching")
                 .not("end_watching", "is", null)
                 .eq("user_id", userId),
+            await getLastWatchedTitles(userId, supabase),
         ]);
         set({
             totalEpisodes: Number(episodes ?? 0),
             totalSeconds: Number(watchedSeconds),
             topGenres: (genres as any[]) ?? [],
             totalTitles: titles?.length ?? 0,
+            totalLastWatched: lastWatched ?? [],
         });
     },
 }));

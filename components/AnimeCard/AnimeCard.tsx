@@ -4,22 +4,12 @@ import Image from "next/image";
 import HoverItem from "./HoverItem";
 import Link from "next/link";
 import { browserRoutes } from "@/consts/browserRoutes";
-import NoImage_9x16 from "@/public/NoImage_9x16.png";
 
 interface IProps {
     anime: CatalogAnime | LatestReleaseAnime;
 }
 
-async function getSafeImageUrl(url: string) {
-    try {
-        const res = await fetch(url, { method: "HEAD", cache: "no-store" });
-        return res.ok ? url : NoImage_9x16;
-    } catch {
-        return NoImage_9x16;
-    }
-}
-
-export default async function AnimeCard({ anime }: IProps) {
+export default function AnimeCard({ anime }: IProps) {
     return (
         <Link
             key={anime.id}
@@ -27,9 +17,7 @@ export default async function AnimeCard({ anime }: IProps) {
             className="relative"
         >
             <Image
-                src={await getSafeImageUrl(
-                    apiRoutes.image(anime.poster.preview)
-                )}
+                src={apiRoutes.image(anime.poster.preview)}
                 alt="anime"
                 height={1920}
                 width={1080}
