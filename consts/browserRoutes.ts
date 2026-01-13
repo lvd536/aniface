@@ -12,8 +12,18 @@ export const browserRoutes = {
         genre: (id: number) => `/catalog/genres/${id}`,
         episode: (id: string) => `/anime/video/${id}`,
     },
-    user: { profile: "/user/profile", settings: "/user/settings", setUsername: '/user/set-username' },
+    user: {
+        profile: "/user/profile",
+        notebook: {
+            base: "/user/notebook",
+            lastWatched: "/user/notebook/last-watched",
+            favorites: "/user/notebook/favorites",
+            planned: "/user/notebook/planned",
+            abandoned: "/user/notebook/abandoned",
+        },
+        setUsername: "/user/set-username",
+    },
     auth: {
-        callback: '/auth/callback'
-    }
+        callback: "/auth/callback",
+    },
 } as const;

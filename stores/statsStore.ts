@@ -48,7 +48,7 @@ export const useStatsStore = create<StatsState>((set) => ({
                 .select("anime_id, end_watching")
                 .not("end_watching", "is", null)
                 .eq("user_id", userId),
-            await getLastWatchedTitles(userId, supabase),
+            await getLastWatchedTitles(userId, supabase, 5),
         ]);
         set({
             totalEpisodes: Number(episodes ?? 0),

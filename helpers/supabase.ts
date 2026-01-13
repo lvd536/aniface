@@ -365,27 +365,35 @@ export async function getTotalWatchedTimeSeconds(
 
 export async function getLastWatchedTitles(
     userId: string,
-    client: SupabaseClient
+    client: SupabaseClient,
+    limit?: number
 ) {
     try {
-        const { data, error } = await client
+        let query = client
             .from("user_titles")
             .select("anime_id, last_watched_episode, watched_episodes")
             .eq("user_id", userId)
             .neq("watched_episodes", "[]")
-            .order("end_time", { ascending: false })
-            .limit(3);
+            .order("end_time", { ascending: false });
+
+        if (limit) {
+            query = query.limit(limit);
+        }
+
+        const { data, error } = await query;
+
         if (error) throw error;
         const mappedLastWatched = data.map(async (title) => {
             const episode = await getEpisode(title.last_watched_episode);
             console.log(episode);
             return {
                 episode: await getEpisode(title.last_watched_episode),
-                stopTime:
-                    title.watched_episodes.find(
-                        (e: WatchedEpisode) =>
-                            e.episode_id === title.last_watched_episode
-                    ).watched_time || 0,
+                stopTime: title.watched_episodes
+                    ? title.watched_episodes.find(
+                          (e: WatchedEpisode) =>
+                              e.episode_id === title.last_watched_episode
+                      ).watched_time
+                    : 0,
             };
         });
         return await Promise.all(mappedLastWatched);
@@ -462,5 +470,33 @@ export async function setTitleStatus(
         if (updateError) throw updateError;
     } catch (error) {
         console.error("Error in setTitleStatus:", error);
+    }
+}
+
+export async function getTitlesByStatus(
+    statusName: "isFavorite" | "isPlanned" | "isAbandoned",
+    client: SupabaseClient
+) {
+    const {
+        data: { user },
+        error: userError,
+    } = await client.auth.getUser();
+
+    if (userError || !user) {
+        console.error("getTitlesByStatus: getUser error", userError);
+        return;
+    }
+    try {
+        const { data, error } = await client
+            .from("user_titles")
+            .select("*")
+            .eq("user_id", user.id)
+            .eq(statusName, true);
+
+        if (error) throw error;
+        if (!data) return;
+        return data;
+    } catch (error) {
+        console.error("Error in getTitlesByStatus:", error);
     }
 }
