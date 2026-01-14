@@ -1,3 +1,4 @@
+import EmptyPage from "@/components/Notebook/EmptyPage";
 import LastWatchCard from "@/components/Profile/LastWatchCard";
 import { getLastWatchedTitles } from "@/helpers/supabase";
 import { createClient } from "@/lib/supabase/server";
@@ -9,14 +10,19 @@ export default async function page() {
         ? await getLastWatchedTitles(auth.user.id, client)
         : undefined;
     return (
-        <div className="flex flex-col gap-2 p-2">
+        <>
             {lastWatched ? (
-                lastWatched.map((episode) => (
-                    <LastWatchCard episode={episode} key={episode.episode.id} />
-                ))
+                <div className="flex flex-col gap-2 p-2">
+                    {lastWatched.map((episode) => (
+                        <LastWatchCard
+                            episode={episode}
+                            key={episode.episode.id}
+                        />
+                    ))}
+                </div>
             ) : (
-                <>123</>
+                <EmptyPage />
             )}
-        </div>
+        </>
     );
 }
