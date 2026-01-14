@@ -35,7 +35,7 @@ export default function layout({
                     Брошеное
                 </NavButton>
             </div>
-            <div className="w-7/10 lg:w-8/10 max-md:w-full h-8/10 rounded-lg p-2 bg-foreground/15">
+            <div className="w-7/10 lg:w-8/10 max-md:w-full h-8/10 rounded-lg p-2 bg-foreground/15 overflow-y-auto">
                 {children}
             </div>
             <div className="flex flex-col gap-2 max-md:hidden w-3/10 lg:w-2/10 h-fit rounded-lg p-2 bg-foreground/10">

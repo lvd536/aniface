@@ -1,7 +1,7 @@
 import { AnimeResponse } from "@/types/api.types";
 import { WatchedEpisode, WatchedEpisodes } from "@/types/db.types";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { getEpisode } from "./api";
+import { getAnime, getEpisode } from "./api";
 
 export async function checkAnimeExists(
     anime: AnimeResponse,
@@ -384,8 +384,6 @@ export async function getLastWatchedTitles(
 
         if (error) throw error;
         const mappedLastWatched = data.map(async (title) => {
-            const episode = await getEpisode(title.last_watched_episode);
-            console.log(episode);
             return {
                 episode: await getEpisode(title.last_watched_episode),
                 stopTime: title.watched_episodes
@@ -489,13 +487,18 @@ export async function getTitlesByStatus(
     try {
         const { data, error } = await client
             .from("user_titles")
-            .select("*")
+            .select("anime_id")
             .eq("user_id", user.id)
             .eq(statusName, true);
 
         if (error) throw error;
         if (!data) return;
-        return data;
+
+        const mappedTitles = data.map(
+            async (title) => await getAnime(title.anime_id)
+        );
+
+        return await Promise.all(mappedTitles);
     } catch (error) {
         console.error("Error in getTitlesByStatus:", error);
     }

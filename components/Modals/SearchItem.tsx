@@ -6,13 +6,16 @@ import Image from "next/image";
 
 interface IProps {
     anime: CatalogAnime | LatestReleaseAnime;
+    className?: string;
     onClick?: () => void;
 }
-export default function SearchItem({ anime, onClick }: IProps) {
+export default function SearchItem({ anime, className, onClick }: IProps) {
     return (
         <Link
             href={browserRoutes.anime.title(anime.id)}
-            className="flex rounded-l-lg w-full h-35 p-2 bg-black/40 rounded-r-lg"
+            className={`flex rounded-l-lg w-full p-2 bg-black/40 rounded-r-lg ${
+                className || "h-35"
+            }`}
             onClick={onClick}
         >
             <Image

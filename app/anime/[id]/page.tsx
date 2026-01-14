@@ -1,7 +1,11 @@
 import AnimeInfo from "@/components/AnimePage/AnimeInfo/AnimeInfo";
 import EpisodeList from "@/components/AnimePage/EpisodeList/EpisodeList";
 import { getAnime } from "@/helpers/api";
-import { checkAnimeExists, getWatchedEpisodes } from "@/helpers/supabase";
+import {
+    checkAnimeExists,
+    checkUserTitleExists,
+    getWatchedEpisodes,
+} from "@/helpers/supabase";
 import { createClient } from "@/lib/supabase/server";
 import { WatchedEpisodes } from "@/types/db.types";
 interface IProps {
@@ -16,6 +20,7 @@ export default async function page({ params }: IProps) {
     const watchedEpisodes: WatchedEpisodes | undefined = isUserValid
         ? await getWatchedEpisodes(anime.id.toString(), client)
         : undefined;
+    await checkUserTitleExists(anime, client, true);
     return (
         <div className="w-full h-full flex flex-col gap-2">
             <AnimeInfo anime={anime} />
