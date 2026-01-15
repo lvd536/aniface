@@ -18,6 +18,7 @@ type StatsState = {
         stopTime: any;
     }[];
     fetchStats: (userId: string) => Promise<void>;
+    resetStats: () => void;
 };
 
 export const useStatsStore = create<StatsState>((set) => ({
@@ -56,6 +57,15 @@ export const useStatsStore = create<StatsState>((set) => ({
             topGenres: (genres as any[]) ?? [],
             totalTitles: titles?.length ?? 0,
             totalLastWatched: lastWatched ?? [],
+        });
+    },
+    resetStats: () => {
+        set({
+            totalEpisodes: 0,
+            totalSeconds: 0,
+            topGenres: [],
+            totalTitles: 0,
+            totalLastWatched: [],
         });
     },
 }));
