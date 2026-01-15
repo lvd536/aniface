@@ -9,7 +9,6 @@ export const browserRoutes = {
         franchise: (id: string) => `/catalog/releases/franchises/${id}`,
         catalog: "/catalog/releases",
         categories: "/catalog/categories",
-        genre: (id: number) => `/catalog/genres/${id}`,
         episode: (id: string) => `/anime/video/${id}`,
     },
     user: {

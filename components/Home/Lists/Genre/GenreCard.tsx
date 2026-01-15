@@ -1,19 +1,30 @@
+"use client";
 import { apiRoutes } from "@/consts/apiRoutes";
 import { browserRoutes } from "@/consts/browserRoutes";
+import { useFilterStore } from "@/stores/filterStore";
 import { Genre } from "@/types/api.types";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface IProps {
     genre: Genre;
 }
 
 export default function GenreCard({ genre }: IProps) {
+    const { formData, setFormData } = useFilterStore();
+    const router = useRouter();
     return (
         <>
-            <Link
-                href={browserRoutes.anime.genre(genre.id)}
+            <button
+                type="button"
                 className="relative rounded-lg min-w-47 max-w-47 h-72"
+                onClick={() => {
+                    setFormData({
+                        ...formData,
+                        genres: [genre.id],
+                    });
+                    router.replace(browserRoutes.anime.catalog);
+                }}
             >
                 <Image
                     src={apiRoutes.image(genre.image.preview)}
@@ -29,7 +40,7 @@ export default function GenreCard({ genre }: IProps) {
                     {`Релизов: ${genre.total_releases}`}
                 </p>
                 <div className="absolute left-0 top-0 min-w-47 max-w-47 h-72 card-shadow rounded-lg" />
-            </Link>
+            </button>
         </>
     );
 }
