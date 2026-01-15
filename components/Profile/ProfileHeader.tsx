@@ -1,5 +1,5 @@
 import { browserRoutes } from "@/consts/browserRoutes";
-import { User, NotebookTabs, LogOut } from "lucide-react";
+import { User, NotebookTabs, LogOut, UserPen } from "lucide-react";
 import Link from "next/link";
 
 interface IProps {
@@ -24,6 +24,13 @@ export default function ProfileHeader({ username, createdAt }: IProps) {
                 </div>
             </div>
             <div className="flex gap-2">
+                <Link href={browserRoutes.user.setUsername}>
+                    <UserPen
+                        width={30}
+                        height={30}
+                        className="p-1.5 rounded-md bg-foreground/20 hover:bg-foreground/25 transition-bg duration-300"
+                    />
+                </Link>
                 <Link href={browserRoutes.user.notebook.base}>
                     <NotebookTabs
                         width={30}

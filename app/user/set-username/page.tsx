@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { browserRoutes } from "@/consts/browserRoutes";
 import { useUserStore } from "@/stores/userStore";
+import { createClient } from "@/lib/supabase/client";
 
 export default function SetUsernamePage() {
     const [username, setUsername] = useState("");
@@ -11,7 +11,7 @@ export default function SetUsernamePage() {
     const [available, setAvailable] = useState<boolean | null>(null);
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
-
+    const supabase = createClient();
     const check = async (val: string) => {
         if (!val || val.trim().length === 0) {
             setAvailable(null);
