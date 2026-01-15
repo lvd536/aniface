@@ -2,6 +2,8 @@
 import ProfileHeader from "@/components/Profile/ProfileHeader";
 import ProfileLastWatched from "@/components/Profile/ProfileLastWatched";
 import ProfileStats from "@/components/Profile/ProfileStats";
+import ProfileSkeleton from "@/components/Skeletons/ProfileSkeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 import { browserRoutes } from "@/consts/browserRoutes";
 import { useStatsStore } from "@/stores/statsStore";
 import { useUserStore } from "@/stores/userStore";
@@ -17,7 +19,10 @@ export default function page() {
     useEffect(() => {
         const clear = setTimeout(() => {
             if (!profile) router.replace(browserRoutes.home);
-            else fetchStats(profile.id).then(() => setIsLoading(false));
+            else
+                fetchStats(profile.id).then(() =>
+                    setTimeout(() => setIsLoading(false), 3000)
+                );
         }, 500);
         return () => clearTimeout(clear);
     }, [router, profile]);
@@ -36,7 +41,7 @@ export default function page() {
                     </div>
                 </div>
             )}
-            {!profile || (isLoading && <p>Loading...</p>)}
+            {!profile || (isLoading && <ProfileSkeleton />)}
         </>
     );
 }
