@@ -5,6 +5,7 @@ import Filters from "./Filters/Filters";
 import SearchBar from "@/components/SearchBar";
 import { useFilterStore } from "@/stores/filterStore";
 import { ListFilter } from "lucide-react";
+import ReleasesSkeleton from "@/components/Skeletons/ReleasesSkeleton";
 
 export default function Releases() {
     const {
@@ -48,7 +49,7 @@ export default function Releases() {
                     />
                 </div>
                 <ReleaseList />
-                {fetching && <p>Fetching...</p>}
+                {fetching && <ReleasesSkeleton />}
             </div>
             {showFilters && <Filters />}
         </div>
