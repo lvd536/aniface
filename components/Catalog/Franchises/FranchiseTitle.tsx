@@ -35,9 +35,12 @@ export default function FranchiseTitle({ franchise }: IProps) {
                         <FranchiseDetailsItem separatingCircle>
                             {franchise.year}
                         </FranchiseDetailsItem>
-                        <FranchiseDetailsItem separatingCircle>
-                            {franchise.season.description}
-                        </FranchiseDetailsItem>
+                        {franchise.season.description && (
+                            <FranchiseDetailsItem separatingCircle>
+                                {franchise.season.description}
+                            </FranchiseDetailsItem>
+                        )}
+
                         {franchise.episodes_total ? (
                             <FranchiseDetailsItem separatingCircle>
                                 {franchise.type.description}
