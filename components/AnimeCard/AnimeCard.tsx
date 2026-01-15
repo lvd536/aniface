@@ -27,7 +27,7 @@ export default function AnimeCard({ anime }: IProps) {
                 {"latest_episode" in anime && anime.latest_episode && (
                     <p>{anime.latest_episode.ordinal} Эпизод</p>
                 )}
-                <h1 className="font-semibold text-xl text-center">
+                <h1 className="font-semibold text-xl text-center wrap-anywhere">
                     {anime.name.main}
                 </h1>
                 <div className="flex text-xs xl:text-sm flex-wrap px-3 py-1 items-center justify-between">
