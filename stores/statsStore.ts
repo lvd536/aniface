@@ -31,15 +31,19 @@ export const useStatsStore = create<StatsState>((set) => ({
     fetchStats: async (userId) => {
         const supabase = createClient();
         const [
-            { data: episodes },
+            episodes,
             watchedSeconds,
             { data: genres },
             { data: titles },
             lastWatched,
         ] = await Promise.all([
-            supabase.rpc("get_total_watched_episodes", {
-                p_user_id: userId,
-            }),
+            await supabase
+                .from("user_titles")
+                .select("episodes_count")
+                .eq("user_id", userId)
+                .then((data) =>
+                    data.data?.reduce((acc, cur) => acc + cur.episodes_count, 0)
+                ),
             await getTotalWatchedTimeSeconds(userId, supabase),
             supabase.rpc("get_top3_genres_and_others", {
                 p_user_id: userId,

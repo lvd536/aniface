@@ -287,7 +287,7 @@ export async function getWatchedEpisodes(
     try {
         const { data: titleExistsData, error: titleExistsError } = await client
             .from("user_titles")
-            .select("id, end_watching, episodes_count, last_watched_episode")
+            .select("id")
             .eq("user_id", user.id)
             .eq("anime_id", animeId)
             .maybeSingle();

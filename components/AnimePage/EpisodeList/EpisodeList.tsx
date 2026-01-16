@@ -16,11 +16,7 @@ export default function EpisodeList({ episodes, watchedEpisodes }: IProps) {
                 );
                 return (
                     <EpisodeItem
-                        id={episode.id}
-                        name={episode.name}
-                        ordinal={episode.ordinal}
-                        duration={episode.duration}
-                        image={episode.preview.src}
+                        episode={episode}
                         watchedEpisodeData={watchedEpisode}
                         key={episode.id}
                     />
