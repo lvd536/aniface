@@ -20,6 +20,7 @@ import {
     markTitleAsWatched,
     saveEpisodeWatchedTime,
 } from "@/helpers/supabase";
+import QualityInput from "./QualityInput";
 
 interface IProps {
     animeId: number;
@@ -43,29 +44,30 @@ export default function Player({
     startFrom,
 }: IProps) {
     const [isMounted, setIsMounted] = useState<boolean>(false);
+    const [currentQuality, setCurrentQuality] =
+        useState<keyof typeof qualitiesSrc>("hls_480");
     const playerRef = useRef<HTMLVideoElement | null>(null);
+    const changeTimeAfterChange = useRef<number | null>(startFrom || null);
     const supabase = createClient();
 
     useEffect(() => {
+        setIsMounted(true);
         const clear = setInterval(updateCloudTime, 5000);
         return () => clearInterval(clear);
     }, []);
 
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
-
-    useEffect(() => {
-        if (playerRef.current && startFrom) {
-            playerRef.current.currentTime = startFrom;
+    const handleReady = () => {
+        if (changeTimeAfterChange.current !== null && playerRef.current) {
+            playerRef.current.currentTime = changeTimeAfterChange.current;
+            changeTimeAfterChange.current = null;
         }
-    }, [playerRef.current]);
+    };
 
     const updateCloudTime = async () => {
         if (!playerRef.current) return;
         const { currentTime, duration } = playerRef.current;
         if (!duration || currentTime < 1) return;
-
+        console.log("upd");
         const percentWatched =
             (Math.round(currentTime) / Math.round(duration)) * 100;
 
@@ -98,6 +100,14 @@ export default function Player({
             console.error("Error saving progress:", error);
         }
     };
+
+    const handleQualityChange = (newQuality: keyof typeof qualitiesSrc) => {
+        if (!playerRef.current || newQuality === currentQuality) return;
+
+        changeTimeAfterChange.current = playerRef.current.currentTime;
+
+        setCurrentQuality(newQuality);
+    };
     if (!isMounted) {
         return (
             <div
@@ -118,18 +128,24 @@ export default function Player({
         >
             <ReactPlayer
                 slot="media"
-                src={qualitiesSrc.hls_480!}
+                src={qualitiesSrc[currentQuality]!}
                 controls={false}
                 width="100%"
                 height="100%"
+                onReady={handleReady}
                 ref={playerRef}
             />
             <MediaControlBar>
                 <MediaPlayButton />
-                <MediaSeekBackwardButton seekOffset={10} />
-                <MediaSeekForwardButton seekOffset={10} />
                 <MediaTimeRange />
                 <MediaTimeDisplay showDuration />
+                <QualityInput
+                    currentQuality={currentQuality}
+                    qualitiesSrc={qualitiesSrc}
+                    handleQualityChange={(e) =>
+                        handleQualityChange(e.target.value as any)
+                    }
+                />
                 <MediaMuteButton />
                 <MediaVolumeRange />
                 <MediaPlaybackRateButton />
