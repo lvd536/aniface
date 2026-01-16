@@ -60,6 +60,7 @@ export default function AnimeInfo({ anime }: IProps) {
                         }
                         duration={duration}
                         animeId={anime.id}
+                        episodesTotal={anime.episodes.length}
                     />
                 </div>
             </div>

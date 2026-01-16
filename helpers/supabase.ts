@@ -320,7 +320,42 @@ export async function markTitleAsWatched(
 
         if (updateError) throw updateError;
     } catch (error) {
-        console.error("Error in saveEpisodeWatchedTime:", error);
+        console.error("Error in markTitleAsWatched:", error);
+    }
+}
+
+export async function markTitleAsUnWatched(
+    animeId: string,
+    client: SupabaseClient
+) {
+    const user = await checkUserExists(client);
+
+    if (!user) return;
+
+    try {
+        const { data: titleExistsData, error: titleExistsError } = await client
+            .from("user_titles")
+            .select("id, end_watching, episodes_count, last_watched_episode")
+            .eq("user_id", user.id)
+            .eq("anime_id", animeId)
+            .maybeSingle();
+
+        if (titleExistsError) throw titleExistsError;
+        if (!titleExistsData) return;
+
+        const { error: updateError } = await client
+            .from("user_titles")
+            .update({
+                end_watching: null,
+                episodes_count: 0,
+                watched_episodes: [],
+                last_watched_episode: 0,
+            })
+            .eq("anime_id", animeId);
+
+        if (updateError) throw updateError;
+    } catch (error) {
+        console.error("Error in markTitleAsUnWatched:", error);
     }
 }
 
@@ -500,6 +535,31 @@ export async function getTitlesByStatus(
         return await Promise.all(mappedTitles);
     } catch (error) {
         console.error("Error in getTitlesByStatus:", error);
+    }
+}
+
+export async function getTitleWatchStatus(
+    animeId: string,
+    client: SupabaseClient
+) {
+    const user = await checkUserExists(client);
+
+    if (!user) return false;
+
+    try {
+        const { data: titleData, error: titleError } = await client
+            .from("user_titles")
+            .select("end_watching")
+            .eq("user_id", user.id)
+            .eq("anime_id", animeId)
+            .maybeSingle();
+
+        if (titleError) return false;
+
+        return titleData?.end_watching === null ? false : true;
+    } catch (error) {
+        console.error("Error in getTitleWatchStatus:", error);
+        return false;
     }
 }
 
