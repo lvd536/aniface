@@ -8,8 +8,6 @@ import {
     MediaVolumeRange,
     MediaPlaybackRateButton,
     MediaPlayButton,
-    MediaSeekBackwardButton,
-    MediaSeekForwardButton,
     MediaMuteButton,
     MediaFullscreenButton,
 } from "media-chrome/react";
@@ -67,7 +65,6 @@ export default function Player({
         if (!playerRef.current) return;
         const { currentTime, duration } = playerRef.current;
         if (!duration || currentTime < 1) return;
-        console.log("upd");
         const percentWatched =
             (Math.round(currentTime) / Math.round(duration)) * 100;
 
@@ -108,6 +105,7 @@ export default function Player({
 
         setCurrentQuality(newQuality);
     };
+    
     if (!isMounted) {
         return (
             <div
