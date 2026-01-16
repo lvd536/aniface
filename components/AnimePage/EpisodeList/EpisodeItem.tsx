@@ -33,13 +33,13 @@ export default function EpisodeItem({ episode, watchedEpisodeData }: IProps) {
     const toggleWatched = async (watched: boolean) => {
         if (watched)
             await markEpisodeAsUnWatched(
-                episode.id.toString(),
+                episode.id,
                 episode.release_id.toString(),
                 client
             );
         else
             await markEpisodeAsWatched(
-                episode.id.toString(),
+                episode.id,
                 episode.ordinal,
                 episode.release_id.toString(),
                 Math.round(episode.duration),

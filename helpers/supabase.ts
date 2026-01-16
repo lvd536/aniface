@@ -214,13 +214,13 @@ export async function markEpisodeAsUnWatched(
             .update({
                 watched_episodes: episodes,
                 episodes_count: titleExistsData.episodes_count - 1,
-                last_watched_episode: episodes.at(-1).episode_id || 0,
+                last_watched_episode: episodes.at(-1)?.episode_id ?? 0,
             })
             .eq("id", titleExistsData.id);
 
         if (updateError) throw updateError;
     } catch (error) {
-        console.error("Error in markEpisodeAsWatched:", error);
+        console.error("Error in markEpisodeAsUnWatched:", error);
     }
 }
 
