@@ -425,6 +425,7 @@ export async function getLastWatchedTitles(
             .select("anime_id, last_watched_episode, watched_episodes")
             .eq("user_id", userId)
             .neq("watched_episodes", "[]")
+            .neq("last_watched_episode", 0)
             .order("end_time", { ascending: false });
 
         if (limit) {

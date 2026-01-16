@@ -70,7 +70,6 @@ export default function EpisodeItem({ episode, watchedEpisodeData }: IProps) {
                             toggleWatched(
                                 watchedEpisodeData ? true : false
                             ).then(() => window.location.reload());
-                            // window.location.reload();
                         }}
                         className={`p-1.5 ${
                             watchedEpisodeData

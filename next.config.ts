@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
                 protocol: "https",
                 hostname: "static.anilibria.tv",
             },
+            {
+                protocol: "https",
+                hostname: "anilibria.tv**",
+            },
         ],
     },
 };
