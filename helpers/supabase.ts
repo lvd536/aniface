@@ -1,5 +1,5 @@
 import { AnimeResponse } from "@/types/api.types";
-import { WatchedEpisode, WatchedEpisodes } from "@/types/db.types";
+import { WatchedEpisode } from "@/types/db.types";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { getAnime, getEpisode } from "./api";
 
@@ -51,17 +51,9 @@ export async function checkUserTitleExists(
     client: SupabaseClient,
     insert = false
 ) {
-    const {
-        data: { user },
-        error: userError,
-    } = await client.auth.getUser();
+    const user = await checkUserExists(client);
 
-    if (userError) {
-        console.error("checkUserTitleExists: getUser error", userError);
-        return;
-    }
-
-    if (!user) throw new Error("User is not authenticated");
+    if (!user) return;
 
     const userId = user.id;
     const animeId = String(anime.id);
@@ -127,15 +119,9 @@ export async function markEpisodeAsWatched(
     watchedTime: number,
     client: SupabaseClient
 ) {
-    const {
-        data: { user },
-        error: userError,
-    } = await client.auth.getUser();
+    const user = await checkUserExists(client);
 
-    if (userError || !user) {
-        console.error("markEpisodeAsWatched: getUser error", userError);
-        return;
-    }
+    if (!user) return;
 
     try {
         const { data: titleExistsData, error: titleExistsError } = await client
@@ -197,15 +183,9 @@ export async function saveEpisodeWatchedTime(
     watchedTime: number,
     client: SupabaseClient
 ) {
-    const {
-        data: { user },
-        error: userError,
-    } = await client.auth.getUser();
+    const user = await checkUserExists(client);
 
-    if (userError || !user) {
-        console.error("saveEpisodeWatchedTime: getUser error", userError);
-        return;
-    }
+    if (!user) return;
 
     try {
         const { data: titleExistsData, error: titleExistsError } = await client
@@ -266,15 +246,9 @@ export async function markTitleAsWatched(
     animeId: string,
     client: SupabaseClient
 ) {
-    const {
-        data: { user },
-        error: userError,
-    } = await client.auth.getUser();
+    const user = await checkUserExists(client);
 
-    if (userError || !user) {
-        console.error("saveEpisodeWatchedTime: getUser error", userError);
-        return;
-    }
+    if (!user) return;
 
     try {
         const { data: titleExistsData, error: titleExistsError } = await client
@@ -306,15 +280,9 @@ export async function getWatchedEpisodes(
     animeId: string,
     client: SupabaseClient
 ) {
-    const {
-        data: { user },
-        error: userError,
-    } = await client.auth.getUser();
+    const user = await checkUserExists(client);
 
-    if (userError || !user) {
-        console.error("getWatchedEpisodes: getUser error", userError);
-        return;
-    }
+    if (!user) return;
 
     try {
         const { data: titleExistsData, error: titleExistsError } = await client
@@ -405,15 +373,9 @@ export async function getTitleStatuses(
     animeId: string,
     client: SupabaseClient
 ) {
-    const {
-        data: { user },
-        error: userError,
-    } = await client.auth.getUser();
+    const user = await checkUserExists(client);
 
-    if (userError || !user) {
-        console.error("getTitleStatuses: getUser error", userError);
-        return;
-    }
+    if (!user) return;
 
     try {
         const { data: titleStatuses, error: titleStatusesError } = await client
@@ -437,15 +399,9 @@ export async function setTitleStatus(
     statusValue: boolean,
     client: SupabaseClient
 ) {
-    const {
-        data: { user },
-        error: userError,
-    } = await client.auth.getUser();
+    const user = await checkUserExists(client);
 
-    if (userError || !user) {
-        console.error("setTitleStatus: getUser error", userError);
-        return;
-    }
+    if (!user) return;
 
     try {
         const { data: titleExistsData, error: titleExistsError } = await client
@@ -475,15 +431,10 @@ export async function getTitlesByStatus(
     statusName: "isFavorite" | "isPlanned" | "isAbandoned",
     client: SupabaseClient
 ) {
-    const {
-        data: { user },
-        error: userError,
-    } = await client.auth.getUser();
+    const user = await checkUserExists(client);
 
-    if (userError || !user) {
-        console.error("getTitlesByStatus: getUser error", userError);
-        return;
-    }
+    if (!user) return;
+
     try {
         const { data, error } = await client
             .from("user_titles")
@@ -502,4 +453,18 @@ export async function getTitlesByStatus(
     } catch (error) {
         console.error("Error in getTitlesByStatus:", error);
     }
+}
+
+async function checkUserExists(client: SupabaseClient) {
+    const {
+        data: { user },
+        error: userError,
+    } = await client.auth.getUser();
+
+    if (userError || !user) {
+        console.error("checkUserTitleExists: getUser error", userError);
+        return undefined;
+    }
+
+    return user;
 }

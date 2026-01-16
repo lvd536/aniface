@@ -3,7 +3,6 @@ import ProfileHeader from "@/components/Profile/ProfileHeader";
 import ProfileLastWatched from "@/components/Profile/ProfileLastWatched";
 import ProfileStats from "@/components/Profile/ProfileStats";
 import ProfileSkeleton from "@/components/Skeletons/ProfileSkeleton";
-import { Skeleton } from "@/components/ui/skeleton";
 import { browserRoutes } from "@/consts/browserRoutes";
 import { useStatsStore } from "@/stores/statsStore";
 import { useUserStore } from "@/stores/userStore";

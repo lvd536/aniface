@@ -6,14 +6,14 @@ const nextConfig: NextConfig = {
             {
                 protocol: "https",
                 hostname: "www.anilibria.top",
-                port: "",
-                pathname: "/**",
             },
             {
                 protocol: "https",
-                hostname: "**",
-                port: "",
-                pathname: "/**",
+                hostname: "anilibria.tv",
+            },
+            {
+                protocol: "https",
+                hostname: "static.anilibria.tv",
             },
         ],
     },
