@@ -13,7 +13,7 @@ import {
     MediaMuteButton,
     MediaFullscreenButton,
 } from "media-chrome/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import {
     markEpisodeAsWatched,
@@ -42,12 +42,17 @@ export default function Player({
     episodesTotal,
     startFrom,
 }: IProps) {
+    const [isMounted, setIsMounted] = useState<boolean>(false);
     const playerRef = useRef<HTMLVideoElement | null>(null);
     const supabase = createClient();
 
     useEffect(() => {
         const clear = setInterval(updateCloudTime, 5000);
         return () => clearInterval(clear);
+    }, []);
+
+    useEffect(() => {
+        setIsMounted(true);
     }, []);
 
     useEffect(() => {
@@ -93,7 +98,17 @@ export default function Player({
             console.error("Error saving progress:", error);
         }
     };
-
+    if (!isMounted) {
+        return (
+            <div
+                style={{
+                    width: "100%",
+                    aspectRatio: "16/9",
+                    background: "#000",
+                }}
+            />
+        );
+    }
     return (
         <MediaController
             style={{
