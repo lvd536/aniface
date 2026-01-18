@@ -2,7 +2,7 @@ import StatusButton from "./StatusButton";
 
 interface IProps {
     titleStatuses: {
-        isFavorite: any;
+        isWatched: any;
         isPlanned: any;
         isAbandoned: any;
     };
@@ -14,10 +14,10 @@ export default function StatusButtons({ titleStatuses, animeId }: IProps) {
         <div className="flex flex-wrap gap-2 mt-1">
             <StatusButton
                 animeId={animeId}
-                statusName="isFavorite"
-                statusValue={titleStatuses.isFavorite}
+                statusName="isWatched"
+                statusValue={titleStatuses.isWatched}
             >
-                Любимое
+                Просмотренное
             </StatusButton>
             <StatusButton
                 animeId={animeId}

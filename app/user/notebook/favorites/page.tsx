@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 
 export default async function page() {
     const client = await createClient();
-    const favoriteTitles = await getTitlesByStatus("isFavorite", client);
+    const favoriteTitles = await getTitlesByStatus("isWatched", client);
     return (
         <>
             {favoriteTitles ? (

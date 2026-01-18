@@ -25,7 +25,7 @@ export default function NavItems({ className, itemsClassName }: IProps) {
                 className={itemsClassName}
                 isActive={segment === "favorites"}
             >
-                Любимое
+                Просмотренное
             </NavButton>
             <NavButton
                 route={browserRoutes.user.notebook.planned}

@@ -11,7 +11,7 @@ import {
 
 interface IProps extends React.PropsWithChildren {
     animeId: number;
-    statusName: "isFavorite" | "isPlanned" | "isAbandoned";
+    statusName: "isWatched" | "isPlanned" | "isAbandoned";
     statusValue: boolean;
 }
 
@@ -23,13 +23,13 @@ export default function StatusButton({
 }: IProps) {
     const Icons = {
         Disabled:
-            statusName === "isFavorite"
+            statusName === "isWatched"
                 ? Heart
                 : statusName === "isPlanned"
                 ? AlarmClock
                 : Brain,
         Enabled:
-            statusName === "isFavorite"
+            statusName === "isWatched"
                 ? HeartMinus
                 : statusName === "isPlanned"
                 ? AlarmClockOff

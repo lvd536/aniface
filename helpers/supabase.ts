@@ -6,7 +6,7 @@ import { getAnime, getEpisode } from "./api";
 export async function checkAnimeExists(
     anime: AnimeResponse,
     client: SupabaseClient,
-    insert = false
+    insert = false,
 ): Promise<boolean> {
     const animeId = String(anime.id);
 
@@ -49,7 +49,7 @@ export async function checkAnimeExists(
 export async function checkUserTitleExists(
     anime: AnimeResponse,
     client: SupabaseClient,
-    insert = false
+    insert = false,
 ) {
     const user = await checkUserExists(client);
 
@@ -117,7 +117,7 @@ export async function markEpisodeAsWatched(
     episodeNumber: number,
     animeId: string,
     watchedTime: number,
-    client: SupabaseClient
+    client: SupabaseClient,
 ) {
     const user = await checkUserExists(client);
 
@@ -127,7 +127,7 @@ export async function markEpisodeAsWatched(
         const { data: titleExistsData, error: titleExistsError } = await client
             .from("user_titles")
             .select(
-                "id, watched_episodes, episodes_count, end_time, last_watched_episode"
+                "id, watched_episodes, episodes_count, end_time, last_watched_episode",
             )
             .eq("user_id", user.id)
             .eq("anime_id", animeId)
@@ -141,7 +141,7 @@ export async function markEpisodeAsWatched(
             : [];
 
         const episodeIndex = episodes.findIndex(
-            (ep: any) => ep.episode_id === episodeId
+            (ep: any) => ep.episode_id === episodeId,
         );
 
         const newEpisodeData = {
@@ -179,7 +179,7 @@ export async function markEpisodeAsWatched(
 export async function markEpisodeAsUnWatched(
     episodeId: string,
     animeId: string,
-    client: SupabaseClient
+    client: SupabaseClient,
 ) {
     const user = await checkUserExists(client);
 
@@ -189,7 +189,7 @@ export async function markEpisodeAsUnWatched(
         const { data: titleExistsData, error: titleExistsError } = await client
             .from("user_titles")
             .select(
-                "id, watched_episodes, episodes_count, end_time, last_watched_episode"
+                "id, watched_episodes, episodes_count, end_time, last_watched_episode",
             )
             .eq("user_id", user.id)
             .eq("anime_id", animeId)
@@ -203,7 +203,7 @@ export async function markEpisodeAsUnWatched(
             : [];
 
         const episodeIndex = episodes.findIndex(
-            (ep: any) => ep.episode_id === episodeId
+            (ep: any) => ep.episode_id === episodeId,
         );
 
         if (episodeIndex !== -1) episodes.splice(episodeIndex, 1);
@@ -229,7 +229,7 @@ export async function saveEpisodeWatchedTime(
     episodeNumber: number,
     animeId: string,
     watchedTime: number,
-    client: SupabaseClient
+    client: SupabaseClient,
 ) {
     const user = await checkUserExists(client);
 
@@ -251,7 +251,7 @@ export async function saveEpisodeWatchedTime(
             : [];
 
         const episodeIndex = episodes.findIndex(
-            (ep: any) => ep.episode_id === episodeId
+            (ep: any) => ep.episode_id === episodeId,
         );
 
         if (episodeIndex !== -1 && episodes[episodeIndex].isWatched) {
@@ -292,7 +292,7 @@ export async function markTitleAsWatched(
     episodeId: string,
     episodeNumber: number,
     animeId: string,
-    client: SupabaseClient
+    client: SupabaseClient,
 ) {
     const user = await checkUserExists(client);
 
@@ -315,6 +315,7 @@ export async function markTitleAsWatched(
                 end_watching: new Date().toISOString(),
                 episodes_count: episodeNumber,
                 last_watched_episode: episodeId,
+                isWatched: true,
             })
             .eq("id", titleExistsData.id);
 
@@ -326,7 +327,7 @@ export async function markTitleAsWatched(
 
 export async function markTitleAsUnWatched(
     animeId: string,
-    client: SupabaseClient
+    client: SupabaseClient,
 ) {
     const user = await checkUserExists(client);
 
@@ -350,6 +351,7 @@ export async function markTitleAsUnWatched(
                 episodes_count: 0,
                 watched_episodes: [],
                 last_watched_episode: 0,
+                isWatched: false,
             })
             .eq("anime_id", animeId);
 
@@ -361,7 +363,7 @@ export async function markTitleAsUnWatched(
 
 export async function getWatchedEpisodes(
     animeId: string,
-    client: SupabaseClient
+    client: SupabaseClient,
 ) {
     const user = await checkUserExists(client);
 
@@ -395,7 +397,7 @@ export async function getWatchedEpisodes(
 
 export async function getTotalWatchedTimeSeconds(
     userId: string,
-    client: SupabaseClient
+    client: SupabaseClient,
 ) {
     try {
         const { data, error } = await client
@@ -417,7 +419,7 @@ export async function getTotalWatchedTimeSeconds(
 export async function getLastWatchedTitles(
     userId: string,
     client: SupabaseClient,
-    limit?: number
+    limit?: number,
 ) {
     try {
         let query = client
@@ -441,7 +443,7 @@ export async function getLastWatchedTitles(
                 stopTime: title.watched_episodes
                     ? title.watched_episodes.find(
                           (e: WatchedEpisode) =>
-                              e.episode_id === title.last_watched_episode
+                              e.episode_id === title.last_watched_episode,
                       ).watched_time
                     : 0,
             };
@@ -455,7 +457,7 @@ export async function getLastWatchedTitles(
 
 export async function getTitleStatuses(
     animeId: string,
-    client: SupabaseClient
+    client: SupabaseClient,
 ) {
     const user = await checkUserExists(client);
 
@@ -464,7 +466,7 @@ export async function getTitleStatuses(
     try {
         const { data: titleStatuses, error: titleStatusesError } = await client
             .from("user_titles")
-            .select("isFavorite, isPlanned, isAbandoned")
+            .select("isWatched, isPlanned, isAbandoned")
             .eq("user_id", user.id)
             .eq("anime_id", animeId)
             .maybeSingle();
@@ -479,9 +481,9 @@ export async function getTitleStatuses(
 
 export async function setTitleStatus(
     animeId: string,
-    statusName: "isFavorite" | "isPlanned" | "isAbandoned",
+    statusName: "isWatched" | "isPlanned" | "isAbandoned",
     statusValue: boolean,
-    client: SupabaseClient
+    client: SupabaseClient,
 ) {
     const user = await checkUserExists(client);
 
@@ -512,8 +514,8 @@ export async function setTitleStatus(
 }
 
 export async function getTitlesByStatus(
-    statusName: "isFavorite" | "isPlanned" | "isAbandoned",
-    client: SupabaseClient
+    statusName: "isWatched" | "isPlanned" | "isAbandoned",
+    client: SupabaseClient,
 ) {
     const user = await checkUserExists(client);
 
@@ -530,7 +532,7 @@ export async function getTitlesByStatus(
         if (!data) return;
 
         const mappedTitles = data.map(
-            async (title) => await getAnime(title.anime_id)
+            async (title) => await getAnime(title.anime_id),
         );
 
         return await Promise.all(mappedTitles);
@@ -541,7 +543,7 @@ export async function getTitlesByStatus(
 
 export async function getTitleWatchStatus(
     animeId: string,
-    client: SupabaseClient
+    client: SupabaseClient,
 ) {
     const user = await checkUserExists(client);
 
