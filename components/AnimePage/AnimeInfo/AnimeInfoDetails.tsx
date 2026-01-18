@@ -66,12 +66,9 @@ export default async function AnimeInfoDetails({
                 <>
                     <StatusButtons
                         titleStatuses={titleStatuses}
-                        animeId={animeId}
-                    />
-                    <ToggleTitleWatchedBtn
-                        animeId={animeId}
                         episodesTotal={episodesTotal}
                         isTitleWatched={isTitleWatched}
+                        animeId={animeId}
                     />
                 </>
             )}

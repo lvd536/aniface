@@ -1,4 +1,5 @@
 import StatusButton from "./StatusButton";
+import ToggleTitleWatchedBtn from "./ToggleTitleWatchedBtn";
 
 interface IProps {
     titleStatuses: {
@@ -6,19 +7,24 @@ interface IProps {
         isPlanned: any;
         isAbandoned: any;
     };
+    isTitleWatched: boolean;
+    episodesTotal: number;
     animeId: number;
 }
 
-export default function StatusButtons({ titleStatuses, animeId }: IProps) {
+export default function StatusButtons({
+    titleStatuses,
+    animeId,
+    episodesTotal,
+    isTitleWatched,
+}: IProps) {
     return (
         <div className="flex flex-wrap gap-2 mt-1">
-            <StatusButton
+            <ToggleTitleWatchedBtn
                 animeId={animeId}
-                statusName="isWatched"
-                statusValue={titleStatuses.isWatched}
-            >
-                Просмотренное
-            </StatusButton>
+                episodesTotal={episodesTotal}
+                isTitleWatched={isTitleWatched}
+            />
             <StatusButton
                 animeId={animeId}
                 statusName="isPlanned"

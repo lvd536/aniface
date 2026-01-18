@@ -24,7 +24,7 @@ export default function ToggleTitleWatchedBtn({
                 "0",
                 episodesTotal,
                 animeId.toString(),
-                client
+                client,
             );
     };
     return (
@@ -49,7 +49,7 @@ export default function ToggleTitleWatchedBtn({
                 />
             )}
             <p className="flex items-center justify-center bg-foreground/15 p-2 rounded-r-lg">
-                {isTitleWatched ? "Аниме просмотрено" : "Аниме не просмотрено"}
+                Просмотренно
             </p>
         </button>
     );
