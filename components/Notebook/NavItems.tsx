@@ -18,28 +18,28 @@ export default function NavItems({ className, itemsClassName }: IProps) {
                 className={itemsClassName}
                 isActive={segment === "last-watched"}
             >
-                Недавно просмотренные
+                Недавно просмотренное
             </NavButton>
             <NavButton
                 route={browserRoutes.user.notebook.favorites}
                 className={itemsClassName}
                 isActive={segment === "favorites"}
             >
-                Избранное
+                Любимое
             </NavButton>
             <NavButton
                 route={browserRoutes.user.notebook.planned}
                 className={itemsClassName}
                 isActive={segment === "planned"}
             >
-                Запланировано
+                Запланированное
             </NavButton>
             <NavButton
                 route={browserRoutes.user.notebook.abandoned}
                 className={itemsClassName}
                 isActive={segment === "abandoned"}
             >
-                Брошено
+                Заброшенное
             </NavButton>
         </div>
     );
