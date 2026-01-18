@@ -1,8 +1,9 @@
 import { browserRoutes } from "@/consts/browserRoutes";
 import { Franchise } from "@/types/api.types";
 import Link from "next/link";
-import Image from "next/image";
 import { apiRoutes } from "@/consts/apiRoutes";
+import imagePlaceholder from "@/public/16x9.png";
+import ImageWithFallback from "@/components/ImageWithFallback";
 
 interface IProps {
     franchise: Franchise;
@@ -15,12 +16,13 @@ export default function FranchiseCard({ franchise }: IProps) {
                 href={browserRoutes.anime.franchise(franchise.id)}
                 className="flex rounded-l-lg w-full lg:w-120 xl:w-100 2xl:w-120 max-h-85 h-50"
             >
-                <Image
+                <ImageWithFallback
                     src={apiRoutes.image(franchise.image.preview)}
                     alt="franchise"
                     height={1920}
                     width={1080}
                     className="w-1/2 h-full rounded-l-lg object-cover"
+                    fallbackSrc={imagePlaceholder}
                 />
                 <div className="flex flex-col justify-between bg-black/40 w-1/2 h-full rounded-r-lg px-4 py-2">
                     <div>

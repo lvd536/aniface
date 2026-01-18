@@ -1,7 +1,6 @@
 "use client";
 import { browserRoutes } from "@/consts/browserRoutes";
 import Link from "next/link";
-import Image from "next/image";
 import { apiRoutes } from "@/consts/apiRoutes";
 import { WatchedEpisode } from "@/types/db.types";
 import {
@@ -11,6 +10,8 @@ import {
 import { Episode } from "@/types/api.types";
 import { createClient } from "@/lib/supabase/client";
 import { CheckCheck } from "lucide-react";
+import imagePlaceholder from "@/public/16x9.png";
+import ImageWithFallback from "@/components/ImageWithFallback";
 
 interface IProps {
     episode: Episode;
@@ -35,7 +36,7 @@ export default function EpisodeItem({ episode, watchedEpisodeData }: IProps) {
             await markEpisodeAsUnWatched(
                 episode.id,
                 episode.release_id.toString(),
-                client
+                client,
             );
         else
             await markEpisodeAsWatched(
@@ -43,7 +44,7 @@ export default function EpisodeItem({ episode, watchedEpisodeData }: IProps) {
                 episode.ordinal,
                 episode.release_id.toString(),
                 Math.round(episode.duration),
-                client
+                client,
             );
     };
 
@@ -53,13 +54,14 @@ export default function EpisodeItem({ episode, watchedEpisodeData }: IProps) {
             key={episode.id}
             className="relative w-80 h-40 rounded-lg"
         >
-            <Image
+            <ImageWithFallback
                 src={apiRoutes.image(episode.preview.src)}
                 alt="Episode poster"
                 width={1920}
                 height={1080}
                 loading="lazy"
                 className="w-80 h-40 rounded-lg object-cover"
+                fallbackSrc={imagePlaceholder}
             />
             <div className="absolute flex top-0 left-0 w-full h-full items-end justify-between backdrop-blur-xs bg-black/65 rounded-lg">
                 <div className="absolute flex w-full self-start items-start justify-between p-3">
@@ -68,7 +70,7 @@ export default function EpisodeItem({ episode, watchedEpisodeData }: IProps) {
                         onClick={(e) => {
                             e.preventDefault();
                             toggleWatched(
-                                watchedEpisodeData ? true : false
+                                watchedEpisodeData ? true : false,
                             ).then(() => window.location.reload());
                         }}
                         className={`p-1.5 ${

@@ -2,7 +2,8 @@ import { apiRoutes } from "@/consts/apiRoutes";
 import { browserRoutes } from "@/consts/browserRoutes";
 import { EpisodeResponse } from "@/types/api.types";
 import Link from "next/link";
-import Image from "next/image";
+import imagePlaceholder from "@/public/8x8.png";
+import ImageWithFallback from "@/components/ImageWithFallback";
 
 interface IProps {
     episode: {
@@ -27,12 +28,13 @@ export default function LastWatchCard({ episode }: IProps) {
             href={browserRoutes.anime.title(episode.episode.release.id)}
             className="flex rounded-l-lg w-full h-25 p-2 bg-black/40 rounded-r-lg"
         >
-            <Image
+            <ImageWithFallback
                 src={apiRoutes.image(episode.episode.release.poster.preview)}
                 alt="anime poster"
                 height={1080}
                 width={1080}
                 className="w-20 h-20 rounded-lg object-cover"
+                fallbackSrc={imagePlaceholder}
             />
             <div className="flex flex-col justify-between w-full h-full px-4 py-2">
                 <div>

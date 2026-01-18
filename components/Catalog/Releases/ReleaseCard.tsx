@@ -1,8 +1,10 @@
 import { apiRoutes } from "@/consts/apiRoutes";
 import { browserRoutes } from "@/consts/browserRoutes";
 import { CatalogAnime, LatestReleaseAnime } from "@/types/api.types";
-import Image from "next/image";
 import Link from "next/link";
+import imagePlaceholder from "@/public/9x16.png";
+import ImageWithFallback from "@/components/ImageWithFallback";
+
 interface IProps {
     release: CatalogAnime | LatestReleaseAnime;
 }
@@ -14,12 +16,13 @@ export default function ReleaseCard({ release }: IProps) {
                 href={browserRoutes.anime.title(release.id)}
                 className="flex min-h-70 gap-3 items-center justify-start px-3 py-4 hover:bg-foreground/25 rounded-lg transition-bg duration-300"
             >
-                <Image
+                <ImageWithFallback
                     src={apiRoutes.image(release.poster.preview)}
                     width={1080}
                     height={1920}
                     alt="anime poster"
                     className="max-md:hidden min-w-47 max-w-47 h-full rounded-lg object-cover"
+                    fallbackSrc={imagePlaceholder}
                 />
                 <div className="flex flex-col gap-2">
                     <div>

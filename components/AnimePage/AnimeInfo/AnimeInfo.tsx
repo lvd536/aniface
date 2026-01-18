@@ -1,8 +1,9 @@
 import { apiRoutes } from "@/consts/apiRoutes";
 import { AnimeResponse } from "@/types/api.types";
-import Image from "next/image";
 import AnimeInfoMain from "./AnimeInfoMain";
 import AnimeInfoDetails from "./AnimeInfoDetails";
+import imagePlaceholder from "@/public/9x16.png";
+import ImageWithFallback from "@/components/ImageWithFallback";
 
 interface IProps {
     anime: AnimeResponse;
@@ -12,7 +13,7 @@ export default function AnimeInfo({ anime }: IProps) {
     const duration =
         anime.average_duration_of_episode &&
         `${Math.floor(
-            (anime.episodes.length * anime.average_duration_of_episode) / 60
+            (anime.episodes.length * anime.average_duration_of_episode) / 60,
         )} часов ${
             (anime.episodes.length * anime.average_duration_of_episode) % 60
         } минут`;
@@ -33,12 +34,13 @@ export default function AnimeInfo({ anime }: IProps) {
     return (
         <>
             <div className="flex max-sm:flex-col gap-2 sm:gap-5">
-                <Image
+                <ImageWithFallback
                     src={apiRoutes.image(anime.poster.preview)}
                     alt="Anime poster"
                     height={1920}
                     width={1080}
                     className="w-80 h-100 rounded-sm object-cover"
+                    fallbackSrc={imagePlaceholder}
                 />
                 <div className="flex flex-col gap-1">
                     <AnimeInfoMain

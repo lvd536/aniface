@@ -1,9 +1,10 @@
 import { CatalogAnime } from "@/types/api.types";
 import Link from "next/link";
-import Image from "next/image";
 import { apiRoutes } from "@/consts/apiRoutes";
 import { browserRoutes } from "@/consts/browserRoutes";
 import FranchiseDetailsItem from "./FranchiseDetailsItem";
+import imagePlaceholder from "@/public/8x8.png";
+import ImageWithFallback from "@/components/ImageWithFallback";
 
 interface IProps {
     franchise: CatalogAnime;
@@ -15,12 +16,13 @@ export default function FranchiseTitle({ franchise }: IProps) {
                 href={browserRoutes.anime.title(franchise.id)}
                 className="flex rounded-l-lg w-full"
             >
-                <Image
+                <ImageWithFallback
                     src={apiRoutes.image(franchise.poster.preview)}
                     alt="franchise"
                     height={600}
                     width={600}
                     className="w-35 h-35 rounded-lg object-cover"
+                    fallbackSrc={imagePlaceholder}
                 />
                 <div className="flex flex-col h-35 justify-between w-full rounded-lg px-4 py-2">
                     <div>
