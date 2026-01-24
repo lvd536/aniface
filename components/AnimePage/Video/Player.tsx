@@ -19,10 +19,7 @@ import {
     saveEpisodeWatchedTime,
 } from "@/helpers/supabase";
 import QualityInput from "./QualityInput";
-import { EpisodeResponse } from "@/types/api.types";
-import Link from "next/link";
-import { browserRoutes } from "@/consts/browserRoutes";
-import { ArrowLeft } from "lucide-react";
+import { Episode, EpisodeResponse } from "@/types/api.types";
 import EpisodeInfo from "./EpisodeInfo";
 import SkipButton from "./SkipButton";
 
@@ -30,7 +27,7 @@ interface IProps {
     animeId: number;
     isOngoing: boolean;
     episode: EpisodeResponse;
-    episodesTotal: number;
+    episodes: Episode[];
     startFrom?: number;
 }
 
@@ -38,7 +35,7 @@ export default function Player({
     animeId,
     isOngoing,
     episode,
-    episodesTotal,
+    episodes,
     startFrom,
 }: IProps) {
     const qualitiesSrc = {
@@ -92,7 +89,7 @@ export default function Player({
                     Math.round(currentTime),
                     supabase,
                 );
-                if (episode.ordinal === episodesTotal && !isOngoing)
+                if (episode.ordinal === episodes.length && !isOngoing)
                     await markTitleAsWatched(
                         episode.id.toString(),
                         episode.ordinal,
@@ -157,6 +154,7 @@ export default function Player({
                     nameEn={episode.release.name.english}
                     ordinal={episode.ordinal}
                     releaseId={episode.release.id}
+                    nextEpisodeId={episodes.at(episode.ordinal)?.id}
                 />
                 {playerRef.current && playerRef.current.currentTime && (
                     <SkipButton

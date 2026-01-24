@@ -26,7 +26,7 @@ export default async function page({ params, searchParams }: IProps) {
                 animeId={anime.id}
                 isOngoing={anime.is_ongoing}
                 episode={episode}
-                episodesTotal={anime.episodes.length}
+                episodes={anime.episodes}
                 startFrom={startFrom}
             />
         </div>

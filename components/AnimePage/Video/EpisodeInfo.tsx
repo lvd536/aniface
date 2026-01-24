@@ -7,6 +7,7 @@ interface IProps {
     nameEn: string;
     releaseId: number;
     ordinal: number;
+    nextEpisodeId?: string;
 }
 
 export default function EpisodeInfo({
@@ -14,6 +15,7 @@ export default function EpisodeInfo({
     nameRu,
     releaseId,
     ordinal,
+    nextEpisodeId,
 }: IProps) {
     return (
         <div className="absolute left-1 top-1 flex items-center justify-start p-2 rounded-lg gap-3 bg-black/50">
@@ -31,8 +33,20 @@ export default function EpisodeInfo({
                     {nameEn}
                 </p>
             </div>
-            <span className="w-0.5 h-5 bg-foreground/90 rounded-full mx-1" />
+            <span className="w-0.5 h-5 bg-white/50 rounded-full mx-1" />
             <p className="font-bold text-xs md:text-md">{`${ordinal} Эпизод`}</p>
+
+            {nextEpisodeId && (
+                <>
+                    <span className="w-0.5 h-5 bg-white/50 rounded-full mx-1" />
+                    <Link
+                        href={browserRoutes.anime.episode(nextEpisodeId)}
+                        className="font-medium text-xs md:text-md p-2 rounded-lg bg-foreground/15"
+                    >
+                        Следующий эпизод
+                    </Link>
+                </>
+            )}
         </div>
     );
 }
