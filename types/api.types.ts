@@ -211,6 +211,14 @@ interface Member {
 export interface Episode {
     id: string;
     ordinal: number;
+    ending: {
+        start?: number;
+        stop?: number;
+    };
+    opening: {
+        start?: number;
+        stop?: number;
+    };
     name: string;
     preview: Poster;
     hls_480: string | undefined;
