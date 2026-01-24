@@ -26,6 +26,7 @@ import { ArrowLeft } from "lucide-react";
 
 interface IProps {
     animeId: number;
+    isOngoing: boolean;
     episode: EpisodeResponse;
     episodesTotal: number;
     startFrom?: number;
@@ -33,6 +34,7 @@ interface IProps {
 
 export default function Player({
     animeId,
+    isOngoing,
     episode,
     episodesTotal,
     startFrom,
@@ -87,7 +89,7 @@ export default function Player({
                     Math.round(currentTime),
                     supabase,
                 );
-                if (episode.ordinal === episodesTotal)
+                if (episode.ordinal === episodesTotal && !isOngoing)
                     await markTitleAsWatched(
                         episode.id.toString(),
                         episode.ordinal,
