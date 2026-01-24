@@ -19,28 +19,27 @@ import {
     saveEpisodeWatchedTime,
 } from "@/helpers/supabase";
 import QualityInput from "./QualityInput";
+import { EpisodeResponse } from "@/types/api.types";
 
 interface IProps {
     animeId: number;
-    episodeId: string;
-    episodeNumber: number;
+    episode: EpisodeResponse;
     episodesTotal: number;
-    qualitiesSrc: {
-        hls_480: string | null;
-        hls_720: string | null;
-        hls_1080: string | null;
-    };
     startFrom?: number;
 }
 
 export default function Player({
-    qualitiesSrc,
     animeId,
-    episodeId,
-    episodeNumber,
+    episode,
     episodesTotal,
     startFrom,
 }: IProps) {
+    const qualitiesSrc = {
+        hls_480: episode?.hls_480,
+        hls_720: episode?.hls_720,
+        hls_1080: episode?.hls_1080,
+    };
+
     const [isMounted, setIsMounted] = useState<boolean>(false);
     const [currentQuality, setCurrentQuality] =
         useState<keyof typeof qualitiesSrc>("hls_480");
@@ -50,6 +49,14 @@ export default function Player({
 
     useEffect(() => {
         setIsMounted(true);
+        setCurrentQuality(
+            qualitiesSrc.hls_1080
+                ? "hls_1080"
+                : qualitiesSrc.hls_720
+                  ? "hls_720"
+                  : "hls_480",
+        );
+        console.log(qualitiesSrc)
         const clear = setInterval(updateCloudTime, 5000);
         return () => clearInterval(clear);
     }, []);
@@ -71,26 +78,26 @@ export default function Player({
         try {
             if (percentWatched >= 80) {
                 await markEpisodeAsWatched(
-                    episodeId.toString(),
-                    episodeNumber,
+                    episode.id.toString(),
+                    episode.ordinal,
                     animeId.toString(),
                     Math.round(currentTime),
-                    supabase
+                    supabase,
                 );
-                if (episodeNumber === episodesTotal)
+                if (episode.ordinal === episodesTotal)
                     await markTitleAsWatched(
-                        episodeId,
-                        episodeNumber,
+                        episode.id.toString(),
+                        episode.ordinal,
                         animeId.toString(),
-                        supabase
+                        supabase,
                     );
             } else {
                 await saveEpisodeWatchedTime(
-                    episodeId.toString(),
-                    episodeNumber,
+                    episode.id.toString(),
+                    episode.ordinal,
                     animeId.toString(),
                     Math.round(currentTime),
-                    supabase
+                    supabase,
                 );
             }
         } catch (error) {
@@ -105,7 +112,7 @@ export default function Player({
 
         setCurrentQuality(newQuality);
     };
-    
+
     if (!isMounted) {
         return (
             <div

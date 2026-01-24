@@ -2,9 +2,9 @@ interface IProps {
     handleQualityChange: React.ChangeEventHandler<HTMLSelectElement>;
     currentQuality: "hls_1080" | "hls_720" | "hls_480";
     qualitiesSrc: {
-        hls_480: string | null;
-        hls_720: string | null;
-        hls_1080: string | null;
+        hls_480: string | undefined;
+        hls_720: string | undefined;
+        hls_1080: string | undefined;
     };
 }
 

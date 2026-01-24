@@ -42,14 +42,8 @@ export default async function page({ params, searchParams }: IProps) {
             </div>
             <Player
                 animeId={anime.id}
-                episodeId={episode.id}
-                episodeNumber={episode.ordinal}
+                episode={episode}
                 episodesTotal={anime.episodes.length}
-                qualitiesSrc={{
-                    hls_480: episode.hls_480,
-                    hls_720: episode.hls_720,
-                    hls_1080: episode.hls_1080,
-                }}
                 startFrom={startFrom}
             />
         </div>

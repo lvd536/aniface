@@ -213,9 +213,9 @@ export interface Episode {
     ordinal: number;
     name: string;
     preview: Poster;
-    hls_480: string;
-    hls_720: string;
-    hls_1080: string;
+    hls_480: string | undefined;
+    hls_720: string | undefined;
+    hls_1080: string | undefined;
     duration: number;
     updated_at: string;
     release_id: number;
