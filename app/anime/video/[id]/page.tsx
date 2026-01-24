@@ -24,6 +24,7 @@ export default async function page({ params, searchParams }: IProps) {
         <div className="fixed left-0 top-0 w-screen h-screen flex flex-col gap-5 bg-background items-center justify-center z-5">
             <Player
                 animeId={anime.id}
+                isOngoing={anime.is_ongoing}
                 episode={episode}
                 episodesTotal={anime.episodes.length}
                 startFrom={startFrom}

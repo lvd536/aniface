@@ -24,6 +24,7 @@ import Link from "next/link";
 import { browserRoutes } from "@/consts/browserRoutes";
 import { ArrowLeft } from "lucide-react";
 import EpisodeInfo from "./EpisodeInfo";
+import SkipButton from "./SkipButton";
 
 interface IProps {
     animeId: number;
@@ -47,6 +48,7 @@ export default function Player({
     };
 
     const [isMounted, setIsMounted] = useState<boolean>(false);
+    const [currentTime, setCurrentTime] = useState<number>(0);
     const [currentQuality, setCurrentQuality] =
         useState<keyof typeof qualitiesSrc>("hls_480");
     const playerRef = useRef<HTMLVideoElement | null>(null);
@@ -62,7 +64,7 @@ export default function Player({
                   ? "hls_720"
                   : "hls_480",
         );
-        console.log(qualitiesSrc);
+
         const clear = setInterval(updateCloudTime, 5000);
         return () => clearInterval(clear);
     }, []);
@@ -144,6 +146,9 @@ export default function Player({
                 width="100%"
                 height="100%"
                 onReady={handleReady}
+                onTimeUpdate={(e) =>
+                    setCurrentTime(e.currentTarget.currentTime)
+                }
                 ref={playerRef}
             />
             <MediaControlBar>
@@ -153,6 +158,17 @@ export default function Player({
                     ordinal={episode.ordinal}
                     releaseId={episode.release.id}
                 />
+                {playerRef.current && playerRef.current.currentTime && (
+                    <SkipButton
+                        ending={episode.ending}
+                        opening={episode.opening}
+                        currentTime={currentTime}
+                        onSkip={(time) => {
+                            if (playerRef.current)
+                                playerRef.current.currentTime = time;
+                        }}
+                    />
+                )}
                 <MediaPlayButton />
                 <MediaTimeRange />
                 <MediaTimeDisplay showDuration />
