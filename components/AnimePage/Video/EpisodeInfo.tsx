@@ -16,7 +16,7 @@ export default function EpisodeInfo({
     ordinal,
 }: IProps) {
     return (
-        <div className="fixed left-30 top-2 flex items-center justify-start p-2 rounded-lg gap-3 bg-black/50 z-50">
+        <div className="absolute left-1 top-1 flex items-center justify-start p-2 rounded-lg gap-3 bg-black/50">
             <Link
                 href={browserRoutes.anime.title(releaseId)}
                 className="p-2 rounded-lg bg-foreground/15"
@@ -24,11 +24,15 @@ export default function EpisodeInfo({
                 <ArrowLeft width={20} height={20} />
             </Link>
             <div>
-                <p className="font-bold text-sm">{nameRu}</p>
-                <p className="text-xs text-foreground/50">{nameEn}</p>
+                <p className="font-bold text-xs md:text-sm text-clip line-clamp-1">
+                    {nameRu}
+                </p>
+                <p className="text-xs text-foreground/50 text-clip line-clamp-1">
+                    {nameEn}
+                </p>
             </div>
             <span className="w-0.5 h-5 bg-foreground/90 rounded-full mx-1" />
-            <p className="font-bold text-md">{`${ordinal} Эпизод`}</p>
+            <p className="font-bold text-xs md:text-md">{`${ordinal} Эпизод`}</p>
         </div>
     );
 }
