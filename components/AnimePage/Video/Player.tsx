@@ -23,6 +23,7 @@ import { EpisodeResponse } from "@/types/api.types";
 import Link from "next/link";
 import { browserRoutes } from "@/consts/browserRoutes";
 import { ArrowLeft } from "lucide-react";
+import EpisodeInfo from "./EpisodeInfo";
 
 interface IProps {
     animeId: number;
@@ -146,24 +147,12 @@ export default function Player({
                 ref={playerRef}
             />
             <MediaControlBar>
-                <div className="fixed left-30 top-2 flex items-center justify-start p-2 rounded-lg gap-3 bg-black/50 z-50">
-                    <Link
-                        href={browserRoutes.anime.title(episode.release.id)}
-                        className="p-2 rounded-lg bg-foreground/15"
-                    >
-                        <ArrowLeft width={20} height={20} />
-                    </Link>
-                    <div>
-                        <p className="font-bold text-sm">
-                            {episode.release.name.main}
-                        </p>
-                        <p className="text-xs text-foreground/50">
-                            {episode.release.name.english}
-                        </p>
-                    </div>
-                    <span className="w-1.5 h-1.5 bg-foreground/80 rounded-full" />
-                    <p className="font-bold text-md">{`${episode.ordinal} Эпизод`}</p>
-                </div>
+                <EpisodeInfo
+                    nameRu={episode.release.name.main}
+                    nameEn={episode.release.name.english}
+                    ordinal={episode.ordinal}
+                    releaseId={episode.release.id}
+                />
                 <MediaPlayButton />
                 <MediaTimeRange />
                 <MediaTimeDisplay showDuration />
