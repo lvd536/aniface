@@ -56,61 +56,68 @@ body {
     background-color: #737373;
 }
 
-@keyframes notFoundTextError {
-    0% {
-        opacity: 0;
-        size: 0;
-        transform: translateY(-25vh);
-    }
+@keyframes floatSlow {
+    0%,
     100% {
-        opacity: 1;
-        size: 1;
-        transform: translateY(0);
-    }
-}
-@keyframes notFoundTextDescription {
-    0% {
-        opacity: 0;
-        size: 0.7;
-        transform: translateX(50vw);
-    }
-    35% {
-        opacity: 1;
+        transform: translateY(0px) rotate(0deg);
     }
     50% {
-        size: 0.9;
-    }
-    100% {
-        transform: translateX(0);
-        size: 1;
+        transform: translateY(-14px) rotate(1.5deg);
     }
 }
-@keyframes notFoundButtons {
-    0% {
-        opacity: 0;
-        size: 0;
-        transform: translateY(25vh);
-    }
+@keyframes shadowPulse {
+    0%,
     100% {
-        opacity: 1;
-        size: 1;
-        transform: translateY(0);
-    }
-}
-@keyframes notFoundImage {
-    0% {
-        opacity: 0;
-        size: 0.7;
-        transform: translateX(-50vw);
-    }
-    35% {
-        opacity: 1;
+        transform: scale(1);
+        opacity: 0.45;
     }
     50% {
-        size: 0.9;
+        transform: scale(0.82);
+        opacity: 0.2;
+    }
+}
+@keyframes glowBreath {
+    0%,
+    100% {
+        opacity: 0.14;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        opacity: 0.26;
+        transform: translate(-50%, -50%) scale(1.12);
+    }
+}
+@keyframes enterSmooth {
+    0% {
+        opacity: 0;
+        transform: translateY(22px) scale(0.96);
     }
     100% {
-        transform: translateX(0);
-        size: 1;
+        opacity: 1;
+        transform: translateY(0) scale(1);
     }
+}
+.anim-float {
+    animation: floatSlow 5s ease-in-out infinite;
+}
+.anim-shadow {
+    animation: shadowPulse 5s ease-in-out infinite;
+}
+.anim-glow {
+    animation: glowBreath 7s ease-in-out infinite;
+}
+.anim-in-1 {
+    animation: enterSmooth 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.anim-in-2 {
+    animation: enterSmooth 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+.anim-in-3 {
+    animation: enterSmooth 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+.anim-in-4 {
+    animation: enterSmooth 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+.anim-in-5 {
+    animation: enterSmooth 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
 }
