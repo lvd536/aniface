@@ -1,56 +1,69 @@
+"use client";
+
 import { apiRoutes } from "@/consts/apiRoutes";
 import { browserRoutes } from "@/consts/browserRoutes";
 import { CatalogAnime, LatestReleaseAnime } from "@/types/api.types";
 import Link from "next/link";
 import imagePlaceholder from "@/public/8x8.png";
 import ImageWithFallback from "@/components/ImageWithFallback";
+import { Calendar, Film, Layers } from "lucide-react";
 
 interface IProps {
     anime: CatalogAnime | LatestReleaseAnime;
     className?: string;
     onClick?: () => void;
 }
+
 export default function SearchItem({ anime, className, onClick }: IProps) {
     return (
         <Link
             href={browserRoutes.anime.title(anime.id)}
-            className={`flex rounded-l-lg w-full p-2 bg-black/40 rounded-r-lg ${
-                className || "h-35"
-            }`}
             onClick={onClick}
+            className={`group flex items-center gap-3.5 p-2 sm:p-2.5 rounded-xl bg-white/3 hover:bg-white/8 border border-white/6 hover:border-indigo-500/30 transition-all duration-200 active:scale-[0.99] ${
+                className || ""
+            }`}
         >
-            <ImageWithFallback
-                src={apiRoutes.image(anime.poster.preview)}
-                alt="anime poster"
-                height={1080}
-                width={1080}
-                className="w-20 h-20 rounded-lg object-cover"
-                fallbackSrc={imagePlaceholder}
-            />
-            <div className="flex flex-col justify-between w-full h-full px-4 py-2">
-                <div>
-                    <h3 className="text-xs lg:text-sm font-semibold bottom-6 z-1">
+            <div className="relative w-14 sm:w-16 aspect-3/4 shrink-0 rounded-lg overflow-hidden bg-zinc-800 shadow-md">
+                <ImageWithFallback
+                    src={apiRoutes.image(anime.poster.preview)}
+                    alt={anime.name.main}
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    fallbackSrc={imagePlaceholder}
+                />
+            </div>
+
+            <div className="flex flex-col justify-between flex-1 min-w-0 py-0.5 space-y-1.5">
+                <div className="space-y-0.5">
+                    <h3 className="text-sm font-semibold text-zinc-100 group-hover:text-indigo-400 transition-colors line-clamp-1">
                         {anime.name.main}
                     </h3>
-                    <p className="block text-xs text-foreground/60 font-medium">
-                        {anime.name.english}
-                    </p>
+                    {anime.name.english && (
+                        <p className="text-xs text-zinc-400 line-clamp-1">
+                            {anime.name.english}
+                        </p>
+                    )}
                 </div>
-                <div className="flex items-center gap-2">
-                    <p className="text-xs text-foreground/60 font-medium">
-                        {anime.year}
-                    </p>
-                    <div className="block w-1 h-1 rounded-full bg-foreground/50" />
-                    <p className="text-xs text-foreground/60 font-medium">
-                        {anime.type.description}
-                    </p>
+
+                <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[11px] font-medium text-zinc-400">
+                    {anime.year && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/5 border border-white/5 text-zinc-300">
+                            <Calendar className="w-3 h-3 text-zinc-400" />
+                            {anime.year}
+                        </span>
+                    )}
+
+                    {anime.type?.description && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/5 border border-white/5 text-zinc-300">
+                            <Film className="w-3 h-3 text-zinc-400" />
+                            {anime.type.description}
+                        </span>
+                    )}
+
                     {anime.episodes_total && (
-                        <>
-                            <div className="block w-1 h-1 rounded-full bg-foreground/50" />
-                            <p className="text-xs text-foreground/60 font-medium">
-                                {`Эпизодов: ${anime.episodes_total}`}
-                            </p>
-                        </>
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-indigo-500/10 border border-indigo-500/20 text-indigo-300">
+                            <Layers className="w-3 h-3 text-indigo-400" />
+                            {anime.episodes_total} эп.
+                        </span>
                     )}
                 </div>
             </div>
