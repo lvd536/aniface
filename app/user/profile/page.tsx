@@ -1,4 +1,5 @@
 "use client";
+
 import ProfileHeader from "@/components/Profile/ProfileHeader";
 import ProfileLastWatched from "@/components/Profile/ProfileLastWatched";
 import ProfileStats from "@/components/Profile/ProfileStats";
@@ -9,7 +10,7 @@ import { useUserStore } from "@/stores/userStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function page() {
+export default function ProfilePage() {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const { profile } = useUserStore();
     const { fetchStats } = useStatsStore();
@@ -20,11 +21,11 @@ export default function page() {
             if (!profile) router.replace(browserRoutes.home);
             else
                 fetchStats(profile.id).then(() =>
-                    setTimeout(() => setIsLoading(false), 3000)
+                    setTimeout(() => setIsLoading(false), 3000),
                 );
         }, 500);
         return () => clearTimeout(clear);
-    }, [router, profile]);
+    }, [router, profile, fetchStats]);
 
     return (
         <>
